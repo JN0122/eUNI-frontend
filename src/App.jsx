@@ -1,5 +1,7 @@
+import { Button } from "antd";
+
 function App() {
-  return <></>;
+  return <Button>test</Button>;
 }
 
 export default App;
