@@ -4,10 +4,22 @@ import {useTranslation} from "react-i18next";
 
 const { Header, Content, Footer, Sider } = Layout;
 
-const AppLayout = function ({ Menu, children, ...rest }) {
+const AppLayout = function ({ Menu, centerChildren, children, ...rest }) {
   const [collapsed, setCollapsed] = useState(false);
   const { token: { colorBgContainer } } = theme.useToken();
   const { t } = useTranslation();
+  let contentStyle = {
+    padding: "0 3rem",
+  }
+
+  if(centerChildren){
+    contentStyle = {
+      ...contentStyle,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
+    }
+  }
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -21,7 +33,7 @@ const AppLayout = function ({ Menu, children, ...rest }) {
       </Sider>}
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }} />
-        <Content style={{ padding: "0 3rem"}} {...rest}>
+        <Content style={contentStyle} {...rest}>
           {children}
         </Content>
         <Footer style={{ textAlign: "center" }}>
