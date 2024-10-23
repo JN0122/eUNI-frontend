@@ -9,10 +9,11 @@ function ContentBlock({Menu, breadcrumbs, children, ...rest}){
     } = theme.useToken();
 
     return <>
-        <Breadcrumbs breadcrumbs={breadcrumbs} />
+        {breadcrumbs && <Breadcrumbs breadcrumbs={breadcrumbs}/>}
         <Layout
             style={{
-                padding: "24px 0",
+                marginTop: "1em",
+                padding: "1.5em",
                 background: colorBgContainer,
                 borderRadius: borderRadiusLG,
             }}
