@@ -31,8 +31,8 @@ function App() {
     const ContentBlockSider = <SiderMenu defaultOpenKeys={["sub2"]} fullHeight={true} items={items}/>;
 
       return (
-        <AppLayout siderItems={items} Menu={AppLayoutSider}>
-            <ContentBlock siderItems={items} Menu={ContentBlockSider} breadcrumbs={breadcrumbs}>
+        <AppLayout Menu={AppLayoutSider}>
+            <ContentBlock Menu={ContentBlockSider} breadcrumbs={breadcrumbs}>
               <Select
                 defaultValue={i18n.language}
                 onChange={(lng) => i18n.changeLanguage(lng)}
