@@ -1,4 +1,4 @@
-export function parseMenuItems(label, key, icon, children) {
+export function parseMenuItem(label, key, icon, children) {
     return {
         key,
         icon,
