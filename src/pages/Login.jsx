@@ -1,15 +1,20 @@
 import AppLayout from "../components/layout/AppLayout.jsx";
 import {Button, Checkbox, Flex, Form, Input, theme} from "antd";
 import {UserOutlined, LockOutlined} from "@ant-design/icons";
+import {useAuth} from "../context/AuthContext.jsx";
 
 
 function Login() {
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
+    const { login } = useAuth();
 
     function onFinish(values){
-        console.log(values)
+        login({
+            email: values.email,
+            password: values.password,
+        });
     }
 
     return <AppLayout centerChildren={true}>
@@ -24,10 +29,10 @@ function Login() {
                 borderRadius: borderRadiusLG}}
         >
             <Form.Item
-                name="username"
-                rules={[{ required: true, message: 'Please input your Username!' }]}
+                name="email"
+                rules={[{ required: true, message: 'Please input your email!' }]}
             >
-                <Input prefix={<UserOutlined />} placeholder="Username" />
+                <Input prefix={<UserOutlined />} placeholder="Email" />
             </Form.Item>
             <Form.Item
                 name="password"
