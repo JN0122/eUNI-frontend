@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Layout, theme } from "antd";
+import {Layout, theme} from "antd";
 import {useTranslation} from "react-i18next";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -21,7 +21,7 @@ const AppLayout = function ({ Menu, children, ...rest }) {
       </Sider>}
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }} />
-        <Content style={{ padding: "0 48px" }} {...rest}>
+        <Content style={{ padding: "0 3rem"}} {...rest}>
           {children}
         </Content>
         <Footer style={{ textAlign: "center" }}>
