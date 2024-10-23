@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Layout, theme } from "antd";
+import {useTranslation} from "react-i18next";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const AppLayout = function ({ Menu, children, ...rest }) {
   const [collapsed, setCollapsed] = useState(false);
   const { token: { colorBgContainer } } = theme.useToken();
+  const { t } = useTranslation();
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -23,7 +25,7 @@ const AppLayout = function ({ Menu, children, ...rest }) {
           {children}
         </Content>
         <Footer style={{ textAlign: "center" }}>
-          System do zarządzania studiami - eUNI ©{new Date().getFullYear()}
+          {t("footer-note")} - eUNI ©{new Date().getFullYear()}
         </Footer>
       </Layout>
     </Layout>
