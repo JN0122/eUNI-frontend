@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Button, Select } from "antd";
 import AppLayout from "./components/layout/AppLayout.jsx";
 import ContentBlock from "./components/layout/ContentBlock.jsx";
-import {parseMenuItems} from "./components/layout/LayoutHelper.jsx";
+import {parseMenuItems} from "./components/layout/Utils.jsx";
 import {DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons";
 import SiderMenu from "./components/layout/SiderMenu.jsx";
 

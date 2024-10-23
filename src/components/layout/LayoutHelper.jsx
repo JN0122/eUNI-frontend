@@ -7,12 +7,3 @@ export function Breadcrumbs({breadcrumbs, ...rest}) {
          ))}
         </Breadcrumb>
 }
-
-export function parseMenuItems(label, key, icon, children) {
-    return {
-        key,
-        icon,
-        children,
-        label,
-    };
-}
