@@ -1,5 +1,5 @@
 import {Layout, theme} from "antd";
-import {Breadcrumbs} from "./LayoutHelper.jsx";
+import {Breadcrumbs} from "./Helpers.jsx";
 
 const { Content, Sider } = Layout;
 

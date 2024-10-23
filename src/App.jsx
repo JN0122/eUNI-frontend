@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Button, Select } from "antd";
 import AppLayout from "./components/layout/AppLayout.jsx";
 import ContentBlock from "./components/layout/ContentBlock.jsx";
-import {parseMenuItem} from "./components/layout/Utils.jsx";
+import {parseMenuItem, parseBreadcrumbItem} from "./components/layout/Utils.jsx";
 import {DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons";
 import SiderMenu from "./components/layout/SiderMenu.jsx";
 
@@ -25,13 +25,14 @@ function App() {
         ]),
         parseMenuItem("Files", "9", <FileOutlined />),
     ];
+    const breadcrumbs = [parseBreadcrumbItem("Home"), parseBreadcrumbItem("App")];
 
     const AppLayoutSider = <SiderMenu theme="dark" items={items} />;
     const ContentBlockSider = <SiderMenu defaultOpenKeys={["sub2"]} fullHeight={true} items={items}/>;
 
       return (
         <AppLayout siderItems={items} Menu={AppLayoutSider}>
-            <ContentBlock siderItems={items} Menu={ContentBlockSider} breadcrumbs={["Home", "App"]}>
+            <ContentBlock siderItems={items} Menu={ContentBlockSider} breadcrumbs={breadcrumbs}>
               <Select
                 defaultValue={i18n.language}
                 onChange={(lng) => i18n.changeLanguage(lng)}
