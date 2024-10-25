@@ -1,11 +1,32 @@
 import Login from "./pages/Login.jsx";
 import {AuthProvider} from "./context/AuthContext.jsx";
+import {createBrowserRouter, Navigate, RouterProvider} from "react-router-dom";
+import Dashboard from "./pages/Dashboard.jsx";
+import ProtectedRoute from "./routes/ProtectedRoute.jsx";
+
+const router = createBrowserRouter([
+      {
+            path: "/",
+            element: <></>
+      },
+      {
+            path: "/login",
+            element: <Login />,
+      },
+      {
+            path: "/dashboard",
+          element: <ProtectedRoute><Dashboard /></ProtectedRoute>,
+      },
+      {
+        path: "*",
+        element: <Navigate to="/dashboard" />,
+      }
+])
 
 function App() {
-
       return (
           <AuthProvider>
-                <Login />
+                <RouterProvider router={router} />
           </AuthProvider>
       );
 }
