@@ -55,7 +55,9 @@ const AppLayout = function ({
                     {children}
                 </Content>
                 <Footer style={{ textAlign: "center" }}>
-                    {t("footer-note")} - eUNI ©{new Date().getFullYear()}
+                    {t("footer-note", {
+                        year: new Date().getFullYear(),
+                    })}
                 </Footer>
             </Layout>
         </Layout>
