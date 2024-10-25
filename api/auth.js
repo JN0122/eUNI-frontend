@@ -6,6 +6,6 @@ export const loginUser = async (credentials) => {
     try {
         return await axios.post(`${API_URL}/api/Auth/login`, credentials);
     } catch (error) {
-        console.error(error.message);
+        return error.response;
     }
 };

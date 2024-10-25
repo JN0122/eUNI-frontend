@@ -11,10 +11,10 @@ export function AuthProvider({ children }){
 
         if(response?.status === 200){
             setUserInfo(response.data);
-            console.log(response.data);
         }else{
-            setUserInfo(null);
+            console.error(`${response.status}: ${response.data}`);
         }
+        return response;
     }
 
     async function logout() {

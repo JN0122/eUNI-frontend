@@ -10,11 +10,14 @@ function Login() {
     } = theme.useToken();
     const { login } = useAuth();
 
-    function onFinish(values){
-        login({
+    async function onFinish(values){
+        const response = await login({
             email: values.email,
             password: values.password,
         });
+        if(response?.status === 200){
+            console.log("Logged!");
+        }
     }
 
     return <AppLayout centerChildren={true}>
