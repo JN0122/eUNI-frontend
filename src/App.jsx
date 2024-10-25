@@ -3,15 +3,16 @@ import {AuthProvider} from "./context/AuthContext.jsx";
 import {createBrowserRouter, Navigate, RouterProvider} from "react-router-dom";
 import Dashboard from "./pages/Dashboard.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
+import LoginOrDashboard from "./routes/LoginOrDashboard.jsx";
 
 const router = createBrowserRouter([
       {
             path: "/",
-            element: <></>
+            element: <LoginOrDashboard/>
       },
       {
             path: "/login",
-            element: <Login />,
+          element: <Login />,
       },
       {
             path: "/dashboard",
