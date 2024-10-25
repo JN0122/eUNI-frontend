@@ -1,9 +1,12 @@
 import Login from "./pages/Login.jsx";
+import {AuthProvider} from "./context/AuthContext.jsx";
 
 function App() {
 
       return (
-          <Login />
+          <AuthProvider>
+                <Login />
+          </AuthProvider>
       );
 }
 
