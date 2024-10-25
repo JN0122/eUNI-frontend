@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { Layout, theme } from "antd";
+import { Layout } from "antd";
 import { useTranslation } from "react-i18next";
+import AppHeader from "./AppHeader.jsx";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 
 const AppLayout = function ({ Menu, centerChildren, children, ...rest }) {
     const [collapsed, setCollapsed] = useState(false);
-    const {
-        token: { colorBgContainer },
-    } = theme.useToken();
 
     const { t } = useTranslation();
     let contentStyle = {
@@ -37,7 +35,7 @@ const AppLayout = function ({ Menu, centerChildren, children, ...rest }) {
                 </Sider>
             )}
             <Layout>
-                <Header style={{ padding: 0, background: colorBgContainer }} />
+                <AppHeader />
                 <Content style={contentStyle} {...rest}>
                     {children}
                 </Content>
