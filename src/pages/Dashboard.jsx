@@ -32,7 +32,7 @@ function Dashboard() {
     const AppLayoutSider = <SiderMenu theme="dark" items={items} />;
 
     return (
-        <AppLayout Menu={AppLayoutSider}>
+        <AppLayout Menu={AppLayoutSider} showHeaderUser={true}>
             <Outlet />
         </AppLayout>
     );

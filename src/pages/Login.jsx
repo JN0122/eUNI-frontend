@@ -29,7 +29,7 @@ function Login() {
     }
 
     return (
-        <AppLayout centerChildren={true}>
+        <AppLayout centerChildren={true} showHeaderLogo={true}>
             <Form
                 name="login"
                 initialValues={{ remember: true }}
