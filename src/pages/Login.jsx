@@ -2,13 +2,22 @@ import AppLayout from "../components/layout/AppLayout.jsx";
 import {Button, Checkbox, Flex, Form, Input, theme} from "antd";
 import {UserOutlined, LockOutlined} from "@ant-design/icons";
 import {useAuth} from "../context/AuthContext.jsx";
+import {useNavigate} from "react-router-dom";
+import {useEffect} from "react";
 
 
 function Login() {
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
-    const { login } = useAuth();
+    const { login, user } = useAuth();
+    const navigate = useNavigate();
+
+    useEffect(()=> {
+        if(user !== null) {
+            navigate("/dashboard");
+        }
+    },[user, navigate])
 
     async function onFinish(values){
         const response = await login({
@@ -16,7 +25,7 @@ function Login() {
             password: values.password,
         });
         if(response?.status === 200){
-            console.log("Logged!");
+            navigate("/dashboard");
         }
     }
 
