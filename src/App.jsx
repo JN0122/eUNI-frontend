@@ -1,13 +1,10 @@
 import Login from "./pages/Login.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
-import {
-    createBrowserRouter,
-    Navigate,
-    RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./pages/Dashboard.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import LoginOrDashboard from "./routes/LoginOrDashboard.jsx";
+import NotFound from "./pages/NotFound.jsx";
 
 const router = createBrowserRouter([
     {
@@ -29,7 +26,7 @@ const router = createBrowserRouter([
     },
     {
         path: "*",
-        element: <Navigate to="/dashboard" />,
+        element: <NotFound />,
     },
 ]);
 
