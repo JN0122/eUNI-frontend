@@ -2,9 +2,9 @@ import { useTranslation } from "react-i18next";
 import { Button, Select } from "antd";
 import AppLayout from "../components/layout/AppLayout.jsx";
 import ContentBlock from "../components/layout/ContentBlock.jsx";
-import {parseMenuItem, parseBreadcrumbItem} from "../components/layout/Utils.jsx";
+import {parseBreadcrumbItem} from "../components/layout/Breadcrumbs.jsx.jsx";
 import {DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons";
-import SiderMenu from "../components/layout/SiderMenu.jsx";
+import SiderMenu, {parseMenuItem} from "../components/layout/SiderMenu.jsx";
 
 const langs = { en: "English", pl: "Polski" };
 

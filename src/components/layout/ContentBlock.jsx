@@ -1,5 +1,5 @@
 import { Layout, theme } from "antd";
-import {Breadcrumbs} from "./Helpers.jsx";
+import Breadcrumbs from "./Breadcrumbs.jsx";
 
 const { Content, Sider } = Layout;
 
@@ -9,7 +9,7 @@ function ContentBlock({Menu, breadcrumbs, children, ...rest}){
     } = theme.useToken();
 
     return <>
-        {breadcrumbs && <Breadcrumbs breadcrumbs={breadcrumbs}/>}
+        {breadcrumbs && <Breadcrumbs items={breadcrumbs}/>}
         <Layout
             style={{
                 marginTop: "1rem",
