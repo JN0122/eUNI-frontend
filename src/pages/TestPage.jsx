@@ -2,9 +2,15 @@ import { useTranslation } from "react-i18next";
 import { Button, Select } from "antd";
 import AppLayout from "../components/layout/AppLayout.jsx";
 import ContentBlock from "../components/layout/ContentBlock.jsx";
-import {parseBreadcrumbItem} from "../components/layout/Breadcrumbs.jsx.jsx";
-import {DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserOutlined} from "@ant-design/icons";
-import SiderMenu, {parseMenuItem} from "../components/layout/SiderMenu.jsx";
+import { parseBreadcrumbItem } from "../components/layout/Breadcrumbs.jsx.jsx";
+import {
+    DesktopOutlined,
+    FileOutlined,
+    PieChartOutlined,
+    TeamOutlined,
+    UserOutlined,
+} from "@ant-design/icons";
+import SiderMenu, { parseMenuItem } from "../components/layout/SiderMenu.jsx";
 
 const langs = { en: "English", pl: "Polski" };
 
@@ -25,10 +31,15 @@ function TestPage() {
         ]),
         parseMenuItem("Files", "9", <FileOutlined />),
     ];
-    const breadcrumbs = [parseBreadcrumbItem("Home"), parseBreadcrumbItem("App")];
+    const breadcrumbs = [
+        parseBreadcrumbItem("Home"),
+        parseBreadcrumbItem("App"),
+    ];
 
     const AppLayoutSider = <SiderMenu theme="dark" items={items} />;
-    const ContentBlockSider = <SiderMenu defaultOpenKeys={["sub2"]} fullHeight={true} items={items}/>;
+    const ContentBlockSider = (
+        <SiderMenu defaultOpenKeys={["sub2"]} fullHeight={true} items={items} />
+    );
 
     return (
         <AppLayout Menu={AppLayoutSider}>

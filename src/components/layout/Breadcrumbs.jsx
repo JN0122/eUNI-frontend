@@ -1,4 +1,4 @@
-import {Breadcrumb} from "antd";
+import { Breadcrumb } from "antd";
 
 export function parseBreadcrumbItem(title, path) {
     return {
@@ -6,7 +6,8 @@ export function parseBreadcrumbItem(title, path) {
         path,
     };
 }
-function Breadcrumbs({...rest}) {
+
+function Breadcrumbs({ ...rest }) {
     return <Breadcrumb style={{ marginTop: "1em" }} {...rest} />;
 }
 

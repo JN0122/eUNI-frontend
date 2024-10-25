@@ -1,4 +1,4 @@
-import {Menu} from "antd";
+import { Menu } from "antd";
 
 export function parseMenuItem(label, key, icon, children) {
     return {
@@ -9,12 +9,15 @@ export function parseMenuItem(label, key, icon, children) {
     };
 }
 
-function SiderMenu({fullHeight, ...rest}){
-    return <Menu
-        style={fullHeight && {height: "100%"}}
-        defaultSelectedKeys={["1"]}
-        mode="inline"
-        {...rest}/>;
+function SiderMenu({ fullHeight, ...rest }) {
+    return (
+        <Menu
+            style={fullHeight && { height: "100%" }}
+            defaultSelectedKeys={["1"]}
+            mode="inline"
+            {...rest}
+        />
+    );
 }
 
 export default SiderMenu;

@@ -1,18 +1,18 @@
-import {useAuth} from "../context/AuthContext.jsx";
-import {useNavigate} from "react-router-dom";
-import {useEffect} from "react";
+import { useAuth } from "../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function LoginOrDashboard() {
-    const {user} = useAuth();
+    const { user } = useAuth();
     const navigate = useNavigate();
 
-    useEffect(()=> {
-        if(user === null) {
+    useEffect(() => {
+        if (user === null) {
             navigate("/login");
-        }else{
-            (navigate("/dashboard"));
+        } else {
+            navigate("/dashboard");
         }
-    }, [user, navigate])
+    }, [user, navigate]);
 
     if (!user) return null;
 
