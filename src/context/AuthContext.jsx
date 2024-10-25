@@ -4,13 +4,13 @@ import {loginUser} from "../api/api.js";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }){
-    const [userInfo, setUserInfo] = useState(null);
+    const [user, setUser] = useState(null);
 
     async function login(userData) {
         const response = await loginUser(userData);
 
         if(response?.status === 200){
-            setUserInfo(response.data);
+            setUser(response.data);
         }else{
             console.error(`${response.status}: ${response.data}`);
         }
@@ -18,11 +18,11 @@ export function AuthProvider({ children }){
     }
 
     async function logout() {
-        setUserInfo(null);
+        setUser(null);
     }
 
     return (
-        <AuthContext.Provider value={{ userInfo, login, logout }}>
+        <AuthContext.Provider value={{ user, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
