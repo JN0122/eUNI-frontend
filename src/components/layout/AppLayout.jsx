@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Layout } from "antd";
 import { useTranslation } from "react-i18next";
 import AppHeader from "./AppHeader.jsx";
+import logo from "../../../public/images/logo-white-text.png";
 
 const { Content, Footer, Sider } = Layout;
 
@@ -37,6 +38,10 @@ const AppLayout = function ({
                     collapsed={collapsed}
                     onCollapse={(value) => setCollapsed(value)}
                 >
+                    <img
+                        src={logo}
+                        style={{ width: "100%", padding: "1.5rem" }}
+                    />
                     <div className="demo-logo-vertical" />
                     {menu}
                 </Sider>
