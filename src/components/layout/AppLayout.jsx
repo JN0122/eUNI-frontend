@@ -6,7 +6,7 @@ import AppHeader from "./AppHeader.jsx";
 const { Content, Footer, Sider } = Layout;
 
 const AppLayout = function ({
-    Menu,
+    menu,
     centerChildren,
     showHeaderLogo,
     showHeaderUser,
@@ -31,14 +31,14 @@ const AppLayout = function ({
 
     return (
         <Layout style={{ minHeight: "100vh" }}>
-            {Menu && (
+            {menu && (
                 <Sider
                     collapsible
                     collapsed={collapsed}
                     onCollapse={(value) => setCollapsed(value)}
                 >
                     <div className="demo-logo-vertical" />
-                    {Menu}
+                    {menu}
                 </Sider>
             )}
             <Layout>
