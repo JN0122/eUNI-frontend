@@ -5,7 +5,14 @@ import AppHeader from "./AppHeader.jsx";
 
 const { Content, Footer, Sider } = Layout;
 
-const AppLayout = function ({ Menu, centerChildren, children, ...rest }) {
+const AppLayout = function ({
+    Menu,
+    centerChildren,
+    showHeaderLogo,
+    showHeaderUser,
+    children,
+    ...rest
+}) {
     const [collapsed, setCollapsed] = useState(false);
 
     const { t } = useTranslation();
@@ -35,7 +42,10 @@ const AppLayout = function ({ Menu, centerChildren, children, ...rest }) {
                 </Sider>
             )}
             <Layout>
-                <AppHeader />
+                <AppHeader
+                    showLogo={showHeaderLogo}
+                    showUser={showHeaderUser}
+                />
                 <Content style={contentStyle} {...rest}>
                     {children}
                 </Content>

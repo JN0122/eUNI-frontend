@@ -1,10 +1,11 @@
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Flex, Layout, theme } from "antd";
 import { useNavigate } from "react-router-dom";
+import logo from "../../../public/images/logo.png";
 
 const { Header } = Layout;
 
-function AppHeader({ showOnlyBar }) {
+function AppHeader({ showLogo, showUser, additionalUserElement, ...rest }) {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -12,26 +13,7 @@ function AppHeader({ showOnlyBar }) {
 
     function onAvatarClick(e) {
         e.preventDefault();
-
         navigate("/profile");
-    }
-
-    let content;
-    if (!showOnlyBar) {
-        content = (
-            <Flex
-                justify="space-between"
-                style={{ flexDirection: "row-reverse" }}
-            >
-                <a onClick={onAvatarClick}>
-                    <Avatar
-                        size={32}
-                        icon={<UserOutlined />}
-                        style={{ margin: "0 1rem" }}
-                    />
-                </a>
-            </Flex>
-        );
     }
 
     return (
@@ -40,8 +22,36 @@ function AppHeader({ showOnlyBar }) {
                 padding: 0,
                 background: colorBgContainer,
             }}
+            {...rest}
         >
-            {content}
+            <Flex
+                justify="space-between"
+                align="center"
+                style={{
+                    flexDirection: showUser && "row-reverse",
+                    height: "100%",
+                }}
+                gap={"1rem"}
+            >
+                {showUser && (
+                    <Flex gap={"0.5rem"} align="center">
+                        {additionalUserElement}
+                        <a onClick={onAvatarClick}>
+                            <Avatar
+                                size={32}
+                                icon={<UserOutlined />}
+                                style={{ margin: "0 1rem" }}
+                            />
+                        </a>
+                    </Flex>
+                )}
+                {showLogo && (
+                    <img
+                        src={logo}
+                        style={{ height: "3rem", margin: "0 1rem" }}
+                    />
+                )}
+            </Flex>
         </Header>
     );
 }
