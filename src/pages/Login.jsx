@@ -20,7 +20,7 @@ function Login() {
 
     useEffect(() => {
         if (user !== null) {
-            navigate("/dashboard");
+            navigate("/");
         }
     }, [user, navigate]);
 
@@ -39,7 +39,7 @@ function Login() {
         });
         setSubmitLoading(false);
         if (response.status === 200) {
-            navigate("/dashboard");
+            navigate("/");
         } else {
             setError(response);
         }

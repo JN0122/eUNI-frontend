@@ -3,25 +3,27 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./pages/Dashboard.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
-import LoginOrDashboard from "./routes/LoginOrDashboard.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import Profile from "./pages/Profile.jsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <LoginOrDashboard />,
-    },
-    {
-        path: "/login",
-        element: <Login />,
-    },
-    {
-        path: "/dashboard",
         element: (
             <ProtectedRoute>
                 <Dashboard />
             </ProtectedRoute>
         ),
+        children: [
+            {
+                path: "/profile",
+                element: <Profile />,
+            },
+        ],
+    },
+    {
+        path: "/login",
+        element: <Login />,
     },
     {
         path: "*",
