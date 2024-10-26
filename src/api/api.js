@@ -10,3 +10,11 @@ export const loginUser = async (credentials) => {
         return error.response;
     }
 };
+
+export const logoutUser = async () => {
+    try {
+        return await axios.post(`/api/Auth/logout`);
+    } catch (error) {
+        return error.response;
+    }
+};
