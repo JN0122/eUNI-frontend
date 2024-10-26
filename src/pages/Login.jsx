@@ -4,6 +4,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 function Login() {
     const {
@@ -11,6 +12,7 @@ function Login() {
     } = theme.useToken();
     const { login, user } = useAuth();
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (user !== null) {
@@ -44,24 +46,27 @@ function Login() {
                 <Form.Item
                     name="email"
                     rules={[
-                        { required: true, message: "Please input your email!" },
+                        {
+                            required: true,
+                            message: t("error-input-email"),
+                        },
                     ]}
                 >
-                    <Input prefix={<UserOutlined />} placeholder="Email" />
+                    <Input prefix={<UserOutlined />} placeholder={t("email")} />
                 </Form.Item>
                 <Form.Item
                     name="password"
                     rules={[
                         {
                             required: true,
-                            message: "Please input your Password!",
+                            message: t("error-input-password"),
                         },
                     ]}
                 >
                     <Input.Password
                         prefix={<LockOutlined />}
                         type="password"
-                        placeholder="Password"
+                        placeholder={t("password")}
                     />
                 </Form.Item>
                 <Form.Item>
@@ -71,15 +76,15 @@ function Login() {
                             valuePropName="checked"
                             noStyle
                         >
-                            <Checkbox>Remember me</Checkbox>
+                            <Checkbox>{t("remember-me")}</Checkbox>
                         </Form.Item>
-                        <a href="">Forgot password</a>
+                        <a href="">{t("forgot-password")}</a>
                     </Flex>
                 </Form.Item>
 
                 <Form.Item>
                     <Button block type="primary" htmlType="submit">
-                        Log in
+                        {t("login")}
                     </Button>
                 </Form.Item>
             </Form>

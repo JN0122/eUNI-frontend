@@ -1,4 +1,11 @@
 {
   "test": "test - PL",
-  "footer-note": "System do zarządzania studiami - eUNI ©{{year}}"
+  "footer-note": "System do zarządzania studiami - eUNI ©{{year}}",
+  "email": "Email",
+  "error-input-email": "Podaj swój adres e-mail!",
+  "password": "Hasło",
+  "error-input-password": "Podaj swoje hasło!",
+  "remember-me": "Zapamiętaj mnie",
+  "forgot-password": "Nie pamiętam hasła",
+  "login": "Zaloguj"
 }
