@@ -42,7 +42,6 @@ const AppLayout = function ({
                         src={logo}
                         style={{ width: "100%", padding: "1.5rem" }}
                     />
-                    <div className="demo-logo-vertical" />
                     {menu}
                 </Sider>
             )}
