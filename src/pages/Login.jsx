@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import bcrypt from "bcryptjs";
 
 function Login() {
     const {
@@ -15,6 +16,7 @@ function Login() {
     const { t } = useTranslation();
     const [error, setError] = useState(null);
     const [submitLoading, setSubmitLoading] = useState(false);
+    const SALT = import.meta.env.VITE_SALT;
 
     useEffect(() => {
         if (user !== null) {
@@ -24,9 +26,16 @@ function Login() {
 
     async function onFinish(values) {
         setSubmitLoading(true);
+        if (!SALT) {
+            console.error("Create salt for hashing!");
+            return;
+        }
         const response = await login({
             email: values.email,
-            password: values.password,
+            password: bcrypt.hashSync(
+                values.password,
+                import.meta.env.VITE_SALT,
+            ),
         });
         setSubmitLoading(false);
         if (response.status === 200) {
