@@ -2,7 +2,7 @@ import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Dropdown, Flex, Layout, theme } from "antd";
 import logo from "../../assets/images/logo.png";
 import { useAuth } from "../../context/AuthContext.jsx";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const { Header } = Layout;
@@ -13,7 +13,6 @@ function AppHeader({ showLogo, additionalUserElement, ...rest }) {
     } = theme.useToken();
     const { user, logout } = useAuth();
     const { t } = useTranslation();
-    const navigate = useNavigate();
     const showUser = !!user;
     let items = [];
 
@@ -31,9 +30,7 @@ function AppHeader({ showLogo, additionalUserElement, ...rest }) {
                 type: "divider",
             },
             {
-                label: (
-                    <a onClick={() => navigate("/profile")}>{t("profile")}</a>
-                ),
+                label: <Link to="/profile">{t("profile")}</Link>,
                 key: "1",
             },
             {
@@ -82,12 +79,12 @@ function AppHeader({ showLogo, additionalUserElement, ...rest }) {
                     </Flex>
                 )}
                 {showLogo && (
-                    <a onClick={() => navigate("/")} style={{ height: "3rem" }}>
+                    <Link to="/" style={{ height: "3rem" }}>
                         <img
                             src={logo}
                             style={{ height: "100%", margin: "0 1rem" }}
                         />
-                    </a>
+                    </Link>
                 )}
             </Flex>
         </Header>
