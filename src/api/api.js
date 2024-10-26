@@ -1,7 +1,4 @@
-import axios from "axios";
-
-axios.defaults.baseURL = "http://localhost:5104";
-axios.defaults.withCredentials = true;
+import axios from "./axios.js";
 
 async function sendAndHandleRequest(axiosMethod, ...args) {
     try {
@@ -12,14 +9,14 @@ async function sendAndHandleRequest(axiosMethod, ...args) {
     }
 }
 
-export const loginUser = async (credentials) => {
+export async function loginUser(credentials) {
     return await sendAndHandleRequest(
         axios.post,
         `/api/Auth/login`,
         credentials,
     );
-};
+}
 
-export const logoutUser = async () => {
+export async function logoutUser() {
     return await sendAndHandleRequest(axios.post, `/api/Auth/logout`);
 };
