@@ -3,18 +3,23 @@ import axios from "axios";
 axios.defaults.baseURL = "http://localhost:5104";
 axios.defaults.withCredentials = true;
 
-export const loginUser = async (credentials) => {
+async function sendAndHandleRequest(axiosMethod, ...args) {
     try {
-        return await axios.post(`/api/Auth/login`, credentials);
+        const apiResponse = await axiosMethod(...args);
+        return { status: apiResponse.status, data: apiResponse.data };
     } catch (error) {
-        return error.response;
+        return { status: error.status, data: error.message };
     }
+}
+
+export const loginUser = async (credentials) => {
+    return await sendAndHandleRequest(
+        axios.post,
+        `/api/Auth/login`,
+        credentials,
+    );
 };
 
 export const logoutUser = async () => {
-    try {
-        return await axios.post(`/api/Auth/logout`);
-    } catch (error) {
-        return error.response;
-    }
+    return await sendAndHandleRequest(axios.post, `/api/Auth/logout`);
 };

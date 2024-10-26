@@ -7,20 +7,20 @@ export function AuthProvider({ children }) {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
     async function login(userData) {
-        const response = await loginUser(userData);
+        const apiResponse = await loginUser(userData);
 
-        if (response?.status === 200) {
-            setUser(response.data);
-            localStorage.setItem("user", JSON.stringify(response.data));
+        if (apiResponse.status === 200) {
+            setUser(apiResponse.data);
+            localStorage.setItem("user", JSON.stringify(apiResponse.data));
         } else {
-            console.error(`${response.status}: ${response.data}`);
+            console.error(`${apiResponse.status}: ${apiResponse.data}`);
         }
-        return response;
+        return apiResponse;
     }
 
     async function logout() {
-        const response = await logoutUser();
-        if (response?.status === 200) {
+        const apiResponse = await logoutUser();
+        if (apiResponse.status === 200) {
             setUser(null);
             localStorage.removeItem("user");
         }
