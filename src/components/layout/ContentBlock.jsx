@@ -3,7 +3,7 @@ import Breadcrumbs from "./Breadcrumbs.jsx";
 
 const { Content, Sider } = Layout;
 
-function ContentBlock({ Menu, breadcrumbs, children, ...rest }) {
+function ContentBlock({ menu, breadcrumbs, children, ...rest }) {
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
@@ -19,9 +19,9 @@ function ContentBlock({ Menu, breadcrumbs, children, ...rest }) {
                     borderRadius: borderRadiusLG,
                 }}
             >
-                {Menu && (
+                {menu && (
                     <Sider style={{ background: colorBgContainer }} width={200}>
-                        {Menu}
+                        {menu}
                     </Sider>
                 )}
                 <Content

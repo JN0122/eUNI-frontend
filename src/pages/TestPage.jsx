@@ -43,7 +43,7 @@ function TestPage() {
 
     return (
         <AppLayout Menu={AppLayoutSider}>
-            <ContentBlock Menu={ContentBlockSider} breadcrumbs={breadcrumbs}>
+            <ContentBlock menu={ContentBlockSider} breadcrumbs={breadcrumbs}>
                 <Select
                     defaultValue={i18n.language}
                     onChange={(lng) => i18n.changeLanguage(lng)}
