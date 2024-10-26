@@ -1,6 +1,6 @@
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Dropdown, Flex, Layout, theme } from "antd";
-import logo from "../../images/logo.png";
+import logo from "../../assets/images/logo.png";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
