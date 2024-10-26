@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Layout } from "antd";
 import { useTranslation } from "react-i18next";
 import AppHeader from "./AppHeader.jsx";
-import logo from "../../../public/images/logo-white-text.png";
+import logo from "../../images/logo-white-text.png";
 
 const { Content, Footer, Sider } = Layout;
 

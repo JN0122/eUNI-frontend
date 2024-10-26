@@ -1,7 +1,7 @@
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Flex, Layout, theme } from "antd";
 import { useNavigate } from "react-router-dom";
-import logo from "../../../public/images/logo.png";
+import logo from "../../images/logo.png";
 
 const { Header } = Layout;
 
