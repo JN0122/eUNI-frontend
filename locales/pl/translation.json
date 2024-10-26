@@ -7,5 +7,7 @@
   "error-input-password": "Podaj swoje hasło!",
   "remember-me": "Zapamiętaj mnie",
   "forgot-password": "Nie pamiętam hasła",
-  "login": "Zaloguj"
+  "login": "Zaloguj",
+  "profile": "Profil",
+  "logout": "Wyloguj"
 }

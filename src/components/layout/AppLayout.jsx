@@ -46,10 +46,7 @@ const AppLayout = function ({
                 </Sider>
             )}
             <Layout>
-                <AppHeader
-                    showLogo={showHeaderLogo}
-                    showUser={showHeaderUser}
-                />
+                <AppHeader showLogo={showHeaderLogo} />
                 <Content style={contentStyle} {...rest}>
                     {children}
                 </Content>

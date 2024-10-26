@@ -1,19 +1,46 @@
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Flex, Layout, theme } from "antd";
-import { useNavigate } from "react-router-dom";
+import { Avatar, Dropdown, Flex, Layout, theme } from "antd";
 import logo from "../../images/logo.png";
+import { useAuth } from "../../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const { Header } = Layout;
 
-function AppHeader({ showLogo, showUser, additionalUserElement, ...rest }) {
+function AppHeader({ showLogo, additionalUserElement, ...rest }) {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+    const { user, logout } = useAuth();
+    const { t } = useTranslation();
     const navigate = useNavigate();
+    const showUser = !!user;
+    let items = [];
 
-    function onAvatarClick(e) {
-        e.preventDefault();
-        navigate("/profile");
+    if (showUser) {
+        if (!user.firstname || !user.lastname) {
+            throw new Error("User not found.");
+        }
+        items = [
+            {
+                label: `${user.firstname} ${user.lastname}`,
+                key: "0",
+                disabled: true,
+            },
+            {
+                type: "divider",
+            },
+            {
+                label: (
+                    <a onClick={() => navigate("/profile")}>{t("profile")}</a>
+                ),
+                key: "1",
+            },
+            {
+                label: <a onClick={() => logout()}>{t("logout")}</a>,
+                key: "2",
+            },
+        ];
     }
 
     return (
@@ -36,12 +63,21 @@ function AppHeader({ showLogo, showUser, additionalUserElement, ...rest }) {
                 {showUser && (
                     <Flex gap={"0.5rem"} align="center">
                         {additionalUserElement}
-                        <a onClick={onAvatarClick}>
-                            <Avatar
-                                size={32}
-                                icon={<UserOutlined />}
-                                style={{ margin: "0 1rem" }}
-                            />
+                        <a onClick={(e) => e.preventDefault()}>
+                            <Dropdown
+                                menu={{
+                                    items,
+                                }}
+                                trigger={["click"]}
+                                placement="bottomRight"
+                                arrow
+                            >
+                                <Avatar
+                                    size={32}
+                                    icon={<UserOutlined />}
+                                    style={{ margin: " 1rem" }}
+                                />
+                            </Dropdown>
                         </a>
                     </Flex>
                 )}
