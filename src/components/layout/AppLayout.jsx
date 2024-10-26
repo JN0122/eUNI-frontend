@@ -3,6 +3,7 @@ import { Layout } from "antd";
 import { useTranslation } from "react-i18next";
 import AppHeader from "./AppHeader.jsx";
 import logo from "../../images/logo-white-text.png";
+import { useNavigate } from "react-router-dom";
 
 const { Content, Footer, Sider } = Layout;
 
@@ -10,12 +11,11 @@ const AppLayout = function ({
     menu,
     centerChildren,
     showHeaderLogo,
-    showHeaderUser,
     children,
     ...rest
 }) {
     const [collapsed, setCollapsed] = useState(false);
-
+    const navigate = useNavigate();
     const { t } = useTranslation();
     let contentStyle = {
         padding: "0 3rem",
@@ -38,10 +38,15 @@ const AppLayout = function ({
                     collapsed={collapsed}
                     onCollapse={(value) => setCollapsed(value)}
                 >
-                    <img
-                        src={logo}
-                        style={{ width: "100%", padding: "1.5rem" }}
-                    />
+                    <a
+                        onClick={() => navigate("/dashboard")}
+                        style={{ width: "100%" }}
+                    >
+                        <img
+                            src={logo}
+                            style={{ width: "100%", padding: "1.5rem" }}
+                        />
+                    </a>
                     {menu}
                 </Sider>
             )}

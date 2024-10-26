@@ -82,10 +82,12 @@ function AppHeader({ showLogo, additionalUserElement, ...rest }) {
                     </Flex>
                 )}
                 {showLogo && (
-                    <img
-                        src={logo}
-                        style={{ height: "3rem", margin: "0 1rem" }}
-                    />
+                    <a onClick={() => navigate("/")} style={{ height: "3rem" }}>
+                        <img
+                            src={logo}
+                            style={{ height: "100%", margin: "0 1rem" }}
+                        />
+                    </a>
                 )}
             </Flex>
         </Header>

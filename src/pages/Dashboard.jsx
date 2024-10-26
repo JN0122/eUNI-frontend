@@ -1,4 +1,3 @@
-import { useTranslation } from "react-i18next";
 import AppLayout from "../components/layout/AppLayout.jsx";
 import {
     DesktopOutlined,
@@ -11,8 +10,6 @@ import SiderMenu, { parseMenuItem } from "../components/layout/SiderMenu.jsx";
 import { Outlet } from "react-router-dom";
 
 function Dashboard() {
-    const { t } = useTranslation();
-
     const items = [
         parseMenuItem("Option 1", "1", <PieChartOutlined />),
         parseMenuItem("Option 2", "2", <DesktopOutlined />),
