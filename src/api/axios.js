@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getNewAuthToken } from "./auth.js";
 
 const axiosInstance = axios.create({
     baseURL: "http://localhost:5104",
@@ -28,17 +29,10 @@ export const setupAxiosInterceptors = (currentToken) => {
                 originalRequest._retry = true;
 
                 try {
-                    const response = await axiosInstance.post(
-                        "/api/Auth/refresh-token",
-                        {},
-                        { withCredentials: true },
-                    );
-
-                    const newAccessToken = response.data.accessToken;
-                    currentToken = newAccessToken;
+                    currentToken = await getNewAuthToken();
 
                     originalRequest.headers["Authorization"] =
-                        `Bearer ${newAccessToken}`;
+                        `Bearer ${currentToken}`;
                     return axiosInstance(originalRequest);
                 } catch (refreshError) {
                     console.error(

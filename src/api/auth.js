@@ -32,7 +32,7 @@ export async function logoutUser() {
 }
 
 export async function getNewAuthToken() {
-    return await sendAndHandleRequest(
+    const response = await sendAndHandleRequest(
         axiosInstance.post,
         "/api/Auth/refresh-token",
         {},
@@ -40,4 +40,5 @@ export async function getNewAuthToken() {
             withCredentials: true,
         },
     );
+    return response.data.accessToken;
 }
