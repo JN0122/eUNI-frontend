@@ -14,11 +14,32 @@ export async function loginUser(credentials) {
         axios.post,
         `/api/Auth/login`,
         credentials,
+        {
+            withCredentials: true,
+        },
     );
 }
 
 export async function logoutUser() {
-    return await sendAndHandleRequest(axios.post, `/api/Auth/logout`);
+    return await sendAndHandleRequest(
+        axios.post,
+        `/api/Auth/logout`,
+        {},
+        {
+            withCredentials: true,
+        },
+    );
+}
+
+export async function getNewAuthToken() {
+    return await sendAndHandleRequest(
+        axios.post,
+        "/api/Auth/refresh-token",
+        {},
+        {
+            withCredentials: true,
+        },
+    );
 }
 
 export async function getUserData() {

@@ -1,5 +1,10 @@
 import { createContext, useContext, useState } from "react";
-import { getUserData, loginUser, logoutUser } from "../api/api.js";
+import {
+    getNewAuthToken,
+    getUserData,
+    loginUser,
+    logoutUser,
+} from "../api/api.js";
 
 const AuthContext = createContext();
 
@@ -30,12 +35,26 @@ export function AuthProvider({ children }) {
         }
     }
 
+    async function refreshAuthToken() {
+        const apiResponse = await getNewAuthToken();
+
+        if (apiResponse.status !== 200) throw new Error("Not logged in");
+
+        setUserInfo((prev) => {
+            return {
+                ...prev,
+                token: apiResponse.data.accessToken,
+            };
+        });
+    }
+
     return (
         <AuthContext.Provider
             value={{
                 user: userInfo.user,
                 login,
                 logout,
+                refreshAuthToken,
             }}
         >
             {children}
