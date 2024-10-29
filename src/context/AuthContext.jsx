@@ -1,10 +1,6 @@
 import { createContext, useContext, useState } from "react";
-import {
-    getNewAuthToken,
-    getUserData,
-    loginUser,
-    logoutUser,
-} from "../api/api.js";
+import { getNewAuthToken, loginUser, logoutUser } from "../api/auth.js";
+import { getUserData } from "../api/user.js";
 
 const AuthContext = createContext();
 
