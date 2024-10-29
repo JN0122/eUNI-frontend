@@ -19,4 +19,16 @@ export async function loginUser(credentials) {
 
 export async function logoutUser() {
     return await sendAndHandleRequest(axios.post, `/api/Auth/logout`);
-};
+}
+
+export async function getUserData() {
+    /*return await sendAndHandleRequest(
+        axios.get,
+        `/api/User/get-user-basic-info`,
+    );*/
+    return {
+        firstname: "Adam",
+        lastname: "Nowak",
+        email: "adam.nowak@pk.edu.pl",
+    };
+}
