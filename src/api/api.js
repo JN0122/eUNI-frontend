@@ -1,4 +1,4 @@
-import axios from "./axios.js";
+import axiosInstance from "./axios.js";
 
 async function sendAndHandleRequest(axiosMethod, ...args) {
     try {
@@ -11,7 +11,7 @@ async function sendAndHandleRequest(axiosMethod, ...args) {
 
 export async function loginUser(credentials) {
     return await sendAndHandleRequest(
-        axios.post,
+        axiosInstance.post,
         `/api/Auth/login`,
         credentials,
         {
@@ -22,7 +22,7 @@ export async function loginUser(credentials) {
 
 export async function logoutUser() {
     return await sendAndHandleRequest(
-        axios.post,
+        axiosInstance.post,
         `/api/Auth/logout`,
         {},
         {
@@ -33,7 +33,7 @@ export async function logoutUser() {
 
 export async function getNewAuthToken() {
     return await sendAndHandleRequest(
-        axios.post,
+        axiosInstance.post,
         "/api/Auth/refresh-token",
         {},
         {
@@ -44,7 +44,7 @@ export async function getNewAuthToken() {
 
 export async function getUserData() {
     /*return await sendAndHandleRequest(
-        axios.get,
+        axiosInstance.get,
         `/api/User/get-user-basic-info`,
     );*/
     return {
