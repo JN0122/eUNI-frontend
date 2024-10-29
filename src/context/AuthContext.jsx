@@ -1,23 +1,26 @@
-import { createContext, useContext, useState } from "react";
-import { getNewAuthToken, loginUser, logoutUser } from "../api/auth.js";
+import { createContext, useContext, useEffect, useState } from "react";
+import { loginUser, logoutUser } from "../api/auth.js";
+import { setupAxiosInterceptors } from "../api/axios.js";
 import { getUserData } from "../api/user.js";
 
 const AuthContext = createContext();
 
+let currentToken = null;
+
 export function AuthProvider({ children }) {
-    const [userInfo, setUserInfo] = useState({ token: null, user: null });
+    const [userInfo, setUserInfo] = useState(null);
+
+    useEffect(() => {
+        setupAxiosInterceptors(currentToken);
+    }, [currentToken]);
 
     async function login(userData) {
         const apiResponse = await loginUser(userData);
+        currentToken = apiResponse.data.accessToken;
 
         if (apiResponse.status === 200) {
-            const user = await getUserData();
-            setUserInfo(() => {
-                return {
-                    user,
-                    token: apiResponse?.data?.accessToken || null,
-                };
-            });
+            const userDataResponse = await getUserData();
+            setUserInfo(userDataResponse.data);
         } else {
             console.error(`${apiResponse.status}: ${apiResponse.data}`);
         }
@@ -27,30 +30,17 @@ export function AuthProvider({ children }) {
     async function logout() {
         const apiResponse = await logoutUser();
         if (apiResponse.status === 200) {
-            setUserInfo({ token: null, user: null });
+            setUserInfo(null);
+            currentToken = null;
         }
-    }
-
-    async function refreshAuthToken() {
-        const apiResponse = await getNewAuthToken();
-
-        if (apiResponse.status !== 200) throw new Error("Not logged in");
-
-        setUserInfo((prev) => {
-            return {
-                ...prev,
-                token: apiResponse.data.accessToken,
-            };
-        });
     }
 
     return (
         <AuthContext.Provider
             value={{
-                user: userInfo.user,
+                user: userInfo,
                 login,
                 logout,
-                refreshAuthToken,
             }}
         >
             {children}
