@@ -3,14 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 function ProtectedRoute({ children }) {
-    const { isAuthTokenActive } = useAuth();
+    const { isAuthTokenActive, restoreSession } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
         if (!isAuthTokenActive) {
-            navigate("/login");
+            restoreSession().catch(() => {
+                console.warn("Could not restore session");
+                navigate("/login");
+            });
         }
-    }, [isAuthTokenActive, navigate]);
+    }, [isAuthTokenActive, restoreSession, navigate]);
 
     if (!isAuthTokenActive) return null;
 
