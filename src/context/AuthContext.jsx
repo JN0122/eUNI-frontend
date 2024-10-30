@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { loginUser, logoutUser } from "../api/auth.js";
+import { getNewAuthToken, loginUser, logoutUser } from "../api/auth.js";
 import { setupAxiosInterceptors } from "../api/axios.js";
 import { getUserData } from "../api/user.js";
 
@@ -9,6 +9,7 @@ let currentToken = null;
 
 export function AuthProvider({ children }) {
     const [userInfo, setUserInfo] = useState(null);
+    const [isAuthTokenActive, setIsAuthTokenActive] = useState(false);
 
     useEffect(() => {
         setupAxiosInterceptors(currentToken);
@@ -17,6 +18,7 @@ export function AuthProvider({ children }) {
     async function login(userData) {
         const apiResponse = await loginUser(userData);
         currentToken = apiResponse.data.accessToken;
+        setIsAuthTokenActive(true);
 
         if (apiResponse.status === 200) {
             const userDataResponse = await getUserData();
@@ -33,7 +35,23 @@ export function AuthProvider({ children }) {
             setUserInfo(null);
             currentToken = null;
         }
+        setIsAuthTokenActive(false);
     }
+
+    const restoreSession = function () {
+        return new Promise((resolve, reject) => {
+            getNewAuthToken()
+                .then((value) => {
+                    currentToken = value;
+                    setIsAuthTokenActive(true);
+                    resolve();
+                })
+                .catch(() => {
+                    setIsAuthTokenActive(false);
+                    reject();
+                });
+        });
+    };
 
     return (
         <AuthContext.Provider
@@ -41,6 +59,8 @@ export function AuthProvider({ children }) {
                 user: userInfo,
                 login,
                 logout,
+                restoreSession,
+                isAuthTokenActive,
             }}
         >
             {children}

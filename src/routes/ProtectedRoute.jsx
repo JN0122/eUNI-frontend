@@ -3,17 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 function ProtectedRoute({ children }) {
-    const { user } = useAuth();
+    const { isAuthTokenActive } = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user === null) {
+        if (!isAuthTokenActive) {
             navigate("/login");
         }
-    }, [user, navigate]);
+    }, [isAuthTokenActive, navigate]);
 
-    if (!user) return null;
-    
+    if (!isAuthTokenActive) return null;
+
     return <>{children}</>;
 }
 

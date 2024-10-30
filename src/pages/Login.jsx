@@ -11,7 +11,7 @@ function Login() {
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
-    const { login, user } = useAuth();
+    const { login, isAuthTokenActive, restoreSession } = useAuth();
     const navigate = useNavigate();
     const { t } = useTranslation();
     const [error, setError] = useState(null);
@@ -19,10 +19,18 @@ function Login() {
     const SALT = import.meta.env.VITE_SALT;
 
     useEffect(() => {
-        if (user !== null) {
+        if (!isAuthTokenActive) {
+            restoreSession()
+                .then(() => {
+                    navigate("/");
+                })
+                .catch(() => {
+                    console.warn("Could not restore session");
+                });
+        } else {
             navigate("/");
         }
-    }, [user, navigate]);
+    }, [isAuthTokenActive, restoreSession, navigate]);
 
     async function onFinish(values) {
         setSubmitLoading(true);

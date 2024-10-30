@@ -32,8 +32,7 @@ export async function logoutUser() {
 }
 
 export async function getNewAuthToken() {
-    const response = await sendAndHandleRequest(
-        axiosInstance.post,
+    const response = await axiosInstance.post(
         "/api/Auth/refresh-token",
         {},
         {
