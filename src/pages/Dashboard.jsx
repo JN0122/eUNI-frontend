@@ -1,30 +1,47 @@
 import AppLayout from "../components/layout/AppLayout.jsx";
-import {
-    DesktopOutlined,
-    FileOutlined,
-    PieChartOutlined,
-    TeamOutlined,
-    UserOutlined,
-} from "@ant-design/icons";
+import { LoadingOutlined, PieChartOutlined } from "@ant-design/icons";
 import SiderMenu, { parseMenuItem } from "../components/layout/SiderMenu.jsx";
 import { Outlet } from "react-router-dom";
+import { Spin } from "antd";
+import { useAuth } from "../context/AuthContext.jsx";
+import { UserRole } from "../enums/userRoles.js";
 
 function Dashboard() {
-    const items = [
-        parseMenuItem("Option 1", "1", <PieChartOutlined />),
-        parseMenuItem("Option 2", "2", <DesktopOutlined />),
-        parseMenuItem("User", "sub1", <UserOutlined />, [
-            parseMenuItem("Tom", "3"),
+    const { userInfo } = useAuth();
 
-            parseMenuItem("Bill", "4"),
-            parseMenuItem("Alex", "5"),
-        ]),
-        parseMenuItem("Team", "sub2", <TeamOutlined />, [
-            parseMenuItem("Team 1", "6"),
-            parseMenuItem("Team 2", "8"),
-        ]),
-        parseMenuItem("Files", "9", <FileOutlined />),
-    ];
+    if (!userInfo) {
+        return (
+            <Spin
+                indicator={
+                    <LoadingOutlined
+                        style={{
+                            fontSize: 48,
+                            color: "white",
+                        }}
+                        spin
+                    />
+                }
+                fullscreen
+            />
+        );
+    }
+
+    let items = [];
+
+    switch (userInfo.role) {
+        case UserRole.SuperAdmin:
+            items = [parseMenuItem("Super admin", "1", <PieChartOutlined />)];
+            break;
+        case UserRole.Student:
+            items = [parseMenuItem("Student", "1", <PieChartOutlined />)];
+            break;
+        case UserRole.Lecturer:
+            items = [parseMenuItem("Lecturer", "1", <PieChartOutlined />)];
+            break;
+        case UserRole.Admin:
+            items = [parseMenuItem("Admin", "1", <PieChartOutlined />)];
+            break;
+    }
 
     const AppLayoutSider = <SiderMenu theme="dark" items={items} />;
 
