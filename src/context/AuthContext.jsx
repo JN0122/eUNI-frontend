@@ -15,26 +15,26 @@ export function AuthProvider({ children }) {
         setupAxiosInterceptors(currentToken);
     }, [currentToken]);
 
+    async function getUserInfo() {
+        const response = await getUserData();
+        if (response.status === 200) {
+            setUserInfo(response.data);
+        }
+    }
+
     async function login(userData) {
         const apiResponse = await loginUser(userData);
         currentToken = apiResponse.data.accessToken;
         setIsAuthTokenActive(true);
-
-        if (apiResponse.status === 200) {
-            const userDataResponse = await getUserData();
-            setUserInfo(userDataResponse.data);
-        } else {
-            console.error(`${apiResponse.status}: ${apiResponse.data}`);
-        }
-        return apiResponse;
+        getUserInfo();
     }
 
     async function logout() {
         const apiResponse = await logoutUser();
         if (apiResponse.status === 200) {
-            setUserInfo(null);
             currentToken = null;
         }
+        setUserInfo(false);
         setIsAuthTokenActive(false);
     }
 
@@ -44,6 +44,7 @@ export function AuthProvider({ children }) {
                 .then((value) => {
                     currentToken = value;
                     setIsAuthTokenActive(true);
+                    getUserInfo();
                     resolve();
                 })
                 .catch(() => {
@@ -56,7 +57,7 @@ export function AuthProvider({ children }) {
     return (
         <AuthContext.Provider
             value={{
-                user: userInfo,
+                userInfo,
                 login,
                 logout,
                 restoreSession,
