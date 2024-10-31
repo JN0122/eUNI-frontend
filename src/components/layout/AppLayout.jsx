@@ -38,10 +38,7 @@ const AppLayout = function ({
                     collapsed={collapsed}
                     onCollapse={(value) => setCollapsed(value)}
                 >
-                    <a
-                        onClick={() => navigate("/dashboard")}
-                        style={{ width: "100%" }}
-                    >
+                    <a onClick={() => navigate("/")} style={{ width: "100%" }}>
                         <img
                             src={logo}
                             style={{ width: "100%", padding: "1.5rem" }}
