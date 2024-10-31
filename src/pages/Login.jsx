@@ -16,7 +16,6 @@ function Login() {
     const { t } = useTranslation();
     const [error, setError] = useState(null);
     const [submitLoading, setSubmitLoading] = useState(false);
-    const SALT = import.meta.env.VITE_SALT;
 
     useEffect(() => {
         if (!isAuthTokenActive) {
@@ -34,10 +33,6 @@ function Login() {
 
     async function onFinish(values) {
         setSubmitLoading(true);
-        if (!SALT) {
-            console.error("Create salt for hashing!");
-            return;
-        }
         const response = await login({
             email: values.email,
             password: bcrypt.hashSync(
