@@ -1,9 +1,8 @@
-import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Dropdown, Flex, Layout, theme } from "antd";
+import { Flex, Layout, theme } from "antd";
 import logo from "../../assets/images/logo.png";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import UserAvatar from "../header/UserAvatar.jsx";
 
 const { Header } = Layout;
 
@@ -11,34 +10,7 @@ function AppHeader({ showLogo, additionalUserElement, ...rest }) {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
-    const { user, logout } = useAuth();
-    const { t } = useTranslation();
-    const showUser = !!user;
-    let items = [];
-
-    if (showUser) {
-        if (!user.firstname || !user.lastname) {
-            throw new Error("User not found.");
-        }
-        items = [
-            {
-                label: `${user.firstname} ${user.lastname}`,
-                key: "0",
-                disabled: true,
-            },
-            {
-                type: "divider",
-            },
-            {
-                label: <Link to="/profile">{t("profile")}</Link>,
-                key: "1",
-            },
-            {
-                label: <a onClick={() => logout()}>{t("logout")}</a>,
-                key: "2",
-            },
-        ];
-    }
+    const { isAuthTokenActive } = useAuth();
 
     return (
         <Header
@@ -52,30 +24,15 @@ function AppHeader({ showLogo, additionalUserElement, ...rest }) {
                 justify="space-between"
                 align="center"
                 style={{
-                    flexDirection: showUser && "row-reverse",
+                    flexDirection: isAuthTokenActive && "row-reverse",
                     height: "100%",
                 }}
                 gap={"1rem"}
             >
-                {showUser && (
+                {isAuthTokenActive && (
                     <Flex gap={"0.5rem"} align="center">
                         {additionalUserElement}
-                        <a onClick={(e) => e.preventDefault()}>
-                            <Dropdown
-                                menu={{
-                                    items,
-                                }}
-                                trigger={["click"]}
-                                placement="bottomRight"
-                                arrow
-                            >
-                                <Avatar
-                                    size={32}
-                                    icon={<UserOutlined />}
-                                    style={{ margin: " 1rem" }}
-                                />
-                            </Dropdown>
-                        </a>
+                        <UserAvatar />
                     </Flex>
                 )}
                 {showLogo && (
