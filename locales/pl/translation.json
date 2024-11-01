@@ -2,9 +2,9 @@
   "test": "test - PL",
   "footer-note": "System do zarządzania studiami - eUNI ©{{year}}",
   "email": "Email",
-  "error-input-email": "Podaj swój adres e-mail!",
+  "error-correct-email-is-required": "Poprawny email jest wymagany!",
   "password": "Hasło",
-  "error-input-password": "Podaj swoje hasło!",
+  "error-password-is-required": "Hasło jest wymagane!",
   "remember-me": "Zapamiętaj mnie",
   "forgot-password": "Nie pamiętam hasła",
   "login": "Zaloguj",
@@ -23,6 +23,5 @@
   "repeat-new-password": "Powtórz nowe hasło",
   "save": "Zapisz",
   "error-new-password": "Hasło powinno składać się z co najmniej: 8 znaków, 1 litery, 1 cyfry, 1 znaku specjalnego.",
-  "error-password-not-match": "Hasła nie są takie same!",
-  "error-password-is-required": "Hasło jest wymagane!"
+  "error-password-not-match": "Hasła nie są takie same!"
 }
