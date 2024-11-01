@@ -5,7 +5,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import Profile from "./pages/profile/Profile.jsx";
-import Info from "./pages/profile/Info.jsx";
+import ProfileInfo from "./pages/profile/ProfileInfo.jsx";
 
 const router = createBrowserRouter([
     {
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: "info",
-                        element: <Info />,
+                        element: <ProfileInfo />,
                     },
                 ],
             },

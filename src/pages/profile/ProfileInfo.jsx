@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { Descriptions } from "antd";
 
-function Info() {
+function ProfileInfo() {
     const { t } = useTranslation();
     const { setBreadcrumbs } = useSubPage();
     const { userInfo } = useAuth();
@@ -19,11 +19,13 @@ function Info() {
             key: "1",
             label: t("given-names"),
             children: userInfo.firstname,
+            span: 3,
         },
         {
             key: "2",
             label: t("last-name"),
             children: userInfo.lastname,
+            span: 3,
         },
     ];
 
@@ -34,4 +36,4 @@ function Info() {
     );
 }
 
-export default Info;
+export default ProfileInfo;
