@@ -31,13 +31,7 @@ function Profile() {
         <SubPageProvider setBreadcrumbs={setBreadcrumbs}>
             <ContentBlock
                 breadcrumbs={[{ title: t("Profil") }, ...breadcrumbs]}
-                menu={
-                    <SiderMenu
-                        defaultOpenKeys={["sub2"]}
-                        fullHeight={true}
-                        items={items}
-                    />
-                }
+                menu={<SiderMenu fullHeight={true} items={items} />}
             >
                 <Outlet />
             </ContentBlock>

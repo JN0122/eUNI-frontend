@@ -28,7 +28,7 @@ function UserAvatar() {
             type: "divider",
         },
         {
-            label: <Link to="/profile">{t("profile")}</Link>,
+            label: <Link to="/profile/info">{t("profile")}</Link>,
             key: "1",
         },
         {
