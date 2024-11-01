@@ -24,7 +24,7 @@ export const setupAxiosInterceptors = (currentToken) => {
             if (
                 error.response?.status === 401 &&
                 !originalRequest._retry &&
-                originalRequest.url !== "/api/Auth/refresh-token"
+                !originalRequest.url.startsWith("/api/Auth")
             ) {
                 originalRequest._retry = true;
 
