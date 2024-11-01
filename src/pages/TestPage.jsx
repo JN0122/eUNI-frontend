@@ -2,15 +2,8 @@ import { useTranslation } from "react-i18next";
 import { Button, Select } from "antd";
 import AppLayout from "../components/layout/AppLayout.jsx";
 import ContentBlock from "../components/layout/ContentBlock.jsx";
-import { parseBreadcrumbItem } from "../components/layout/Breadcrumbs.jsx.jsx";
-import {
-    DesktopOutlined,
-    FileOutlined,
-    PieChartOutlined,
-    TeamOutlined,
-    UserOutlined,
-} from "@ant-design/icons";
-import SiderMenu, { parseMenuItem } from "../components/layout/SiderMenu.jsx";
+import { PieChartOutlined } from "@ant-design/icons";
+import SiderMenu from "../components/layout/SiderMenu.jsx";
 
 const langs = { en: "English", pl: "Polski" };
 
@@ -18,23 +11,28 @@ function TestPage() {
     const { t, i18n } = useTranslation();
 
     const items = [
-        parseMenuItem("Option 1", "1", <PieChartOutlined />),
-        parseMenuItem("Option 2", "2", <DesktopOutlined />),
-        parseMenuItem("User", "sub1", <UserOutlined />, [
-            parseMenuItem("Tom", "3"),
-            parseMenuItem("Bill", "4"),
-            parseMenuItem("Alex", "5"),
-        ]),
-        parseMenuItem("Team", "sub2", <TeamOutlined />, [
-            parseMenuItem("Team 1", "6"),
-            parseMenuItem("Team 2", "8"),
-        ]),
-        parseMenuItem("Files", "9", <FileOutlined />),
+        {
+            label: "Option 1",
+            key: "1",
+            icon: <PieChartOutlined />,
+        },
+        {
+            label: "Option 2",
+            key: "2",
+            icon: <PieChartOutlined />,
+            children: [
+                {
+                    label: "Tom",
+                    key: "3",
+                },
+                {
+                    label: "Bill",
+                    key: "4",
+                },
+            ],
+        },
     ];
-    const breadcrumbs = [
-        parseBreadcrumbItem("Home"),
-        parseBreadcrumbItem("App"),
-    ];
+    const breadcrumbs = [{ title: "Home" }, { title: "App" }];
 
     const AppLayoutSider = <SiderMenu theme="dark" items={items} />;
     const ContentBlockSider = (

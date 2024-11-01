@@ -1,6 +1,6 @@
 import AppLayout from "../components/layout/AppLayout.jsx";
 import { LoadingOutlined, PieChartOutlined } from "@ant-design/icons";
-import SiderMenu, { parseMenuItem } from "../components/layout/SiderMenu.jsx";
+import SiderMenu from "../components/layout/SiderMenu.jsx";
 import { Outlet } from "react-router-dom";
 import { Spin } from "antd";
 import { useAuth } from "../context/AuthContext.jsx";
@@ -30,16 +30,40 @@ function Dashboard() {
 
     switch (userInfo.role) {
         case UserRole.SuperAdmin:
-            items = [parseMenuItem("Super admin", "1", <PieChartOutlined />)];
+            items = [
+                {
+                    label: "Super admin",
+                    key: "1",
+                    icon: <PieChartOutlined />,
+                },
+            ];
             break;
         case UserRole.Student:
-            items = [parseMenuItem("Student", "1", <PieChartOutlined />)];
+            items = [
+                {
+                    label: "Student",
+                    key: "1",
+                    icon: <PieChartOutlined />,
+                },
+            ];
             break;
         case UserRole.Lecturer:
-            items = [parseMenuItem("Lecturer", "1", <PieChartOutlined />)];
+            items = [
+                {
+                    label: "Lecturer",
+                    key: "1",
+                    icon: <PieChartOutlined />,
+                },
+            ];
             break;
         case UserRole.Admin:
-            items = [parseMenuItem("Admin", "1", <PieChartOutlined />)];
+            items = [
+                {
+                    label: "Admin",
+                    key: "1",
+                    icon: <PieChartOutlined />,
+                },
+            ];
             break;
     }
 
