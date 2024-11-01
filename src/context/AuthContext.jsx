@@ -27,6 +27,7 @@ export function AuthProvider({ children }) {
         currentToken = apiResponse.data.accessToken;
         setIsAuthTokenActive(true);
         getUserInfo();
+        return { status: apiResponse.status };
     }
 
     async function logout() {
@@ -36,6 +37,7 @@ export function AuthProvider({ children }) {
         }
         setUserInfo(false);
         setIsAuthTokenActive(false);
+        return { status: apiResponse.status };
     }
 
     const restoreSession = function () {
