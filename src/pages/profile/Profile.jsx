@@ -17,7 +17,7 @@ function Profile() {
             icon: <UserOutlined />,
         },
         {
-            label: t("change-password"),
+            label: <Link to="password">{t("change-password")}</Link>,
             key: 2,
             icon: <LockOutlined />,
         },

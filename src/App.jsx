@@ -6,6 +6,7 @@ import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import Profile from "./pages/profile/Profile.jsx";
 import ProfileInfo from "./pages/profile/ProfileInfo.jsx";
+import ProfilePassword from "./pages/profile/ProfilePassword.jsx";
 
 const router = createBrowserRouter([
     {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
                     {
                         path: "info",
                         element: <ProfileInfo />,
+                    },
+                    {
+                        path: "password",
+                        element: <ProfilePassword />,
                     },
                 ],
             },

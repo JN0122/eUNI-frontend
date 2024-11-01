@@ -17,5 +17,12 @@
   "change-password": "Zmień hasło",
   "change-email": "Zmień email",
   "given-names": "Imiona",
-  "last-name": "Nazwisko"
+  "last-name": "Nazwisko",
+  "old-password": "Stare hasło",
+  "new-password": "Nowe hasło",
+  "repeat-new-password": "Powtórz nowe hasło",
+  "save": "Zapisz",
+  "error-new-password": "Hasło powinno składać się z co najmniej: 8 znaków, 1 litery, 1 cyfry, 1 znaku specjalnego.",
+  "error-password-not-match": "Hasła nie są takie same!",
+  "error-password-is-required": "Hasło jest wymagane!"
 }
