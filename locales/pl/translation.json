@@ -15,5 +15,7 @@
   "Request failed with status code 401": "Niepoprawny login oraz/lub hasło!",
   "basic-info": "Podstawowe informacje",
   "change-password": "Zmień hasło",
-  "change-email": "Zmień email"
+  "change-email": "Zmień email",
+  "given-names": "Imiona",
+  "last-name": "Nazwisko"
 }

@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useSubPage } from "../../context/SubPageContext.jsx";
 import { useEffect } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
+import { Descriptions } from "antd";
 
 function Info() {
     const { t } = useTranslation();
@@ -13,7 +14,24 @@ function Info() {
         return () => setBreadcrumbs([]);
     }, [setBreadcrumbs, t]);
 
-    return <>{userInfo.firstname}</>;
+    const items = [
+        {
+            key: "1",
+            label: t("given-names"),
+            children: userInfo.firstname,
+        },
+        {
+            key: "2",
+            label: t("last-name"),
+            children: userInfo.lastname,
+        },
+    ];
+
+    return (
+        <>
+            <Descriptions title={t("basic-info")} items={items} />
+        </>
+    );
 }
 
 export default Info;
