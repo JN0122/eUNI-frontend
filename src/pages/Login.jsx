@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { hashPassword } from "../helpers/passwordHasher.js";
+import { getErrorTranslationCode } from "../helpers/errorTranslationCode.js";
 
 function Login() {
     const {
@@ -14,7 +15,7 @@ function Login() {
     const { login, isAuthTokenActive, restoreSession } = useAuth();
     const navigate = useNavigate();
     const { t } = useTranslation();
-    const [error, setError] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
     const [submitLoading, setSubmitLoading] = useState(false);
 
     useEffect(() => {
@@ -41,7 +42,9 @@ function Login() {
         if (response.status === 200) {
             navigate("/");
         } else {
-            setError(response);
+            setErrorMessage(
+                t(getErrorTranslationCode("error-login", response.status)),
+            );
         }
     }
 
@@ -55,10 +58,10 @@ function Login() {
                     borderRadius: borderRadiusLG,
                 }}
             >
-                {error && (
+                {errorMessage && (
                     <Alert
                         message={`${t("error")}`}
-                        description={`${t(error.data)}`}
+                        description={errorMessage}
                         type="error"
                         showIcon
                         style={{ marginBottom: "1rem" }}

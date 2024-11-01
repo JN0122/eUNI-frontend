@@ -23,21 +23,33 @@ export function AuthProvider({ children }) {
     }
 
     async function login(userData) {
-        const apiResponse = await loginUser(userData);
-        currentToken = apiResponse.data.accessToken;
-        setIsAuthTokenActive(true);
-        getUserInfo();
-        return { status: apiResponse.status };
+        let status;
+        try {
+            const apiResponse = await loginUser(userData);
+            currentToken = apiResponse.data.accessToken;
+            setIsAuthTokenActive(true);
+            getUserInfo();
+            status = apiResponse.status;
+        } catch (error) {
+            status = error.status;
+        }
+        return { status };
     }
 
     async function logout() {
-        const apiResponse = await logoutUser();
-        if (apiResponse.status === 200) {
-            currentToken = null;
+        let status;
+        try {
+            const apiResponse = await logoutUser();
+            if (apiResponse.status === 200) {
+                currentToken = null;
+            }
+            setUserInfo(false);
+            setIsAuthTokenActive(false);
+            status = apiResponse.status;
+        } catch (error) {
+            status = error.status;
         }
-        setUserInfo(false);
-        setIsAuthTokenActive(false);
-        return { status: apiResponse.status };
+        return { status };
     }
 
     const restoreSession = function () {
