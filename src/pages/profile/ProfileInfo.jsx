@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { useSubPage } from "../../context/SubPageContext.jsx";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
-import { Select, Space, Typography } from "antd";
+import { notification, Select, Space, Typography } from "antd";
 import { LANGS } from "../../enums/languages.js";
 
 const { Text, Title } = Typography;
@@ -11,11 +11,21 @@ function ProfileInfo() {
     const { t, i18n } = useTranslation();
     const { setBreadcrumbs } = useSubPage();
     const { userInfo } = useAuth();
+    const [email, setEmail] = useState(userInfo.email);
 
     useEffect(() => {
         setBreadcrumbs([{ title: t("basic-info") }]);
         return () => setBreadcrumbs([]);
     }, [setBreadcrumbs, t]);
+
+    function onEmailChange(newEmail) {
+        if (newEmail === email) return;
+        setEmail(newEmail);
+        notification.success({
+            message: t("success"),
+            placement: "bottomRight",
+        });
+    }
 
     return (
         <>
@@ -28,6 +38,17 @@ function ProfileInfo() {
                 <Space direction="horizontal">
                     <Text type="secondary">{t("last-name")}</Text>
                     <Text>{userInfo.lastname}</Text>
+                </Space>
+                <Space direction="horizontal">
+                    <Text type="secondary">{t("email")}</Text>
+                    <Text
+                        editable={{
+                            tooltip: t("edit"),
+                            onChange: onEmailChange,
+                        }}
+                    >
+                        {email}
+                    </Text>
                 </Space>
                 <Title level={3}>{t("language")}</Title>
                 <Select
