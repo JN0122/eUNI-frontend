@@ -4,7 +4,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./pages/Dashboard.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import NotFound from "./pages/NotFound.jsx";
-import Profile from "./pages/Profile.jsx";
+import Profile from "./pages/profile/Profile.jsx";
+import Info from "./pages/profile/Info.jsx";
 
 const router = createBrowserRouter([
     {
@@ -18,6 +19,12 @@ const router = createBrowserRouter([
             {
                 path: "/profile",
                 element: <Profile />,
+                children: [
+                    {
+                        path: "info",
+                        element: <Info />,
+                    },
+                ],
             },
         ],
     },
