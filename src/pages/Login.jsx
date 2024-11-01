@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import bcrypt from "bcryptjs";
+import { hashPassword } from "../helpers/passwordHasher.js";
 
 function Login() {
     const {
@@ -35,10 +35,7 @@ function Login() {
         setSubmitLoading(true);
         const response = await login({
             email: values.email,
-            password: bcrypt.hashSync(
-                values.password,
-                import.meta.env.VITE_SALT,
-            ),
+            password: hashPassword(values.password),
         });
         setSubmitLoading(false);
         if (response.status === 200) {
