@@ -2,10 +2,13 @@ import { useTranslation } from "react-i18next";
 import { useSubPage } from "../../context/SubPageContext.jsx";
 import { useEffect } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
-import { Descriptions } from "antd";
+import { Select, Space, Typography } from "antd";
+import { LANGS } from "../../enums/languages.js";
+
+const { Text, Title } = Typography;
 
 function ProfileInfo() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { setBreadcrumbs } = useSubPage();
     const { userInfo } = useAuth();
 
@@ -14,24 +17,27 @@ function ProfileInfo() {
         return () => setBreadcrumbs([]);
     }, [setBreadcrumbs, t]);
 
-    const items = [
-        {
-            key: "1",
-            label: t("given-names"),
-            children: userInfo.firstname,
-            span: 3,
-        },
-        {
-            key: "2",
-            label: t("last-name"),
-            children: userInfo.lastname,
-            span: 3,
-        },
-    ];
-
     return (
         <>
-            <Descriptions title={t("basic-info")} items={items} />
+            <Space direction="vertical">
+                <Title level={3}>{t("basic-info")}</Title>
+                <Space direction="horizontal">
+                    <Text type="secondary">{t("given-names")}</Text>
+                    <Text>{userInfo.firstname}</Text>
+                </Space>
+                <Space direction="horizontal">
+                    <Text type="secondary">{t("last-name")}</Text>
+                    <Text>{userInfo.lastname}</Text>
+                </Space>
+                <Title level={3}>{t("language")}</Title>
+                <Select
+                    defaultValue={i18n.language}
+                    onChange={(lng) => i18n.changeLanguage(lng)}
+                    options={Object.keys(LANGS).map((lng) => {
+                        return { value: lng, label: LANGS[lng] };
+                    })}
+                />
+            </Space>
         </>
     );
 }
