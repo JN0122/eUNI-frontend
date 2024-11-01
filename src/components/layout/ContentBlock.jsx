@@ -20,7 +20,12 @@ function ContentBlock({ menu, breadcrumbs, children, ...rest }) {
                 }}
             >
                 {menu && (
-                    <Sider style={{ background: colorBgContainer }} width={200}>
+                    <Sider
+                        style={{
+                            background: colorBgContainer,
+                        }}
+                        width={"auto"}
+                    >
                         {menu}
                     </Sider>
                 )}
