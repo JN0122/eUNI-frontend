@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { notification, Select, Space, Typography } from "antd";
 import { LANGS } from "../../enums/languages.js";
+import { changeEmail } from "../../api/user.js";
 
 const { Text, Title } = Typography;
 
@@ -18,13 +19,21 @@ function ProfileInfo() {
         return () => setBreadcrumbs([]);
     }, [setBreadcrumbs, t]);
 
-    function onEmailChange(newEmail) {
+    async function onEmailChange(newEmail) {
         if (newEmail === email) return;
-        setEmail(newEmail);
-        notification.success({
-            message: t("success"),
+        const config = {
+            message: t("email-success"),
             placement: "bottomRight",
-        });
+        };
+
+        try {
+            await changeEmail({ email: newEmail });
+            setEmail(newEmail);
+            notification.success(config);
+        } catch {
+            config.message = t("error-unexpected");
+            notification.error(config);
+        }
     }
 
     return (

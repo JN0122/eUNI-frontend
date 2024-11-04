@@ -24,8 +24,9 @@
   "new-password": "Nowe hasło",
   "repeat-new-password": "Powtórz nowe hasło",
   "save": "Zapisz",
-  "error-new-password": "Hasło powinno składać się z co najmniej: 8 znaków, 1 litery, 1 cyfry, 1 znaku specjalnego.",
+  "error-new-password": "Hasło powinno składać się z co najmniej: 8 znaków, 1 litery małej, 1 litery dużej 1 cyfry.",
   "error-password-not-match": "Hasła nie są takie same!",
   "edit": "Edytuj",
-  "success": "Akcja została poprawnie wykonana!"
+  "email-success": "Poprawnie zmieniono maila!",
+  "password-success": "Poprawnie zmieniono hasło!"
 }

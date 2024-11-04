@@ -1,7 +1,9 @@
-import { Button, Divider, Form, Input, Typography } from "antd";
+import { Button, Divider, Form, Input, notification, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import { useSubPage } from "../../context/SubPageContext.jsx";
 import { useEffect, useState } from "react";
+import { changePassword } from "../../api/user.js";
+import { hashPassword } from "../../helpers/passwordHasher.js";
 
 const { Title } = Typography;
 
@@ -15,9 +17,22 @@ function ProfilePassword() {
         return () => setBreadcrumbs([]);
     }, [setBreadcrumbs, t]);
 
-    function onSubmit(values) {
+    async function onSubmit(values) {
         setSubmitLoading(true);
-        console.log(values);
+        const config = {
+            message: t("password-success"),
+            placement: "bottomRight",
+        };
+        try {
+            await changePassword({
+                oldPassword: hashPassword(values.oldPassword),
+                newPassword: hashPassword(values.newPassword),
+            });
+            notification.success(config);
+        } catch {
+            config.message = t("error-unexpected");
+            notification.error(config);
+        }
         setSubmitLoading(false);
     }
 
@@ -33,7 +48,7 @@ function ProfilePassword() {
             >
                 <Form.Item
                     label={t("old-password")}
-                    name="old-password"
+                    name="oldPassword"
                     rules={[
                         {
                             required: true,
@@ -49,7 +64,7 @@ function ProfilePassword() {
                 <Divider type="horizontal" />
                 <Form.Item
                     label={t("new-password")}
-                    name="new-password"
+                    name="newPassword"
                     rules={[
                         {
                             pattern:
@@ -63,7 +78,7 @@ function ProfilePassword() {
                 </Form.Item>
                 <Form.Item
                     label={t("repeat-new-password")}
-                    name="repeat-new-password"
+                    name="repeatNewPassword"
                     dependencies={["new-password"]}
                     rules={[
                         {
@@ -76,7 +91,7 @@ function ProfilePassword() {
                             validator(_, value) {
                                 if (
                                     !value ||
-                                    getFieldValue("new-password") === value
+                                    getFieldValue("newPassword") === value
                                 ) {
                                     return Promise.resolve();
                                 }
