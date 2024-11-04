@@ -10,6 +10,8 @@ const { Title } = Typography;
 function ProfilePassword() {
     const { t } = useTranslation();
     const { setBreadcrumbs } = useSubPage();
+    const [form] = Form.useForm();
+
     const [submitLoading, setSubmitLoading] = useState(false);
 
     useEffect(() => {
@@ -28,6 +30,7 @@ function ProfilePassword() {
                 oldPassword: hashPassword(values.oldPassword),
                 newPassword: hashPassword(values.newPassword),
             });
+            form.resetFields();
             notification.success(config);
         } catch {
             config.message = t("error-unexpected");
@@ -42,6 +45,7 @@ function ProfilePassword() {
             <Form
                 layout={"vertical"}
                 onFinish={onSubmit}
+                form={form}
                 style={{
                     maxWidth: 600,
                 }}
