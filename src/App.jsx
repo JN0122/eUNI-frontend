@@ -7,6 +7,7 @@ import NotFound from "./pages/NotFound.jsx";
 import Profile from "./pages/profile/Profile.jsx";
 import ProfileInfo from "./pages/profile/ProfileInfo.jsx";
 import ProfilePassword from "./pages/profile/ProfilePassword.jsx";
+import Users from "./pages/users/Users.jsx";
 
 const router = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
                         element: <ProfilePassword />,
                     },
                 ],
+            },
+            {
+                path: "/all-users",
+                element: <Users />,
             },
         ],
     },

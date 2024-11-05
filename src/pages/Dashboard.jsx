@@ -1,13 +1,19 @@
 import AppLayout from "../components/layout/AppLayout.jsx";
-import { LoadingOutlined, PieChartOutlined } from "@ant-design/icons";
+import {
+    LoadingOutlined,
+    PieChartOutlined,
+    UserOutlined,
+} from "@ant-design/icons";
 import SiderMenu from "../components/layout/SiderMenu.jsx";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { Spin } from "antd";
 import { useAuth } from "../context/AuthContext.jsx";
 import { UserRole } from "../enums/userRoles.js";
+import { useTranslation } from "react-i18next";
 
 function Dashboard() {
     const { userInfo } = useAuth();
+    const { t } = useTranslation();
 
     if (!userInfo) {
         return (
@@ -32,9 +38,9 @@ function Dashboard() {
         case UserRole.SuperAdmin:
             items = [
                 {
-                    label: "Super admin",
+                    label: <Link to={"all-users"}>{t("all-users")}</Link>,
                     key: "1",
-                    icon: <PieChartOutlined />,
+                    icon: <UserOutlined />,
                 },
             ];
             break;

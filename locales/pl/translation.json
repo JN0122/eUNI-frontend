@@ -17,6 +17,7 @@
   "basic-info": "Podstawowe informacje",
   "change-password": "Zmień hasło",
   "change-email": "Zmień email",
+  "first-name": "Imię",
   "given-names": "Imiona",
   "last-name": "Nazwisko",
   "language": "Język",
@@ -28,5 +29,6 @@
   "error-password-not-match": "Hasła nie są takie same!",
   "edit": "Edytuj",
   "email-success": "Poprawnie zmieniono maila!",
-  "password-success": "Poprawnie zmieniono hasło!"
+  "password-success": "Poprawnie zmieniono hasło!",
+  "all-users": "Użytkownicy"
 }
