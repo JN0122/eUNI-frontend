@@ -8,7 +8,7 @@ import {
 import { useLocation } from "react-router-dom";
 import getSubpagePath from "../helpers/getSubpagePath.js";
 
-const SubPageContext = createContext();
+const SubPageContentBlockContext = createContext();
 
 function getBreadcrumbsStruct(mainPath) {
     return [{ title: mainPath }];
@@ -43,7 +43,7 @@ export function SubPageProvider({ mainPath, items, children }) {
     }, [setBreadcrumbs, mainPath]);
 
     return (
-        <SubPageContext.Provider
+        <SubPageContentBlockContext.Provider
             value={{
                 items,
                 activeSubPageKey,
@@ -53,12 +53,12 @@ export function SubPageProvider({ mainPath, items, children }) {
             }}
         >
             {children}
-        </SubPageContext.Provider>
+        </SubPageContentBlockContext.Provider>
     );
 }
 
 export const useSubPage = () => {
-    const context = useContext(SubPageContext);
+    const context = useContext(SubPageContentBlockContext);
     if (!context) {
         throw new Error("Cannot use sub page without provider");
     }

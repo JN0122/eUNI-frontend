@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useSubPage } from "../../context/SubPageContext.jsx";
+import { useSubPage } from "../../context/SubPageContentBlockContext.jsx";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { notification, Select, Space, Typography } from "antd";

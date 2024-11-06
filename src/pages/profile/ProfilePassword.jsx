@@ -1,6 +1,6 @@
 import { Button, Divider, Form, Input, notification, Typography } from "antd";
 import { useTranslation } from "react-i18next";
-import { useSubPage } from "../../context/SubPageContext.jsx";
+import { useSubPage } from "../../context/SubPageContentBlockContext.jsx";
 import { useEffect, useState } from "react";
 import { changePassword } from "../../api/user.js";
 import { hashPassword } from "../../helpers/passwordHasher.js";
