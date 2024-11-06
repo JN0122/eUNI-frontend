@@ -5,6 +5,7 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import { notification, Select, Space, Typography } from "antd";
 import { LANGS } from "../../enums/languages.js";
 import { changeEmail } from "../../api/user.js";
+import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 
 const { Text, Title } = Typography;
 
@@ -21,18 +22,13 @@ function ProfileInfo() {
 
     async function onEmailChange(newEmail) {
         if (newEmail === email) return;
-        const config = {
-            message: t("email-success"),
-            placement: "bottomRight",
-        };
 
         try {
             await changeEmail({ email: newEmail });
             setEmail(newEmail);
-            notification.success(config);
+            notification.success(getNotificationConfig(t("email-success")));
         } catch {
-            config.message = t("error-unexpected");
-            notification.error(config);
+            notification.error(getNotificationConfig(t("error-unexpected")));
         }
     }
 

@@ -4,6 +4,7 @@ import { useSubPage } from "../../context/SubPageContext.jsx";
 import { useEffect, useState } from "react";
 import { changePassword } from "../../api/user.js";
 import { hashPassword } from "../../helpers/passwordHasher.js";
+import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 
 const { Title } = Typography;
 
@@ -21,20 +22,15 @@ function ProfilePassword() {
 
     async function onSubmit(values) {
         setSubmitLoading(true);
-        const config = {
-            message: t("password-success"),
-            placement: "bottomRight",
-        };
         try {
             await changePassword({
                 oldPassword: hashPassword(values.oldPassword),
                 newPassword: hashPassword(values.newPassword),
             });
             form.resetFields();
-            notification.success(config);
+            notification.success(getNotificationConfig(t("password-success")));
         } catch {
-            config.message = t("error-unexpected");
-            notification.error(config);
+            notification.error(getNotificationConfig(t("error-unexpected")));
         }
         setSubmitLoading(false);
     }
