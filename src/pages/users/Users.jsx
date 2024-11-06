@@ -1,4 +1,4 @@
-import ContentBlock from "../../components/layout/ContentBlock.jsx";
+import ContentBlock from "../../components/ContentBlock.jsx";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { Button, Flex, Skeleton, Table } from "antd";
