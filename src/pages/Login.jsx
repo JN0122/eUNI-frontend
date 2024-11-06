@@ -1,4 +1,4 @@
-import AppLayout from "../components/layout/AppLayout.jsx";
+import AppLayout from "../components/AppLayout.jsx";
 import { Alert, Button, Checkbox, Flex, Form, Input, theme } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useAuth } from "../context/AuthContext.jsx";

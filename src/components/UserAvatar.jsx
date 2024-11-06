@@ -1,7 +1,7 @@
 import { Avatar, Dropdown, Skeleton } from "antd";
 import { Link } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
-import { useAuth } from "../../context/AuthContext.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
 import { useTranslation } from "react-i18next";
 
 function UserAvatar() {

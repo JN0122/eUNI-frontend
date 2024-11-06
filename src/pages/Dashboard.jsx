@@ -1,10 +1,10 @@
-import AppLayout from "../components/layout/AppLayout.jsx";
+import AppLayout from "../components/AppLayout.jsx";
 import {
     LoadingOutlined,
     PieChartOutlined,
     UserOutlined,
 } from "@ant-design/icons";
-import SiderMenu from "../components/layout/SiderMenu.jsx";
+import SiderMenu from "../components/SiderMenu.jsx";
 import { Link, Outlet } from "react-router-dom";
 import { Spin } from "antd";
 import { useAuth } from "../context/AuthContext.jsx";

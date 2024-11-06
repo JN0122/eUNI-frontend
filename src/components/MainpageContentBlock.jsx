@@ -1,5 +1,5 @@
-import ContentBlock from "./layout/ContentBlock.jsx";
-import SiderMenu from "./layout/SiderMenu.jsx";
+import ContentBlock from "./ContentBlock.jsx";
+import SiderMenu from "./SiderMenu.jsx";
 import { Outlet } from "react-router-dom";
 import { useSubPage } from "../context/SubPageContext.jsx";
 
