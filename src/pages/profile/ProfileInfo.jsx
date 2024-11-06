@@ -10,14 +10,14 @@ const { Text, Title } = Typography;
 
 function ProfileInfo() {
     const { t, i18n } = useTranslation();
-    const { setBreadcrumbs } = useSubPage();
+    const { addBreadcrumb, setBreadcrumbsToDefault } = useSubPage();
     const { userInfo } = useAuth();
     const [email, setEmail] = useState(userInfo.email);
 
     useEffect(() => {
-        setBreadcrumbs([{ title: t("basic-info") }]);
-        return () => setBreadcrumbs([]);
-    }, [setBreadcrumbs, t]);
+        addBreadcrumb(t("basic-info"));
+        return () => setBreadcrumbsToDefault();
+    }, [addBreadcrumb, setBreadcrumbsToDefault, t]);
 
     async function onEmailChange(newEmail) {
         if (newEmail === email) return;

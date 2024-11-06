@@ -30,5 +30,7 @@
   "edit": "Edytuj",
   "email-success": "Poprawnie zmieniono maila!",
   "password-success": "Poprawnie zmieniono hasło!",
-  "all-users": "Użytkownicy"
+  "all-users": "Użytkownicy",
+  "actions": "Akcje",
+  "delete": "Usuń"
 }

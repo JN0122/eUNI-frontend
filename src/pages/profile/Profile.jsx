@@ -1,35 +1,33 @@
-import ContentBlock from "../../components/layout/ContentBlock.jsx";
-import SiderMenu from "../../components/layout/SiderMenu.jsx";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { SubPageProvider } from "../../context/SubPageContext.jsx";
-import { useState } from "react";
+import MainpageContentBlock from "../../components/MainpageContentBlock.jsx";
+import { useMemo } from "react";
 
 function Profile() {
     const { t } = useTranslation();
-    const [breadcrumbs, setBreadcrumbs] = useState([]);
 
-    let items = [
-        {
-            label: <Link to="info">{t("basic-info")}</Link>,
-            key: 1,
-            icon: <UserOutlined />,
-        },
-        {
-            label: <Link to="password">{t("change-password")}</Link>,
-            key: 2,
-            icon: <LockOutlined />,
-        },
-    ];
+    const items = useMemo(
+        () => [
+            {
+                label: <Link to="info">{t("basic-info")}</Link>,
+                path: "info",
+                key: 1,
+                icon: <UserOutlined />,
+            },
+            {
+                label: <Link to="password">{t("change-password")}</Link>,
+                path: "password",
+                key: 2,
+                icon: <LockOutlined />,
+            },
+        ],
+        [t],
+    );
     return (
-        <SubPageProvider setBreadcrumbs={setBreadcrumbs}>
-            <ContentBlock
-                breadcrumbs={[{ title: t("profile") }, ...breadcrumbs]}
-                menu={<SiderMenu fullHeight={true} items={items} />}
-            >
-                <Outlet />
-            </ContentBlock>
+        <SubPageProvider mainPath={t("profile")} items={items}>
+            <MainpageContentBlock />
         </SubPageProvider>
     );
 }

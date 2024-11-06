@@ -9,15 +9,15 @@ const { Title } = Typography;
 
 function ProfilePassword() {
     const { t } = useTranslation();
-    const { setBreadcrumbs } = useSubPage();
+    const { addBreadcrumb, setBreadcrumbsToDefault } = useSubPage();
     const [form] = Form.useForm();
 
     const [submitLoading, setSubmitLoading] = useState(false);
 
     useEffect(() => {
-        setBreadcrumbs([{ title: t("change-password") }]);
-        return () => setBreadcrumbs([]);
-    }, [setBreadcrumbs, t]);
+        addBreadcrumb(t("change-password"));
+        return () => setBreadcrumbsToDefault();
+    }, [addBreadcrumb, setBreadcrumbsToDefault, t]);
 
     async function onSubmit(values) {
         setSubmitLoading(true);
