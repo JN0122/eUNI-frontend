@@ -1,6 +1,6 @@
 import { Button, Divider, Form, Input, notification, Typography } from "antd";
 import { useTranslation } from "react-i18next";
-import { useSubPage } from "../../context/SubPageContentBlockContext.jsx";
+import { useContentBlock } from "../../context/ContentBlockContext.jsx";
 import { useEffect, useState } from "react";
 import { changePassword } from "../../api/user.js";
 import { hashPassword } from "../../helpers/passwordHasher.js";
@@ -10,7 +10,7 @@ const { Title } = Typography;
 
 function ProfilePassword() {
     const { t } = useTranslation();
-    const { addBreadcrumb, setBreadcrumbsToDefault } = useSubPage();
+    const { addBreadcrumb, setBreadcrumbsToDefault } = useContentBlock();
     const [form] = Form.useForm();
 
     const [submitLoading, setSubmitLoading] = useState(false);

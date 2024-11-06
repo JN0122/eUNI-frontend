@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useSubPage } from "../../context/SubPageContentBlockContext.jsx";
+import { useContentBlock } from "../../context/ContentBlockContext.jsx";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { notification, Select, Space, Typography } from "antd";
@@ -11,7 +11,7 @@ const { Text, Title } = Typography;
 
 function ProfileInfo() {
     const { t, i18n } = useTranslation();
-    const { addBreadcrumb, setBreadcrumbsToDefault } = useSubPage();
+    const { addBreadcrumb, setBreadcrumbsToDefault } = useContentBlock();
     const { userInfo } = useAuth();
     const [email, setEmail] = useState(userInfo.email);
 

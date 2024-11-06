@@ -1,7 +1,7 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { SubPageProvider } from "../../context/SubPageContentBlockContext.jsx";
+import { ContentBlockProvider } from "../../context/ContentBlockContext.jsx";
 import ContentBlockWithMenu from "../../components/ContentBlockWithMenu.jsx";
 import { useMemo } from "react";
 
@@ -26,9 +26,9 @@ function Profile() {
         [t],
     );
     return (
-        <SubPageProvider mainPath={t("profile")} items={items}>
+        <ContentBlockProvider mainPath={t("profile")} items={items}>
             <ContentBlockWithMenu />
-        </SubPageProvider>
+        </ContentBlockProvider>
     );
 }
 
