@@ -1,15 +1,15 @@
-import AppLayout from "../components/AppLayout.jsx";
 import {
     LoadingOutlined,
     PieChartOutlined,
     UserOutlined,
 } from "@ant-design/icons";
-import SiderMenu from "../components/SiderMenu.jsx";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Spin } from "antd";
 import { useAuth } from "../context/AuthContext.jsx";
 import { UserRole } from "../enums/userRoles.js";
 import { useTranslation } from "react-i18next";
+import { MainMenuProvider } from "../context/MainMenuContext.jsx";
+import AppLayoutWithMainMenu from "../components/AppLayoutWithMainMenu.jsx";
 
 function Dashboard() {
     const { userInfo } = useAuth();
@@ -38,8 +38,9 @@ function Dashboard() {
         case UserRole.SuperAdmin:
             items = [
                 {
-                    label: <Link to={"all-users"}>{t("all-users")}</Link>,
+                    label: <Link to={"users"}>{t("users")}</Link>,
                     key: "1",
+                    path: "users",
                     icon: <UserOutlined />,
                 },
             ];
@@ -49,6 +50,7 @@ function Dashboard() {
                 {
                     label: "Student",
                     key: "1",
+                    path: "student",
                     icon: <PieChartOutlined />,
                 },
             ];
@@ -58,6 +60,7 @@ function Dashboard() {
                 {
                     label: "Lecturer",
                     key: "1",
+                    path: "lecturer",
                     icon: <PieChartOutlined />,
                 },
             ];
@@ -67,18 +70,17 @@ function Dashboard() {
                 {
                     label: "Admin",
                     key: "1",
+                    path: "admin",
                     icon: <PieChartOutlined />,
                 },
             ];
             break;
     }
 
-    const AppLayoutSider = <SiderMenu theme="dark" items={items} />;
-
     return (
-        <AppLayout menu={AppLayoutSider}>
-            <Outlet />
-        </AppLayout>
+        <MainMenuProvider items={items}>
+            <AppLayoutWithMainMenu />
+        </MainMenuProvider>
     );
 }
 

@@ -66,7 +66,7 @@ function Users() {
     const hasSelected = selectedRowKeys.length > 0;
 
     return (
-        <ContentBlock breadcrumbs={[{ title: t("all-users") }]}>
+        <ContentBlock breadcrumbs={[{ title: t("users") }]}>
             {dataSource.length === 0 ? (
                 <Skeleton loading />
             ) : (
