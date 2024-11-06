@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useContentBlock } from "../../context/ContentBlockContext.jsx";
 import { useEffect, useState } from "react";
 import { changePassword } from "../../api/user.js";
-import { hashPassword } from "../../helpers/passwordHasher.js";
+import hashPassword from "../../helpers/hashPassword.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 
 const { Title } = Typography;

@@ -5,8 +5,8 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { hashPassword } from "../helpers/passwordHasher.js";
-import { getErrorTranslationCode } from "../helpers/errorTranslationCode.js";
+import hashPassword from "../helpers/hashPassword.js";
+import getErrorTranslationCode from "../helpers/getErrorTranslationCode.js";
 
 function Login() {
     const {

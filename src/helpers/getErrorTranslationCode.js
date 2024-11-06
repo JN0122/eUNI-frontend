@@ -1,4 +1,4 @@
-export function getErrorTranslationCode(prefix, status) {
+export default function getErrorTranslationCode(prefix, status) {
     let translationMessage;
     switch (status) {
         case 500:
