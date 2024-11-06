@@ -3,7 +3,7 @@ import SiderMenu from "./SiderMenu.jsx";
 import { Outlet } from "react-router-dom";
 import { useSubPage } from "../context/SubPageContentBlockContext.jsx";
 
-function MainpageContentBlock() {
+function ContentBlockWithMenu() {
     const { breadcrumbs, items, activeSubPageKey } = useSubPage();
 
     return (
@@ -22,4 +22,4 @@ function MainpageContentBlock() {
     );
 }
 
-export default MainpageContentBlock;
+export default ContentBlockWithMenu;

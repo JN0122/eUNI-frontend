@@ -2,7 +2,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { SubPageProvider } from "../../context/SubPageContentBlockContext.jsx";
-import MainpageContentBlock from "../../components/MainpageContentBlock.jsx";
+import ContentBlockWithMenu from "../../components/ContentBlockWithMenu.jsx";
 import { useMemo } from "react";
 
 function Profile() {
@@ -27,7 +27,7 @@ function Profile() {
     );
     return (
         <SubPageProvider mainPath={t("profile")} items={items}>
-            <MainpageContentBlock />
+            <ContentBlockWithMenu />
         </SubPageProvider>
     );
 }
