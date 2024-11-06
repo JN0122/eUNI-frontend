@@ -32,5 +32,7 @@
   "password-success": "Poprawnie zmieniono hasło!",
   "users": "Użytkownicy",
   "actions": "Akcje",
-  "delete": "Usuń"
+  "delete": "Usuń",
+  "are-you-sure-you-want-to-remove-user": "Czy na pewno chcesz usunąć tego użytkownika?",
+  "cancel": "Anuluj"
 }
