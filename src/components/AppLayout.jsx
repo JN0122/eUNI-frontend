@@ -17,6 +17,7 @@ const AppLayout = function ({
     const [collapsed, setCollapsed] = useState(false);
     const navigate = useNavigate();
     const { t } = useTranslation();
+
     let contentStyle = {
         padding: "0 3rem",
     };

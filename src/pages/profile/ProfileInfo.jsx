@@ -3,7 +3,7 @@ import { useContentBlock } from "../../context/ContentBlockContext.jsx";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { notification, Select, Space, Typography } from "antd";
-import { LANGS } from "../../enums/languages.js";
+import LANGS from "../../enums/languages.js";
 import { changeEmail } from "../../api/user.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 
@@ -22,7 +22,6 @@ function ProfileInfo() {
 
     async function onEmailChange(newEmail) {
         if (newEmail === email) return;
-
         try {
             await changeEmail({ email: newEmail });
             setEmail(newEmail);

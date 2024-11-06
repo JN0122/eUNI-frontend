@@ -1,1 +1,3 @@
-export const LANGS = { en: "English", pl: "Polski" };
+const LANGS = { en: "English", pl: "Polski" };
+
+export default LANGS;

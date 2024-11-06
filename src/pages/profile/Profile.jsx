@@ -25,6 +25,7 @@ function Profile() {
         ],
         [t],
     );
+    
     return (
         <ContentBlockProvider mainPath={t("profile")} items={items}>
             <ContentBlockWithMenu />

@@ -6,7 +6,7 @@ import {
 import { Link } from "react-router-dom";
 import { Spin } from "antd";
 import { useAuth } from "../context/AuthContext.jsx";
-import { UserRole } from "../enums/userRoles.js";
+import UserRole from "../enums/userRoles.js";
 import { useTranslation } from "react-i18next";
 import { MainMenuProvider } from "../context/MainMenuContext.jsx";
 import AppLayoutWithMainMenu from "../components/AppLayoutWithMainMenu.jsx";
