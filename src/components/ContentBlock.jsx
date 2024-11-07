@@ -30,7 +30,10 @@ function ContentBlock({ menu, breadcrumbs, children, ...rest }) {
                     </Sider>
                 )}
                 <Content
-                    style={{ padding: "0 1.5rem", minHeight: 280 }}
+                    style={{
+                        padding: menu ? "0 1.5rem" : "1rem",
+                        minHeight: 280,
+                    }}
                     {...rest}
                 >
                     {children}

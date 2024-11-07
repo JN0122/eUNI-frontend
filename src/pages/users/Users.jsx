@@ -1,44 +1,58 @@
 import ContentBlock from "../../components/ContentBlock.jsx";
 import { useTranslation } from "react-i18next";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Flex, Modal, notification, Skeleton, Space, Table } from "antd";
+import {
+    Flex,
+    Modal,
+    notification,
+    Skeleton,
+    Space,
+    Table,
+    Typography,
+} from "antd";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { getAllUsers } from "../../api/users.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 
 const { confirm } = Modal;
+const { Text } = Typography;
 
 function Users() {
     const { t } = useTranslation();
 
     const [dataSource, setDataSource] = useState([]);
 
-    function showDeleteConfirm(record) {
-        confirm({
-            title: t("are-you-sure-you-want-to-remove-user"),
-            icon: <ExclamationCircleFilled />,
-            content: (
-                <>
-                    {t("first-name")}: {record.firstName} <br />
-                    {t("last-name")}: {record.lastName} <br />
-                    {t("email")}: {record.email} <br />
-                </>
-            ),
-            okText: t("delete"),
-            okType: "danger",
-            cancelText: t("cancel"),
-            onOk() {
-                try {
-                    notification.success(getNotificationConfig(record.key));
-                } catch {
-                    notification.error(
-                        getNotificationConfig(t("error-unexpected")),
-                    );
-                }
-            },
-            onCancel() {},
-        });
-    }
+    const showDeleteConfirm = useCallback(
+        function (record) {
+            confirm({
+                title: t("are-you-sure-you-want-to-remove-user"),
+                icon: <ExclamationCircleFilled />,
+                content: (
+                    <>
+                        {t("first-name")}:{" "}
+                        <Text strong>{record.firstName}</Text> <br />
+                        {t("last-name")}: <Text strong>{record.lastName}</Text>{" "}
+                        <br />
+                        {t("email")}: <Text strong>{record.email}</Text> <br />
+                    </>
+                ),
+                okText: t("delete"),
+                okType: "danger",
+                cancelText: t("cancel"),
+                onOk() {
+                    try {
+                        notification.success(getNotificationConfig(record.key));
+                    } catch {
+                        notification.error(
+                            getNotificationConfig(t("error-unexpected")),
+                        );
+                    }
+                },
+                onCancel() {},
+            });
+        },
+        [t],
+    );
 
     const columns = useMemo(
         () => [
