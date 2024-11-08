@@ -13,12 +13,15 @@ import {
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { deleteUser, getAllUsers } from "../../api/users.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
+import EditUserDrawer from "./EditUserDrawer.jsx";
+import { useDrawer } from "../../context/DrawerContext.jsx";
 
 const { confirm } = Modal;
 const { Text } = Typography;
 
 function Users() {
     const { t } = useTranslation();
+    const { openDrawer } = useDrawer();
 
     const [dataSource, setDataSource] = useState([]);
 
@@ -44,17 +47,22 @@ function Users() {
         fetchAllUsers();
     }, [fetchAllUsers]);
 
-    async function removeUser(record) {
-        try {
-            await deleteUser(record.key);
-            fetchAllUsers();
-            notification.success(
-                getNotificationConfig(t("success-remove-user")),
-            );
-        } catch {
-            notification.error(getNotificationConfig(t("error-unexpected")));
-        }
-    }
+    const removeUser = useCallback(
+        async function (record) {
+            try {
+                await deleteUser(record.key);
+                fetchAllUsers();
+                notification.success(
+                    getNotificationConfig(t("success-remove-user")),
+                );
+            } catch {
+                notification.error(
+                    getNotificationConfig(t("error-unexpected")),
+                );
+            }
+        },
+        [fetchAllUsers, t],
+    );
 
     const showDeleteConfirm = useCallback(
         async function (record) {
@@ -101,7 +109,7 @@ function Users() {
                 key: "action",
                 render: (_, record) => (
                     <Space size="middle">
-                        <a>{t("edit")}</a>
+                        <a onClick={openDrawer}>{t("edit")}</a>
                         <a
                             style={{ color: "red" }}
                             onClick={() => showDeleteConfirm(record)}
@@ -120,9 +128,12 @@ function Users() {
             {dataSource.length === 0 ? (
                 <Skeleton loading />
             ) : (
-                <Flex gap="middle" vertical>
-                    <Table columns={columns} dataSource={dataSource} />
-                </Flex>
+                <>
+                    <EditUserDrawer />
+                    <Flex gap="middle" vertical>
+                        <Table columns={columns} dataSource={dataSource} />
+                    </Flex>
+                </>
             )}
         </ContentBlock>
     );

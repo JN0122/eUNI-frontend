@@ -8,6 +8,7 @@ import Profile from "./pages/profile/Profile.jsx";
 import ProfileInfo from "./pages/profile/ProfileInfo.jsx";
 import ProfilePassword from "./pages/profile/ProfilePassword.jsx";
 import Users from "./pages/users/Users.jsx";
+import { DrawerProvider } from "./context/DrawerContext.jsx";
 
 const router = createBrowserRouter([
     {
@@ -34,7 +35,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "/users",
-                element: <Users />,
+                element: (
+                    <DrawerProvider>
+                        <Users />
+                    </DrawerProvider>
+                ),
             },
         ],
     },
