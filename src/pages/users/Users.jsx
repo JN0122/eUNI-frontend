@@ -11,7 +11,7 @@ import {
     Typography,
 } from "antd";
 import { ExclamationCircleFilled } from "@ant-design/icons";
-import { getAllUsers } from "../../api/users.js";
+import { deleteUser, getAllUsers } from "../../api/users.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 
 const { confirm } = Modal;
@@ -22,8 +22,42 @@ function Users() {
 
     const [dataSource, setDataSource] = useState([]);
 
+    const fetchAllUsers = useCallback(
+        function () {
+            getAllUsers().then((users) => {
+                setDataSource(
+                    users.data.map((user) => {
+                        return {
+                            key: user.id,
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            email: user.email,
+                        };
+                    }),
+                );
+            });
+        },
+        [setDataSource],
+    );
+
+    useEffect(() => {
+        fetchAllUsers();
+    }, [fetchAllUsers]);
+
+    async function removeUser(record) {
+        try {
+            await deleteUser(record.key);
+            fetchAllUsers();
+            notification.success(
+                getNotificationConfig(t("success-remove-user")),
+            );
+        } catch {
+            notification.error(getNotificationConfig(t("error-unexpected")));
+        }
+    }
+
     const showDeleteConfirm = useCallback(
-        function (record) {
+        async function (record) {
             confirm({
                 title: t("are-you-sure-you-want-to-remove-user"),
                 icon: <ExclamationCircleFilled />,
@@ -39,19 +73,13 @@ function Users() {
                 okText: t("delete"),
                 okType: "danger",
                 cancelText: t("cancel"),
-                onOk() {
-                    try {
-                        notification.success(getNotificationConfig(record.key));
-                    } catch {
-                        notification.error(
-                            getNotificationConfig(t("error-unexpected")),
-                        );
-                    }
+                async onOk() {
+                    await removeUser(record);
                 },
                 onCancel() {},
             });
         },
-        [t],
+        [t, removeUser],
     );
 
     const columns = useMemo(
@@ -84,30 +112,8 @@ function Users() {
                 ),
             },
         ],
-        [t],
+        [t, showDeleteConfirm],
     );
-
-    const fetchAllUsers = useCallback(
-        function () {
-            getAllUsers().then((users) => {
-                setDataSource(
-                    users.data.map((user) => {
-                        return {
-                            key: user.id,
-                            firstName: user.firstName,
-                            lastName: user.lastName,
-                            email: user.email,
-                        };
-                    }),
-                );
-            });
-        },
-        [setDataSource],
-    );
-
-    useEffect(() => {
-        fetchAllUsers();
-    }, [fetchAllUsers]);
 
     return (
         <ContentBlock breadcrumbs={[{ title: t("users") }]}>

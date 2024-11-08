@@ -34,5 +34,6 @@
   "actions": "Akcje",
   "delete": "Usuń",
   "are-you-sure-you-want-to-remove-user": "Czy na pewno chcesz usunąć tego użytkownika?",
-  "cancel": "Anuluj"
+  "cancel": "Anuluj",
+  "success-remove-user": "Pomyślnie usunięto użytkownika!"
 }
