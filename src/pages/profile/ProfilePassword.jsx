@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { changePassword } from "../../api/user.js";
 import hashPassword from "../../helpers/hashPassword.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
+import { PasswordInputs } from "../../components/PasswordInputs.jsx";
 
 const { Title } = Typography;
 
@@ -62,48 +63,7 @@ function ProfilePassword() {
                     />
                 </Form.Item>
                 <Divider type="horizontal" />
-                <Form.Item
-                    label={t("new-password")}
-                    name="newPassword"
-                    rules={[
-                        {
-                            pattern:
-                                "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$",
-                            required: true,
-                            message: t("error-new-password"),
-                        },
-                    ]}
-                >
-                    <Input.Password placeholder={t("new-password")} />
-                </Form.Item>
-                <Form.Item
-                    label={t("repeat-new-password")}
-                    name="repeatNewPassword"
-                    dependencies={["new-password"]}
-                    rules={[
-                        {
-                            pattern:
-                                "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$",
-                            required: true,
-                            message: t("error-new-password"),
-                        },
-                        ({ getFieldValue }) => ({
-                            validator(_, value) {
-                                if (
-                                    !value ||
-                                    getFieldValue("newPassword") === value
-                                ) {
-                                    return Promise.resolve();
-                                }
-                                return Promise.reject(
-                                    new Error(t("error-password-not-match")),
-                                );
-                            },
-                        }),
-                    ]}
-                >
-                    <Input.Password placeholder={t("repeat-new-password")} />
-                </Form.Item>
+                <PasswordInputs />
                 <Form.Item>
                     <Button
                         type="primary"
