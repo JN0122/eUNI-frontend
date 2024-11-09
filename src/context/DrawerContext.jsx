@@ -4,6 +4,7 @@ const DrawerContext = createContext();
 
 export function DrawerProvider({ children }) {
     const [open, setOpen] = useState(false);
+    const [data, setData] = useState(null);
 
     const closeDrawer = useCallback(() => {
         setOpen(false);
@@ -15,7 +16,7 @@ export function DrawerProvider({ children }) {
 
     return (
         <DrawerContext.Provider
-            value={{ isOpen: open, closeDrawer, openDrawer }}
+            value={{ isOpen: open, closeDrawer, openDrawer, data, setData }}
         >
             {children}
         </DrawerContext.Provider>

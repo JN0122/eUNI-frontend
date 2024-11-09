@@ -35,5 +35,11 @@
   "delete": "Usuń",
   "are-you-sure-you-want-to-remove-user": "Czy na pewno chcesz usunąć tego użytkownika?",
   "cancel": "Anuluj",
-  "success-remove-user": "Pomyślnie usunięto użytkownika!"
+  "success-remove-user": "Pomyślnie usunięto użytkownika!",
+  "edit-user": "Edytuj użytkownika",
+  "error-this-field-is-required": "To pole jest obowiązkowe!",
+  "enter-first-name": "Wprowadź imię",
+  "enter-last-name": "Wprowadź nazwisko",
+  "enter-email": "Wprowadź adres email",
+  "enter-password": "Wprowadź hasło"
 }

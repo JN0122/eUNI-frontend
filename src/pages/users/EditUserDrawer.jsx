@@ -1,25 +1,64 @@
-import {
-    Button,
-    Col,
-    DatePicker,
-    Drawer,
-    Form,
-    Input,
-    Row,
-    Select,
-    Space,
-} from "antd";
+import { Button, Drawer, Form, Input, Space, Typography } from "antd";
 import { useDrawer } from "../../context/DrawerContext.jsx";
+import { useTranslation } from "react-i18next";
+import { PasswordInputs } from "../../components/PasswordInputs.jsx";
+import { useEffect } from "react";
 
-const { Option } = Select;
+const { Title } = Typography;
+
+function getTouchedFields(form) {
+    const fields = Object.keys(form.getFieldsValue());
+    return fields.filter((field) => {
+        const isTouched = form.isFieldTouched(field);
+        if (isTouched && !form.getFieldValue(field)) {
+            return false;
+        }
+        return isTouched;
+    });
+}
+
+function isFormValid(form) {
+    const errors = form.getFieldsError().map((field) => !!field.errors.length);
+    for (const error of errors) {
+        if (error) return false;
+    }
+    return true;
+}
+
+function handleSubmit(form) {
+    if (!isFormValid(form)) return;
+
+    const touchedFields = getTouchedFields(form);
+    if (touchedFields.length === 0) return;
+
+    console.log(touchedFields);
+}
+
+function getFieldsObject(data) {
+    return [
+        { name: "firstName", value: data.firstName },
+        { name: "lastName", value: data.lastName },
+        { name: "email", value: data.email },
+        { name: "newPassword", value: "" },
+    ];
+}
 
 function EditUserDrawer() {
-    const { isOpen, closeDrawer } = useDrawer();
+    const { isOpen, closeDrawer, data } = useDrawer();
+    const { t } = useTranslation();
+    const [form] = Form.useForm();
+
+    useEffect(() => {
+        if (isOpen) {
+            form.setFields(getFieldsObject(data));
+        }
+    }, [isOpen, form, data]);
+
     return (
         <>
             <Drawer
-                title="Create a new account"
-                width={720}
+                title={t("edit-user")}
+                width={360}
                 onClose={closeDrawer}
                 open={isOpen}
                 styles={{
@@ -29,146 +68,60 @@ function EditUserDrawer() {
                 }}
                 extra={
                     <Space>
-                        <Button onClick={closeDrawer}>Cancel</Button>
-                        <Button onClick={closeDrawer} type="primary">
-                            Submit
+                        <Button onClick={closeDrawer}>{t("cancel")}</Button>
+                        <Button
+                            onClick={() => handleSubmit(form)}
+                            type="primary"
+                        >
+                            {t("save")}
                         </Button>
                     </Space>
                 }
             >
-                <Form layout="vertical" hideRequiredMark>
-                    <Row gutter={16}>
-                        <Col span={12}>
-                            <Form.Item
-                                name="name"
-                                label="Name"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Please enter user name",
-                                    },
-                                ]}
-                            >
-                                <Input placeholder="Please enter user name" />
-                            </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                            <Form.Item
-                                name="url"
-                                label="Url"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Please enter url",
-                                    },
-                                ]}
-                            >
-                                <Input
-                                    style={{
-                                        width: "100%",
-                                    }}
-                                    addonBefore="http://"
-                                    addonAfter=".com"
-                                    placeholder="Please enter url"
-                                />
-                            </Form.Item>
-                        </Col>
-                    </Row>
-                    <Row gutter={16}>
-                        <Col span={12}>
-                            <Form.Item
-                                name="owner"
-                                label="Owner"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Please select an owner",
-                                    },
-                                ]}
-                            >
-                                <Select placeholder="Please select an owner">
-                                    <Option value="xiao">Xiaoxiao Fu</Option>
-                                    <Option value="mao">Maomao Zhou</Option>
-                                </Select>
-                            </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                            <Form.Item
-                                name="type"
-                                label="Type"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Please choose the type",
-                                    },
-                                ]}
-                            >
-                                <Select placeholder="Please choose the type">
-                                    <Option value="private">Private</Option>
-                                    <Option value="public">Public</Option>
-                                </Select>
-                            </Form.Item>
-                        </Col>
-                    </Row>
-                    <Row gutter={16}>
-                        <Col span={12}>
-                            <Form.Item
-                                name="approver"
-                                label="Approver"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Please choose the approver",
-                                    },
-                                ]}
-                            >
-                                <Select placeholder="Please choose the approver">
-                                    <Option value="jack">Jack Ma</Option>
-                                    <Option value="tom">Tom Liu</Option>
-                                </Select>
-                            </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                            <Form.Item
-                                name="dateTime"
-                                label="DateTime"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Please choose the dateTime",
-                                    },
-                                ]}
-                            >
-                                <DatePicker.RangePicker
-                                    style={{
-                                        width: "100%",
-                                    }}
-                                    getPopupContainer={(trigger) =>
-                                        trigger.parentElement
-                                    }
-                                />
-                            </Form.Item>
-                        </Col>
-                    </Row>
-                    <Row gutter={16}>
-                        <Col span={24}>
-                            <Form.Item
-                                name="description"
-                                label="Description"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "please enter url description",
-                                    },
-                                ]}
-                            >
-                                <Input.TextArea
-                                    rows={4}
-                                    placeholder="please enter url description"
-                                />
-                            </Form.Item>
-                        </Col>
-                    </Row>
+                <Title level={3}>{t("basic-info")}</Title>
+
+                <Form layout="vertical" form={form} autoComplete="off">
+                    <Form.Item
+                        name="firstName"
+                        label={t("first-name")}
+                        rules={[
+                            {
+                                required: true,
+                                message: t("error-this-field-is-required"),
+                            },
+                        ]}
+                    >
+                        <Input placeholder={t("enter-first-name")} />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="lastName"
+                        label={t("last-name")}
+                        rules={[
+                            {
+                                required: true,
+                                message: t("error-this-field-is-required"),
+                            },
+                        ]}
+                    >
+                        <Input placeholder={t("enter-last-name")} />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="email"
+                        label={t("email")}
+                        rules={[
+                            {
+                                type: "email",
+                                required: true,
+                                message: t("error-this-field-is-required"),
+                            },
+                        ]}
+                    >
+                        <Input placeholder={t("enter-email")} />
+                    </Form.Item>
+                    <Title level={3}>{t("password")}</Title>
+                    <PasswordInputs required={false} />
                 </Form>
             </Drawer>
         </>

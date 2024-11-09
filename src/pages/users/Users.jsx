@@ -21,7 +21,7 @@ const { Text } = Typography;
 
 function Users() {
     const { t } = useTranslation();
-    const { openDrawer } = useDrawer();
+    const { openDrawer, setData } = useDrawer();
 
     const [dataSource, setDataSource] = useState([]);
 
@@ -109,7 +109,14 @@ function Users() {
                 key: "action",
                 render: (_, record) => (
                     <Space size="middle">
-                        <a onClick={openDrawer}>{t("edit")}</a>
+                        <a
+                            onClick={() => {
+                                openDrawer();
+                                setData(record);
+                            }}
+                        >
+                            {t("edit")}
+                        </a>
                         <a
                             style={{ color: "red" }}
                             onClick={() => showDeleteConfirm(record)}
