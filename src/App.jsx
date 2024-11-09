@@ -9,6 +9,7 @@ import ProfileInfo from "./pages/profile/ProfileInfo.jsx";
 import ProfilePassword from "./pages/profile/ProfilePassword.jsx";
 import Users from "./pages/users/Users.jsx";
 import { DrawerProvider } from "./context/DrawerContext.jsx";
+import Schedule from "./pages/schedule/Schedule.jsx";
 
 const router = createBrowserRouter([
     {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
                         <Users />
                     </DrawerProvider>
                 ),
+            },
+            {
+                path: "/schedule",
+                element: <Schedule />,
             },
         ],
     },

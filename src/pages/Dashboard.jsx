@@ -1,6 +1,6 @@
 import {
     LoadingOutlined,
-    PieChartOutlined,
+    TableOutlined,
     UserOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -48,10 +48,10 @@ function Dashboard() {
         case UserRole.Student:
             items = [
                 {
-                    label: "Student",
+                    label: <Link to={"schedule"}>{t("schedule")}</Link>,
                     key: "1",
-                    path: "student",
-                    icon: <PieChartOutlined />,
+                    path: "schedule",
+                    icon: <TableOutlined />,
                 },
             ];
             break;

@@ -42,5 +42,7 @@
   "enter-last-name": "Wprowadź nazwisko",
   "enter-email": "Wprowadź adres email",
   "enter-password": "Wprowadź hasło",
-  "update-success": "Poprawnie zaktualizowano informacje!"
+  "update-success": "Poprawnie zaktualizowano informacje!",
+  "schedule": "Plan zajęć",
+  "hour": "Godzina"
 }
