@@ -1,21 +1,21 @@
-import { Button, Drawer, Form, Input, Space, Typography } from "antd";
+import {
+    Button,
+    Drawer,
+    Form,
+    Input,
+    notification,
+    Space,
+    Typography,
+} from "antd";
 import { useDrawer } from "../../context/DrawerContext.jsx";
 import { useTranslation } from "react-i18next";
 import { PasswordInputs } from "../../components/PasswordInputs.jsx";
 import { useEffect } from "react";
+import hashPassword from "../../helpers/hashPassword.js";
+import getNotificationConfig from "../../helpers/getNotificationConfig.js";
+import { updateUser } from "../../api/users.js";
 
 const { Title } = Typography;
-
-function getTouchedFields(form) {
-    const fields = Object.keys(form.getFieldsValue());
-    return fields.filter((field) => {
-        const isTouched = form.isFieldTouched(field);
-        if (isTouched && !form.getFieldValue(field)) {
-            return false;
-        }
-        return isTouched;
-    });
-}
 
 function isFormValid(form) {
     const errors = form.getFieldsError().map((field) => !!field.errors.length);
@@ -25,13 +25,16 @@ function isFormValid(form) {
     return true;
 }
 
-function handleSubmit(form) {
-    if (!isFormValid(form)) return;
-
-    const touchedFields = getTouchedFields(form);
-    if (touchedFields.length === 0) return;
-
-    console.log(touchedFields);
+function preparePayload(form) {
+    console.log(form.getFieldValue("newPassword"));
+    return {
+        firstName: form.getFieldValue("firstName"),
+        lastName: form.getFieldValue("lastName"),
+        email: form.getFieldValue("email"),
+        newPassword: form.getFieldValue("newPassword")
+            ? hashPassword(form.getFieldValue("newPassword"))
+            : null,
+    };
 }
 
 function getFieldsObject(data) {
@@ -40,11 +43,12 @@ function getFieldsObject(data) {
         { name: "lastName", value: data.lastName },
         { name: "email", value: data.email },
         { name: "newPassword", value: "" },
+        { name: "repeatNewPassword", value: "" },
     ];
 }
 
 function EditUserDrawer() {
-    const { isOpen, closeDrawer, data } = useDrawer();
+    const { isOpen, closeDrawer, data, setData } = useDrawer();
     const { t } = useTranslation();
     const [form] = Form.useForm();
 
@@ -53,6 +57,24 @@ function EditUserDrawer() {
             form.setFields(getFieldsObject(data));
         }
     }, [isOpen, form, data]);
+
+    function handleSubmit(form) {
+        if (!isFormValid(form)) return;
+
+        updateUser(data.key, preparePayload(form))
+            .then(() => {
+                setData(null);
+                closeDrawer();
+                notification.success(
+                    getNotificationConfig(t("update-success")),
+                );
+            })
+            .catch(() => {
+                notification.error(
+                    getNotificationConfig(t("error-unexpected")),
+                );
+            });
+    }
 
     return (
         <>
@@ -70,7 +92,7 @@ function EditUserDrawer() {
                     <Space>
                         <Button onClick={closeDrawer}>{t("cancel")}</Button>
                         <Button
-                            onClick={() => handleSubmit(form)}
+                            onClick={() => handleSubmit(form, data.key)}
                             type="primary"
                         >
                             {t("save")}

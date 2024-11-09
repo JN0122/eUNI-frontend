@@ -41,5 +41,6 @@
   "enter-first-name": "Wprowadź imię",
   "enter-last-name": "Wprowadź nazwisko",
   "enter-email": "Wprowadź adres email",
-  "enter-password": "Wprowadź hasło"
+  "enter-password": "Wprowadź hasło",
+  "update-success": "Poprawnie zaktualizowano informacje!"
 }

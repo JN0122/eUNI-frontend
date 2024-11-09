@@ -7,3 +7,7 @@ export async function getAllUsers() {
 export async function deleteUser(id) {
     return await axiosInstance.delete(`/api/Users/${id}`);
 }
+
+export async function updateUser(id, data) {
+    return await axiosInstance.patch(`/api/Users/${id}`, data);
+}

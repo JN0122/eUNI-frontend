@@ -21,7 +21,7 @@ const { Text } = Typography;
 
 function Users() {
     const { t } = useTranslation();
-    const { openDrawer, setData } = useDrawer();
+    const { openDrawer, setData, data } = useDrawer();
 
     const [dataSource, setDataSource] = useState([]);
 
@@ -45,7 +45,7 @@ function Users() {
 
     useEffect(() => {
         fetchAllUsers();
-    }, [fetchAllUsers]);
+    }, [fetchAllUsers, data]);
 
     const removeUser = useCallback(
         async function (record) {
