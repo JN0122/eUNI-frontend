@@ -31,10 +31,7 @@ export function PasswordInputs({ required = true, ...rest }) {
                     },
                     ({ getFieldValue }) => ({
                         validator(_, value) {
-                            if (
-                                !value ||
-                                getFieldValue("newPassword") === value
-                            ) {
+                            if (getFieldValue("newPassword") === value) {
                                 return Promise.resolve();
                             }
                             return Promise.reject(
