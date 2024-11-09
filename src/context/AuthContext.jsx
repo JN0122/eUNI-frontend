@@ -5,27 +5,23 @@ import {
     useEffect,
     useState,
 } from "react";
-import { getNewAuthToken, loginUser, logoutUser } from "../api/auth.js";
-import { setupAxiosInterceptors } from "../api/axios.js";
+import { loginUser, logoutUser } from "../api/auth.js";
+import { isUserAuthenticated, setAuthHeader } from "../api/axios.js";
 import { getUserData } from "../api/user.js";
 
 const AuthContext = createContext();
 
-let currentToken = null;
-
 export function AuthProvider({ children }) {
     const [userInfo, setUserInfo] = useState(null);
-    const [isAuthTokenActive, setIsAuthTokenActive] = useState(false);
-
-    useEffect(() => {
-        setupAxiosInterceptors(currentToken);
-    }, []);
 
     const getUserInfo = useCallback(
         async function () {
-            const response = await getUserData();
-            if (response.status === 200) {
+            if (!isUserAuthenticated()) return;
+            try {
+                const response = await getUserData();
                 setUserInfo(response.data);
+            } catch {
+                setUserInfo(null);
             }
         },
         [setUserInfo],
@@ -36,8 +32,7 @@ export function AuthProvider({ children }) {
             let status;
             try {
                 const apiResponse = await loginUser(userData);
-                currentToken = apiResponse.data.accessToken;
-                setIsAuthTokenActive(true);
+                setAuthHeader(apiResponse.data.accessToken);
                 await getUserInfo();
                 status = apiResponse.status;
             } catch (error) {
@@ -45,7 +40,7 @@ export function AuthProvider({ children }) {
             }
             return { status };
         },
-        [setIsAuthTokenActive, getUserInfo],
+        [getUserInfo],
     );
 
     const logout = useCallback(
@@ -53,38 +48,20 @@ export function AuthProvider({ children }) {
             let status;
             try {
                 const apiResponse = await logoutUser();
-                if (apiResponse.status === 200) {
-                    currentToken = null;
-                }
-                setUserInfo(false);
-                setIsAuthTokenActive(false);
+                setUserInfo(null);
+                setAuthHeader(null);
                 status = apiResponse.status;
             } catch (error) {
                 status = error.status;
             }
             return { status };
         },
-        [setUserInfo, setIsAuthTokenActive],
+        [setUserInfo],
     );
 
-    const restoreSession = useCallback(
-        function () {
-            return new Promise((resolve, reject) => {
-                getNewAuthToken()
-                    .then((value) => {
-                        currentToken = value;
-                        setIsAuthTokenActive(true);
-                        getUserInfo();
-                        resolve();
-                    })
-                    .catch(() => {
-                        setIsAuthTokenActive(false);
-                        reject();
-                    });
-            });
-        },
-        [setIsAuthTokenActive, getUserInfo],
-    );
+    useEffect(() => {
+        getUserInfo();
+    }, [getUserInfo]);
 
     return (
         <AuthContext.Provider
@@ -92,8 +69,7 @@ export function AuthProvider({ children }) {
                 userInfo,
                 login,
                 logout,
-                restoreSession,
-                isAuthTokenActive,
+                isAuthenticated: isUserAuthenticated(),
             }}
         >
             {children}

@@ -10,7 +10,7 @@ function AppHeader({ showLogo, additionalUserElement, ...rest }) {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
-    const { isAuthTokenActive } = useAuth();
+    const { isAuthenticated } = useAuth();
 
     return (
         <Header
@@ -24,12 +24,12 @@ function AppHeader({ showLogo, additionalUserElement, ...rest }) {
                 justify="space-between"
                 align="center"
                 style={{
-                    flexDirection: isAuthTokenActive && "row-reverse",
+                    flexDirection: isAuthenticated && "row-reverse",
                     height: "100%",
                 }}
                 gap={"1rem"}
             >
-                {isAuthTokenActive && (
+                {isAuthenticated && (
                     <Flex gap={"0.5rem"} align="center">
                         {additionalUserElement}
                         <UserAvatar />

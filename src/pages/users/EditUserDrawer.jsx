@@ -26,7 +26,6 @@ function isFormValid(form) {
 }
 
 function preparePayload(form) {
-    console.log(form.getFieldValue("newPassword"));
     return {
         firstName: form.getFieldValue("firstName"),
         lastName: form.getFieldValue("lastName"),

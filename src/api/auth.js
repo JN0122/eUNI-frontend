@@ -16,13 +16,6 @@ export async function logoutUser() {
     );
 }
 
-export async function getNewAuthToken() {
-    const response = await axiosInstance.post(
-        "/api/Auth/refresh-token",
-        {},
-        {
-            withCredentials: true,
-        },
-    );
-    return response.data.accessToken;
+export async function checkIfUserIsAuthenticated() {
+    return await axiosInstance.post("/api/Auth/is-authenticated");
 }

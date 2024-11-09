@@ -12,25 +12,17 @@ function Login() {
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
-    const { login, isAuthTokenActive, restoreSession } = useAuth();
+    const { login, isAuthenticated } = useAuth();
     const navigate = useNavigate();
     const { t } = useTranslation();
     const [errorMessage, setErrorMessage] = useState(null);
     const [submitLoading, setSubmitLoading] = useState(false);
 
     useEffect(() => {
-        if (!isAuthTokenActive) {
-            restoreSession()
-                .then(() => {
-                    navigate("/");
-                })
-                .catch(() => {
-                    console.warn("Could not restore session");
-                });
-        } else {
+        if (isAuthenticated) {
             navigate("/");
         }
-    }, [isAuthTokenActive, restoreSession, navigate]);
+    }, [isAuthenticated, navigate]);
 
     async function onFinish(values) {
         setSubmitLoading(true);

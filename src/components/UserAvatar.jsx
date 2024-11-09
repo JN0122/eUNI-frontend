@@ -30,7 +30,6 @@ function UserAvatar() {
         ],
         [userInfo, t, logout],
     );
-
     if (!userInfo) {
         return (
             <Skeleton
