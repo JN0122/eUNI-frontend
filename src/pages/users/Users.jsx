@@ -138,7 +138,13 @@ function Users() {
                 <>
                     <EditUserDrawer />
                     <Flex gap="middle" vertical>
-                        <Table columns={columns} dataSource={dataSource} />
+                        <Table
+                            columns={columns}
+                            dataSource={dataSource}
+                            scroll={{
+                                x: "max-content",
+                            }}
+                        />
                     </Flex>
                 </>
             )}
