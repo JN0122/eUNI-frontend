@@ -76,6 +76,7 @@ function Login() {
                     >
                         <Input
                             prefix={<UserOutlined />}
+                            autoComplete="username"
                             placeholder={t("email")}
                         />
                     </Form.Item>
@@ -90,6 +91,7 @@ function Login() {
                     >
                         <Input.Password
                             prefix={<LockOutlined />}
+                            autoComplete="current-password"
                             type="password"
                             placeholder={t("password")}
                         />

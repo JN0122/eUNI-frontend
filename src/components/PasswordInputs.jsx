@@ -17,7 +17,11 @@ export function PasswordInputs({ required = true, ...rest }) {
                     },
                 ]}
             >
-                <Input.Password placeholder={t("new-password")} {...rest} />
+                <Input.Password
+                    autoComplete="new-password"
+                    placeholder={t("new-password")}
+                    {...rest}
+                />
             </Form.Item>
             <Form.Item
                 label={t("repeat-new-password")}
@@ -40,10 +44,10 @@ export function PasswordInputs({ required = true, ...rest }) {
                         },
                     }),
                 ]}
-                {...rest}
             >
                 <Input.Password
                     placeholder={t("repeat-new-password")}
+                    autoComplete="new-password"
                     {...rest}
                 />
             </Form.Item>

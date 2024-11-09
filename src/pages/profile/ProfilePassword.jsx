@@ -58,7 +58,7 @@ function ProfilePassword() {
                     ]}
                 >
                     <Input.Password
-                        suggested="current-password"
+                        autoComplete="current-password"
                         placeholder={t("old-password")}
                     />
                 </Form.Item>
