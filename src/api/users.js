@@ -5,5 +5,5 @@ export async function getAllUsers() {
 }
 
 export async function deleteUser(id) {
-    return await axiosInstance.delete(`/api/Users/delete/${id}`);
+    return await axiosInstance.delete(`/api/Users/${id}`);
 }
