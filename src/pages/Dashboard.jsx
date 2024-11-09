@@ -35,7 +35,7 @@ function Dashboard() {
     let items = [];
 
     switch (userInfo.role) {
-        case UserRole.SuperAdmin:
+        case UserRole.Admin:
             items = [
                 {
                     label: <Link to={"users"}>{t("users")}</Link>,
@@ -51,26 +51,6 @@ function Dashboard() {
                     label: "Student",
                     key: "1",
                     path: "student",
-                    icon: <PieChartOutlined />,
-                },
-            ];
-            break;
-        case UserRole.Lecturer:
-            items = [
-                {
-                    label: "Lecturer",
-                    key: "1",
-                    path: "lecturer",
-                    icon: <PieChartOutlined />,
-                },
-            ];
-            break;
-        case UserRole.Admin:
-            items = [
-                {
-                    label: "Admin",
-                    key: "1",
-                    path: "admin",
                     icon: <PieChartOutlined />,
                 },
             ];
