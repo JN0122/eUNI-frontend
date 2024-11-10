@@ -6,7 +6,7 @@ import {
 import { Link } from "react-router-dom";
 import { Spin } from "antd";
 import { useAuth } from "../context/AuthContext.jsx";
-import UserRole from "../enums/userRoles.js";
+import USER_ROLE from "../enums/userRoles.js";
 import { useTranslation } from "react-i18next";
 import { MainMenuProvider } from "../context/MainMenuContext.jsx";
 import AppLayoutWithMainMenu from "../components/AppLayoutWithMainMenu.jsx";
@@ -35,7 +35,7 @@ function Dashboard() {
     let items = [];
 
     switch (userInfo.role) {
-        case UserRole.Admin:
+        case USER_ROLE.Admin:
             items = [
                 {
                     label: <Link to={"users"}>{t("users")}</Link>,
@@ -45,7 +45,7 @@ function Dashboard() {
                 },
             ];
             break;
-        case UserRole.Student:
+        case USER_ROLE.Student:
             items = [
                 {
                     label: <Link to={"schedule"}>{t("schedule")}</Link>,
