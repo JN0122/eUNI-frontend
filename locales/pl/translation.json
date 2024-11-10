@@ -44,5 +44,13 @@
   "enter-password": "Wprowadź hasło",
   "update-success": "Poprawnie zaktualizowano informacje!",
   "schedule": "Plan zajęć",
-  "hour": "Godzina"
+  "hour": "Godzina",
+  "no.": "Nr.",
+  "monday": "Poniedziałek",
+  "tuesday": "Wtorek",
+  "wednesday": "Środa",
+  "thursday": "Czwartek",
+  "friday": "Piątek",
+  "saturday": "Sobota",
+  "sunday": "Niedziela"
 }

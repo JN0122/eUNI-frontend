@@ -1,110 +1,186 @@
 import ContentBlock from "../../components/ContentBlock.jsx";
 import { useTranslation } from "react-i18next";
-import { Table } from "antd";
+import { ConfigProvider, Table } from "antd";
+import ScheduleCell from "./ScheduleCell.jsx";
+import DAYS from "../../enums/weekDays.js";
+import CLASSES_TYPE from "../../enums/classesType.js";
+
+const data = {
+    id: 3,
+    date: "07.10.2024 - 14.10.2024",
+    schedule: [
+        {
+            id: 0,
+            hour: "7:30-8:15",
+            monday: {},
+            tuesday: {},
+            wednesday: {
+                hours: 2,
+                name: "Podstawy wytrzymałości materiałów",
+                room: "A312",
+                type: 0,
+            },
+            thursday: {},
+            friday: {},
+            saturday: {
+                hours: 3,
+                name: "Programowanie obiektowe",
+                room: "J204",
+                type: 0,
+                assessment: {
+                    name: "Kolokwium z działu 1",
+                },
+            },
+            sunday: {},
+        },
+        {
+            id: 1,
+            hour: "8:15-9:00",
+            monday: {},
+            tuesday: {},
+            wednesday: {},
+            thursday: {},
+            friday: {},
+            saturday: {},
+            sunday: {},
+        },
+        {
+            id: 2,
+            hour: "9:15-10:00",
+            monday: {},
+            tuesday: {},
+            wednesday: {
+                hours: 1,
+                name: "Podstawy wytrzymałości materiałów II",
+                room: "B122",
+                type: 4,
+            },
+            thursday: {},
+            friday: {},
+            saturday: {},
+            sunday: {},
+        },
+    ],
+};
+
+function calculateRowSpan() {
+    const rowSpan = {};
+    DAYS.map((day) => {
+        let prevSpan = 1;
+        const span = [];
+        data.schedule.map((row) => {
+            let hours = row[day]?.hours;
+            if (hours) {
+                prevSpan += hours;
+                span.push(hours);
+            } else if (prevSpan === 1) {
+                span.push(prevSpan);
+            } else {
+                prevSpan--;
+                span.push(0);
+            }
+        });
+        rowSpan[day] = span;
+    });
+    return rowSpan;
+}
+
+const rowSpan = calculateRowSpan();
+
+function getRows(data) {
+    return data.schedule.map((row) => {
+        return {
+            key: row.id + 1,
+            number: row.id,
+            hour: row.hour,
+            monday: <ScheduleCell cellData={row.monday} />,
+            tuesday: <ScheduleCell cellData={row.tuesday} />,
+            wednesday: <ScheduleCell cellData={row.wednesday} />,
+            thursday: <ScheduleCell cellData={row.thursday} />,
+            friday: <ScheduleCell cellData={row.friday} />,
+            saturday: <ScheduleCell cellData={row.saturday} />,
+            sunday: <ScheduleCell cellData={row.sunday} />,
+        };
+    });
+}
+
+function getClassesType(index, day) {
+    return data.schedule[index][day]?.type;
+}
+
+function getRowSpan(index, day) {
+    const classType = getClassesType(index, day);
+    let additionalStyles = {};
+    switch (classType) {
+        case CLASSES_TYPE.lecture:
+            additionalStyles.backgroundColor = "brown";
+            additionalStyles.color = "white";
+            break;
+        case CLASSES_TYPE.laboratory:
+            additionalStyles.backgroundColor = "darkblue";
+            additionalStyles.color = "white";
+            break;
+    }
+    return {
+        rowSpan: rowSpan[day][index],
+        style: {
+            padding: 0,
+            verticalAlign: "middle",
+            ...additionalStyles,
+        },
+    };
+}
 
 function Schedule() {
     const { t } = useTranslation();
 
     const columns = [
         {
-            title: t("hour"),
+            title: t("no."),
             dataIndex: "key",
+            rowScope: "key",
+            align: "center",
+            className: "vertical-middle",
+        },
+        {
+            title: t("hour"),
+            dataIndex: "hour",
             rowScope: "row",
+            align: "center",
+            className: "vertical-middle",
         },
-        {
-            title: "Name",
-            dataIndex: "name",
-        },
-        {
-            title: "Age",
-            dataIndex: "age",
-        },
-        {
-            title: "Home phone",
-            dataIndex: "tel",
-            onCell: (_, index) => {
-                if (index === 3) {
-                    return {
-                        rowSpan: 3,
-                    };
-                }
-                if (index >= 3 && index <= 5) {
-                    return {
-                        rowSpan: 0,
-                    };
-                }
-                return {};
-            },
-        },
-        {
-            title: "Phone",
-            dataIndex: "phone",
-        },
-        {
-            title: "Address",
-            dataIndex: "address",
-        },
-    ];
-    const data = [
-        {
-            key: "7:30-9:00",
-            name: "zajęcia1",
-            age: 32,
-            tel: "0571-22098909",
-            phone: 18889898989,
-            address: "New York No. 1 Lake Park",
-        },
-        {
-            key: "2",
-            name: "Jim Green",
-            tel: "0571-22098333",
-            phone: 18889898888,
-            age: 42,
-            address: "London No. 1 Lake Park",
-        },
-        {
-            key: "3",
-            name: "Joe Black",
-            age: 32,
-            tel: "0575-22098909",
-            phone: 18900010002,
-            address: "Sydney No. 1 Lake Park",
-        },
-        {
-            key: "4",
-            name: "Jim Red",
-            age: 18,
-            tel: "0575-22098909",
-            phone: 18900010002,
-            address: "London No. 2 Lake Park",
-        },
-        {
-            key: "5",
-            name: "Jake White",
-            age: 18,
-            phone: 18900010002,
-            address: "Dublin No. 2 Lake Park",
-        },
-        {
-            key: "6",
-            name: "Jake White",
-            age: 18,
-            phone: 18900010002,
-            address: "Dublin No. 2 Lake Park",
-        },
+        ...DAYS.map((day) => {
+            return {
+                title: t(day.toString()),
+                dataIndex: day.toString(),
+                align: "center",
+                onCell: (_, index) => getRowSpan(index, day.toString()),
+            };
+        }),
     ];
 
     return (
-        <ContentBlock breadcrumbs={[{ title: t("schedule") }]}>
-            <Table
-                pagination={false}
-                columns={columns}
-                dataSource={data}
-                scroll={{
-                    x: "max-content",
-                }}
-            />
-        </ContentBlock>
+        <ConfigProvider
+            theme={{
+                components: {
+                    Table: {
+                        borderColor: null,
+                    },
+                },
+            }}
+        >
+            <ContentBlock breadcrumbs={[{ title: t("schedule") }]}>
+                <Table
+                    pagination={false}
+                    columns={columns}
+                    bordered={false}
+                    dataSource={getRows(data)}
+                    scroll={{
+                        x: "max-content",
+                    }}
+                />
+            </ContentBlock>
+        </ConfigProvider>
     );
 }
 
