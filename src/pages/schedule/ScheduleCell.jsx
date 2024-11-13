@@ -1,12 +1,12 @@
 function ScheduleCell({ cellData }) {
-    if (!Object.keys(cellData).length) return null;
+    if (cellData == null) return null;
 
     return (
         <div
             style={{
                 padding: "0.5em",
                 width: "min-content",
-                margin: "auto",
+                margin: "auto"
             }}
         >
             {cellData.name}
