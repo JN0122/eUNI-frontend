@@ -1,6 +1,6 @@
 import ContentBlock from "../../components/ContentBlock.jsx";
 import { useTranslation } from "react-i18next";
-import { ConfigProvider, notification, Table } from "antd";
+import { Button, ConfigProvider, Flex, notification, Table } from "antd";
 import ScheduleCell from "./ScheduleCell.jsx";
 import DAYS from "../../enums/weekDays.js";
 import CLASSES_TYPE from "../../enums/classesType.js";
@@ -9,6 +9,7 @@ import { getSchedule } from "../../api/schedule.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 import { useStudentContext } from "../../context/StudentContext.jsx";
 import getWeekNumber from "../../helpers/getWeekNumber.js";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 function getRows(data) {
     if (Object.keys(data).length === 0) return null;
@@ -58,7 +59,18 @@ function Schedule() {
         weekNumber: getWeekNumber(new Date()),
         year: new Date().getFullYear()
     });
-    
+
+    const onArrowClick = function (step) {
+        setIsLoading(true);
+        setDisplayScheduleDate((prev) => {
+            const newScheduleDate = {
+                ...prev
+            };
+            newScheduleDate.weekNumber = newScheduleDate.weekNumber + step;
+            return newScheduleDate;
+        });
+    };
+
     const getClassesType = useCallback(
         function (index, day) {
             return data.schedule[index][day]?.type;
@@ -153,6 +165,23 @@ function Schedule() {
             }}
         >
             <ContentBlock breadcrumbs={[{ title: t("schedule") }]}>
+                <Flex
+                    align={"center"}
+                    justify={"space-between"}
+                    style={{ padding: "1rem 0" }}
+                >
+                    <Button
+                        shape="circle"
+                        icon={<LeftOutlined />}
+                        onClick={() => onArrowClick(-1)}
+                    />
+                    {!isLoading && data.date}
+                    <Button
+                        shape="circle"
+                        icon={<RightOutlined />}
+                        onClick={() => onArrowClick(1)}
+                    />
+                </Flex>
                 <Table
                     pagination={false}
                     loading={isLoading}
