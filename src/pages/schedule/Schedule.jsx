@@ -3,13 +3,13 @@ import { useTranslation } from "react-i18next";
 import { Button, ConfigProvider, Flex, notification, Table } from "antd";
 import ScheduleCell from "./ScheduleCell.jsx";
 import DAYS from "../../enums/weekDays.js";
-import CLASSES_TYPE from "../../enums/classesType.js";
 import { useCallback, useEffect, useState } from "react";
 import { getSchedule } from "../../api/schedule.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 import { useStudentContext } from "../../context/StudentContext.jsx";
 import getWeekNumber from "../../helpers/getWeekNumber.js";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import getStylesBasedOnClassType from "../../helpers/getStylesBasedOnClassType.js";
 
 function getRows(data) {
     if (Object.keys(data).length === 0) return null;
@@ -83,24 +83,9 @@ function Schedule() {
             const classType = getClassesType(index, day);
             const rowSpan = calculateRowSpan(data);
 
-            let additionalStyles = {};
-            switch (classType) {
-                case CLASSES_TYPE.lecture:
-                    additionalStyles.backgroundColor = "brown";
-                    additionalStyles.color = "white";
-                    break;
-                case CLASSES_TYPE.laboratory:
-                    additionalStyles.backgroundColor = "darkblue";
-                    additionalStyles.color = "white";
-                    break;
-            }
             return {
                 rowSpan: rowSpan[day][index],
-                style: {
-                    padding: 0,
-                    verticalAlign: "middle",
-                    ...additionalStyles
-                }
+                style: getStylesBasedOnClassType(classType)
             };
         },
         [data, getClassesType]
