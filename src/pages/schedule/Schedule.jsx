@@ -7,6 +7,8 @@ import CLASSES_TYPE from "../../enums/classesType.js";
 import { useCallback, useEffect, useState } from "react";
 import { getSchedule } from "../../api/schedule.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
+import { useStudentContext } from "../../context/StudentContext.jsx";
+import getWeekNumber from "../../helpers/getWeekNumber.js";
 
 function getRows(data) {
     if (Object.keys(data).length === 0) return null;
@@ -49,9 +51,14 @@ function calculateRowSpan(data) {
 
 function Schedule() {
     const { t } = useTranslation();
+    const { studentInfo, currentFieldOfStudyInfo } = useStudentContext();
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState({});
-
+    const [displayScheduleDate, setDisplayScheduleDate] = useState({
+        weekNumber: getWeekNumber(new Date()),
+        year: new Date().getFullYear()
+    });
+    
     const getClassesType = useCallback(
         function (index, day) {
             return data.schedule[index][day]?.type;
@@ -84,16 +91,15 @@ function Schedule() {
                 }
             };
         },
-        [calculateRowSpan, getClassesType]
+        [data, getClassesType]
     );
 
     const getScheduleData = useCallback(
         async function () {
             const response = await getSchedule({
-                weekNumber: 49,
-                year: 2024,
-                fieldOfStudyLogsId: 1,
-                groupIds: [1, 2]
+                ...displayScheduleDate,
+                fieldOfStudyLogId: currentFieldOfStudyInfo.fieldOfStudyLogId,
+                groupIds: currentFieldOfStudyInfo.groups
             });
             if (response.status === 200) {
                 setData(response.data);
@@ -104,12 +110,12 @@ function Schedule() {
                 );
             }
         },
-        [t]
+        [currentFieldOfStudyInfo, displayScheduleDate, t]
     );
 
     useEffect(() => {
-        getScheduleData();
-    }, [getScheduleData]);
+        if (studentInfo) getScheduleData();
+    }, [getScheduleData, studentInfo]);
 
     const columns = [
         {

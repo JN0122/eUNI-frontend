@@ -10,6 +10,7 @@ import ProfilePassword from "./pages/profile/ProfilePassword.jsx";
 import Users from "./pages/users/Users.jsx";
 import { DrawerProvider } from "./context/DrawerContext.jsx";
 import Schedule from "./pages/schedule/Schedule.jsx";
+import { StudentProvider } from "./context/StudentContext.jsx";
 
 const router = createBrowserRouter([
     {
@@ -26,13 +27,13 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: "info",
-                        element: <ProfileInfo />,
+                        element: <ProfileInfo />
                     },
                     {
                         path: "password",
-                        element: <ProfilePassword />,
-                    },
-                ],
+                        element: <ProfilePassword />
+                    }
+                ]
             },
             {
                 path: "/users",
@@ -40,28 +41,30 @@ const router = createBrowserRouter([
                     <DrawerProvider>
                         <Users />
                     </DrawerProvider>
-                ),
+                )
             },
             {
                 path: "/schedule",
-                element: <Schedule />,
-            },
-        ],
+                element: <Schedule />
+            }
+        ]
     },
     {
         path: "/login",
-        element: <Login />,
+        element: <Login />
     },
     {
         path: "*",
-        element: <NotFound />,
-    },
+        element: <NotFound />
+    }
 ]);
 
 function App() {
     return (
         <AuthProvider>
-            <RouterProvider router={router} />
+            <StudentProvider>
+                <RouterProvider router={router} />
+            </StudentProvider>
         </AuthProvider>
     );
 }
