@@ -13,12 +13,12 @@ function ContentBlock({ menu, breadcrumbs, children, ...rest }) {
 
     let contentStyle = {
         padding: isSmallScreen
-            ? "0 1rem"
+            ? "0.25rem"
             : isMediumScreen
-              ? "0 2rem"
+              ? "1rem"
               : menu
-                ? "0 3rem"
-                : "0 1.5rem",
+                ? "1.5rem"
+                : "3rem",
         minHeight: 280
     };
 
