@@ -53,5 +53,7 @@
   "friday": "Piątek",
   "saturday": "Sobota",
   "sunday": "Niedziela",
-  "edit-schedule": "Edytuj zajęcia"
+  "edit-schedule": "Edytuj zajęcia",
+  "search": "Szukaj",
+  "reset": "Resetuj"
 }
