@@ -33,7 +33,7 @@
   "users": "Użytkownicy",
   "actions": "Akcje",
   "delete": "Usuń",
-  "are-you-sure-you-want-to-remove-user": "Czy na pewno chcesz usunąć tego użytkownika?",
+  "delete-are-you-sure": "Czy na pewno chcesz usunąć?",
   "cancel": "Anuluj",
   "success-remove-user": "Pomyślnie usunięto użytkownika!",
   "edit-user": "Edytuj użytkownika",
@@ -55,5 +55,6 @@
   "sunday": "Niedziela",
   "edit-schedule": "Edytuj zajęcia",
   "search": "Szukaj",
-  "reset": "Resetuj"
+  "reset": "Resetuj",
+  "error-could-not-connect-to-api": "Nie można połączyć z API!"
 }
