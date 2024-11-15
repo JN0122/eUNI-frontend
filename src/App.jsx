@@ -12,6 +12,7 @@ import { DrawerProvider } from "./context/DrawerContext.jsx";
 import Schedule from "./pages/schedule/Schedule.jsx";
 import { StudentProvider } from "./context/StudentContext.jsx";
 import EditSchedule from "./pages/schedule/EditSchedule.jsx";
+import { App, ConfigProvider } from "antd";
 
 const router = createBrowserRouter([
     {
@@ -64,14 +65,18 @@ const router = createBrowserRouter([
     }
 ]);
 
-function App() {
+function AppMain() {
     return (
-        <AuthProvider>
-            <StudentProvider>
-                <RouterProvider router={router} />
-            </StudentProvider>
-        </AuthProvider>
+        <ConfigProvider>
+            <App>
+                <AuthProvider>
+                    <StudentProvider>
+                        <RouterProvider router={router} />
+                    </StudentProvider>
+                </AuthProvider>
+            </App>
+        </ConfigProvider>
     );
 }
 
-export default App;
+export default AppMain;
