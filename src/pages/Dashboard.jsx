@@ -1,7 +1,8 @@
 import {
+    EditOutlined,
     LoadingOutlined,
     TableOutlined,
-    UserOutlined,
+    UserOutlined
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { Spin } from "antd";
@@ -22,7 +23,7 @@ function Dashboard() {
                     <LoadingOutlined
                         style={{
                             fontSize: 48,
-                            color: "white",
+                            color: "white"
                         }}
                         spin
                     />
@@ -41,8 +42,8 @@ function Dashboard() {
                     label: <Link to={"users"}>{t("users")}</Link>,
                     key: "1",
                     path: "users",
-                    icon: <UserOutlined />,
-                },
+                    icon: <UserOutlined />
+                }
             ];
             break;
         case USER_ROLE.Student:
@@ -51,8 +52,16 @@ function Dashboard() {
                     label: <Link to={"schedule"}>{t("schedule")}</Link>,
                     key: "1",
                     path: "schedule",
-                    icon: <TableOutlined />,
+                    icon: <TableOutlined />
                 },
+                {
+                    label: (
+                        <Link to={"edit-schedule"}>{t("edit-schedule")}</Link>
+                    ),
+                    key: "2",
+                    path: "edit-schedule",
+                    icon: <EditOutlined />
+                }
             ];
             break;
     }

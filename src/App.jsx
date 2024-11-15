@@ -11,6 +11,7 @@ import Users from "./pages/users/Users.jsx";
 import { DrawerProvider } from "./context/DrawerContext.jsx";
 import Schedule from "./pages/schedule/Schedule.jsx";
 import { StudentProvider } from "./context/StudentContext.jsx";
+import EditSchedule from "./pages/schedule/EditSchedule.jsx";
 
 const router = createBrowserRouter([
     {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
             {
                 path: "/schedule",
                 element: <Schedule />
+            },
+            {
+                path: "/edit-schedule",
+                element: <EditSchedule />
             }
         ]
     },
