@@ -19,7 +19,7 @@ function preparePayload(form) {
     };
 }
 
-function EditUserDrawer() {
+function UserDrawer() {
     const { data } = useDrawer();
     const { t } = useTranslation();
 
@@ -76,4 +76,4 @@ function EditUserDrawer() {
     );
 }
 
-export default EditUserDrawer;
+export default UserDrawer;

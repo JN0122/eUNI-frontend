@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useMemo } from "react";
 import { Typography } from "antd";
 import { deleteUser, getAllUsers } from "../../api/users.js";
-import EditUserDrawer from "./EditUserDrawer.jsx";
+import UserDrawer from "./UserDrawer.jsx";
 import TableWithActions from "../../components/TableWithActions.jsx";
 
 const { Text } = Typography;
@@ -48,7 +48,7 @@ function Users() {
 
     return (
         <ContentBlock breadcrumbs={[{ title: t("users") }]}>
-            <EditUserDrawer />
+            <UserDrawer />
             <TableWithActions
                 columns={columns}
                 fetchData={getAllUsers}
