@@ -3,7 +3,7 @@ import {
     useCallback,
     useContext,
     useMemo,
-    useState,
+    useState
 } from "react";
 import { useLocation } from "react-router-dom";
 import getSubpagePath from "../helpers/getSubpagePath.js";
@@ -16,7 +16,7 @@ function getBreadcrumbsStruct(mainPath) {
 
 export function ContentBlockProvider({ mainPath, items, children }) {
     const [breadcrumbs, setBreadcrumbs] = useState(
-        getBreadcrumbsStruct(mainPath),
+        getBreadcrumbsStruct(mainPath)
     );
     const { pathname } = useLocation();
 
@@ -24,18 +24,18 @@ export function ContentBlockProvider({ mainPath, items, children }) {
         () =>
             items
                 .find((item) => item.path === getSubpagePath(pathname))
-                .key.toString(),
-        [items, pathname],
+                ?.key.toString() || "0",
+        [items, pathname]
     );
 
     const addBreadcrumb = useCallback(
         (breadcrumb) => {
             setBreadcrumbs((prev) => [
                 ...prev,
-                ...getBreadcrumbsStruct(breadcrumb),
+                ...getBreadcrumbsStruct(breadcrumb)
             ]);
         },
-        [setBreadcrumbs],
+        [setBreadcrumbs]
     );
 
     const setBreadcrumbsToDefault = useCallback(() => {
@@ -49,7 +49,7 @@ export function ContentBlockProvider({ mainPath, items, children }) {
                 activeSubPageKey,
                 addBreadcrumb,
                 setBreadcrumbsToDefault,
-                breadcrumbs,
+                breadcrumbs
             }}
         >
             {children}

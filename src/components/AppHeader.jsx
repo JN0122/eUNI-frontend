@@ -6,9 +6,14 @@ import UserAvatar from "./UserAvatar.jsx";
 
 const { Header } = Layout;
 
-function AppHeader({ showLogo, additionalUserElement, ...rest }) {
+function AppHeader({
+    closeMenuElement,
+    showLogo,
+    additionalUserElement,
+    ...rest
+}) {
     const {
-        token: { colorBgContainer },
+        token: { colorBgContainer }
     } = theme.useToken();
     const { isAuthenticated } = useAuth();
 
@@ -16,7 +21,7 @@ function AppHeader({ showLogo, additionalUserElement, ...rest }) {
         <Header
             style={{
                 padding: 0,
-                background: colorBgContainer,
+                background: colorBgContainer
             }}
             {...rest}
         >
@@ -25,7 +30,7 @@ function AppHeader({ showLogo, additionalUserElement, ...rest }) {
                 align="center"
                 style={{
                     flexDirection: isAuthenticated && "row-reverse",
-                    height: "100%",
+                    height: "100%"
                 }}
                 gap={"1rem"}
             >
@@ -35,13 +40,15 @@ function AppHeader({ showLogo, additionalUserElement, ...rest }) {
                         <UserAvatar />
                     </Flex>
                 )}
-                {showLogo && (
+                {showLogo ? (
                     <Link to="/" style={{ height: "3rem" }}>
                         <img
                             src={logo}
                             style={{ height: "100%", margin: "0 1rem" }}
                         />
                     </Link>
+                ) : (
+                    closeMenuElement
                 )}
             </Flex>
         </Header>

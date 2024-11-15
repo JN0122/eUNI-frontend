@@ -1,12 +1,26 @@
 import { Layout, theme } from "antd";
 import Breadcrumbs from "./Breadcrumbs.jsx";
+import { useMediaQuery } from "react-responsive";
 
 const { Content, Sider } = Layout;
 
 function ContentBlock({ menu, breadcrumbs, children, ...rest }) {
     const {
-        token: { colorBgContainer, borderRadiusLG },
+        token: { colorBgContainer, borderRadiusLG }
     } = theme.useToken();
+    const isSmallScreen = useMediaQuery({ maxWidth: 600 });
+    const isMediumScreen = useMediaQuery({ minWidth: 601, maxWidth: 1200 });
+
+    let contentStyle = {
+        padding: isSmallScreen
+            ? "0 1rem"
+            : isMediumScreen
+              ? "0 2rem"
+              : menu
+                ? "0 3rem"
+                : "0 1.5rem",
+        minHeight: 280
+    };
 
     return (
         <>
@@ -17,25 +31,20 @@ function ContentBlock({ menu, breadcrumbs, children, ...rest }) {
                     padding: "1.5em",
                     background: colorBgContainer,
                     borderRadius: borderRadiusLG,
+                    overflow: "scroll"
                 }}
             >
                 {menu && (
                     <Sider
                         style={{
-                            background: colorBgContainer,
+                            background: colorBgContainer
                         }}
                         width={"auto"}
                     >
                         {menu}
                     </Sider>
                 )}
-                <Content
-                    style={{
-                        padding: menu ? "0 1.5rem" : "1rem",
-                        minHeight: 280,
-                    }}
-                    {...rest}
-                >
+                <Content style={contentStyle} {...rest}>
                     {children}
                 </Content>
             </Layout>
