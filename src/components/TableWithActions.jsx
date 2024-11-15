@@ -22,7 +22,7 @@ function TableWithActions({
     notificationSuccessText
 }) {
     const { t } = useTranslation();
-    const { openDrawer, setData, data } = useDrawer();
+    const { openUpdateDrawer, setData, data } = useDrawer();
     const [dataSource, setDataSource] = useState([]);
     const [loading, setLoading] = useState(true);
     const searchInput = useRef(null);
@@ -217,7 +217,7 @@ function TableWithActions({
                 <Space size="middle">
                     <a
                         onClick={() => {
-                            openDrawer();
+                            openUpdateDrawer();
                             setData({
                                 ...record,
                                 newPassword: "",
@@ -240,7 +240,7 @@ function TableWithActions({
     }, [
         columns,
         getColumnSearchProps,
-        openDrawer,
+        openUpdateDrawer,
         setData,
         showDeleteConfirm,
         t

@@ -1,22 +1,41 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 const DrawerContext = createContext();
 
+export const DRAWER_TYPE = {
+    update: 0,
+    edit: 1
+};
+
 export function DrawerProvider({ children }) {
     const [open, setOpen] = useState(false);
+    const [type, setType] = useState(null);
     const [data, setData] = useState(null);
 
-    const closeDrawer = useCallback(() => {
+    const closeDrawer = () => {
         setOpen(false);
-    }, []);
+        setType(null);
+    };
 
-    const openDrawer = useCallback(() => {
+    function openDrawer(type) {
         setOpen(true);
-    }, []);
+        setType(type);
+    }
+
+    const openEditDrawer = () => openDrawer(DRAWER_TYPE.edit);
+    const openUpdateDrawer = () => openEditDrawer(DRAWER_TYPE.update);
 
     return (
         <DrawerContext.Provider
-            value={{ isOpen: open, closeDrawer, openDrawer, data, setData }}
+            value={{
+                isOpen: open,
+                closeDrawer,
+                openEditDrawer,
+                openUpdateDrawer,
+                data,
+                setData,
+                type
+            }}
         >
             {children}
         </DrawerContext.Provider>
