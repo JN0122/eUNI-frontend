@@ -21,7 +21,7 @@ function getFieldsObject(data) {
     });
 }
 
-function UpdateDataDrawer({ title, onSave, children }) {
+function DataDrawer({ title, onSave, children }) {
     const { isOpen, closeDrawer, data, setData } = useDrawer();
     const { t } = useTranslation();
     const [form] = Form.useForm();
@@ -42,7 +42,7 @@ function UpdateDataDrawer({ title, onSave, children }) {
                     setData(null);
                     closeDrawer();
                     notification.success(
-                        getNotificationConfig(t("update-success"))
+                        getNotificationConfig(t("action-success"))
                     );
                 })
                 .catch(() => {
@@ -86,4 +86,4 @@ function UpdateDataDrawer({ title, onSave, children }) {
     );
 }
 
-export default UpdateDataDrawer;
+export default DataDrawer;

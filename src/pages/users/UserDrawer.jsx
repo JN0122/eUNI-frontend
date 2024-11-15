@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { PasswordInputs } from "../../components/PasswordInputs.jsx";
 import hashPassword from "../../helpers/hashPassword.js";
 import { updateUser } from "../../api/users.js";
-import UpdateDataDrawer from "../../components/UpdateDataDrawer.jsx";
+import DataDrawer from "../../components/DataDrawer.jsx";
 
 const { Title } = Typography;
 
@@ -25,7 +25,7 @@ function UserDrawer() {
 
     return (
         <>
-            <UpdateDataDrawer
+            <DataDrawer
                 title={t("edit-user")}
                 onSave={(form) => updateUser(data.key, preparePayload(form))}
             >
@@ -71,7 +71,7 @@ function UserDrawer() {
                 </Form.Item>
                 <Title level={3}>{t("password")}</Title>
                 <PasswordInputs required={false} />
-            </UpdateDataDrawer>
+            </DataDrawer>
         </>
     );
 }
