@@ -52,10 +52,10 @@ function TableWithActions({
     );
 
     useEffect(() => {
-        getDataSource();
+        if (data === null) getDataSource();
     }, [getDataSource, data]);
 
-    const handleOk = useCallback(
+    const handleModalConfirm = useCallback(
         async function (record) {
             try {
                 await onModalConfirm(record);
@@ -88,12 +88,12 @@ function TableWithActions({
                 okType: "danger",
                 cancelText: t("cancel"),
                 onOk() {
-                    handleOk(record);
+                    handleModalConfirm(record);
                 },
                 onCancel() {}
             });
         },
-        [handleOk, modal, modalConfirmContent, t]
+        [handleModalConfirm, modal, modalConfirmContent, t]
     );
 
     const handleSearch = (selectedKeys, confirm) => {
@@ -219,9 +219,7 @@ function TableWithActions({
                         onClick={() => {
                             openUpdateDrawer();
                             setData({
-                                ...record,
-                                newPassword: "",
-                                repeatNewPassword: ""
+                                ...record
                             });
                         }}
                     >
