@@ -28,10 +28,17 @@ function DataDrawer({ title, onSave, children }) {
     const { notification } = App.useApp();
 
     useEffect(() => {
-        if (isOpen) {
+        if (isOpen && data !== null) {
             form.setFields(getFieldsObject(data));
+        } else {
+            form.resetFields();
         }
     }, [isOpen, form, data]);
+
+    const handleClose = useCallback(() => {
+        closeDrawer();
+        setData({});
+    }, [closeDrawer, setData]);
 
     const handleSubmit = useCallback(
         function (form) {
@@ -40,7 +47,7 @@ function DataDrawer({ title, onSave, children }) {
             onSave(form)
                 .then(() => {
                     setData(null);
-                    closeDrawer();
+                    handleClose();
                     notification.success(
                         getNotificationConfig(t("action-success"))
                     );
@@ -51,7 +58,7 @@ function DataDrawer({ title, onSave, children }) {
                     );
                 });
         },
-        [closeDrawer, notification, onSave, setData, t]
+        [handleClose, notification, onSave, setData, t]
     );
 
     return (
@@ -59,7 +66,7 @@ function DataDrawer({ title, onSave, children }) {
             <Drawer
                 title={title}
                 width={360}
-                onClose={closeDrawer}
+                onClose={handleClose}
                 open={isOpen}
                 styles={{
                     body: {
@@ -68,7 +75,7 @@ function DataDrawer({ title, onSave, children }) {
                 }}
                 extra={
                     <Space>
-                        <Button onClick={closeDrawer}>{t("cancel")}</Button>
+                        <Button onClick={handleClose}>{t("cancel")}</Button>
                         <Button
                             onClick={() => handleSubmit(form)}
                             type="primary"

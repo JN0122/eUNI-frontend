@@ -22,7 +22,7 @@ function TableWithActions({
     notificationSuccessText
 }) {
     const { t } = useTranslation();
-    const { openUpdateDrawer, setData, data } = useDrawer();
+    const { openEditDrawer, setData, data } = useDrawer();
     const [dataSource, setDataSource] = useState([]);
     const [loading, setLoading] = useState(true);
     const searchInput = useRef(null);
@@ -217,7 +217,7 @@ function TableWithActions({
                 <Space size="middle">
                     <a
                         onClick={() => {
-                            openUpdateDrawer();
+                            openEditDrawer();
                             setData({
                                 ...record
                             });
@@ -238,7 +238,7 @@ function TableWithActions({
     }, [
         columns,
         getColumnSearchProps,
-        openUpdateDrawer,
+        openEditDrawer,
         setData,
         showDeleteConfirm,
         t

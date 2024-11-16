@@ -56,5 +56,6 @@
   "edit-schedule": "Edytuj zajęcia",
   "search": "Szukaj",
   "reset": "Resetuj",
-  "error-could-not-connect-to-api": "Nie można połączyć z API!"
+  "error-could-not-connect-to-api": "Nie można połączyć z API!",
+  "create-user": "Utwórz użytkownika"
 }

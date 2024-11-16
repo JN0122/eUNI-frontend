@@ -3,8 +3,8 @@ import { createContext, useContext, useState } from "react";
 const DrawerContext = createContext();
 
 export const DRAWER_TYPE = {
-    update: 0,
-    edit: 1
+    edit: 0,
+    create: 1
 };
 
 export function DrawerProvider({ children }) {
@@ -23,7 +23,7 @@ export function DrawerProvider({ children }) {
     }
 
     const openEditDrawer = () => openDrawer(DRAWER_TYPE.edit);
-    const openUpdateDrawer = () => openEditDrawer(DRAWER_TYPE.update);
+    const openCreateDrawer = () => openDrawer(DRAWER_TYPE.create);
 
     return (
         <DrawerContext.Provider
@@ -31,7 +31,7 @@ export function DrawerProvider({ children }) {
                 isOpen: open,
                 closeDrawer,
                 openEditDrawer,
-                openUpdateDrawer,
+                openCreateDrawer,
                 data,
                 setData,
                 type

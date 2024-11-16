@@ -1,14 +1,16 @@
 import ContentBlock from "../../components/ContentBlock.jsx";
 import { useTranslation } from "react-i18next";
 import { useMemo } from "react";
-import { Typography } from "antd";
+import { Button, Flex, Typography } from "antd";
 import { deleteUser, getAllUsers } from "../../api/users.js";
 import UserDrawer from "./UserDrawer.jsx";
 import TableWithActions from "../../components/TableWithActions.jsx";
+import { useDrawer } from "../../context/DrawerContext.jsx";
 
 const { Text } = Typography;
 
 function Users() {
+    const { openCreateDrawer } = useDrawer();
     const { t } = useTranslation();
 
     const modalConfirmContent = (record) => (
@@ -48,6 +50,14 @@ function Users() {
 
     return (
         <ContentBlock breadcrumbs={[{ title: t("users") }]}>
+            <Flex
+                gap="small"
+                style={{ paddingBottom: "1rem", flexDirection: "row-reverse" }}
+            >
+                <Button type={"primary"} onClick={() => openCreateDrawer()}>
+                    {t("create-user")}
+                </Button>
+            </Flex>
             <UserDrawer />
             <TableWithActions
                 columns={columns}
