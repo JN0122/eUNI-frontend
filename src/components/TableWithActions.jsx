@@ -8,7 +8,8 @@ import { useDrawer } from "../context/DrawerContext.jsx";
 const getColumnSortProps = (dataIndex) => {
     return {
         sorter: (a, b) =>
-            a[dataIndex].charCodeAt(0) - b[dataIndex].charCodeAt(0),
+            a[dataIndex].toLocaleLowerCase().charCodeAt(0) -
+            b[dataIndex].toLocaleLowerCase().charCodeAt(0),
         sortDirections: ["descend", "ascend"],
         showSorterTooltip: null
     };
