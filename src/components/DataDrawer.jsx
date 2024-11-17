@@ -35,7 +35,7 @@ function DataDrawer({ title, onSave, children }) {
         }
     }, [isOpen, form, data]);
 
-    const handleClose = useCallback(() => {
+    const handleFormCancel = useCallback(() => {
         closeDrawer();
         setData({});
     }, [closeDrawer, setData]);
@@ -47,7 +47,7 @@ function DataDrawer({ title, onSave, children }) {
             onSave(form)
                 .then(() => {
                     setData(null);
-                    handleClose();
+                    closeDrawer();
                     notification.success(
                         getNotificationConfig(t("action-success"))
                     );
@@ -58,7 +58,7 @@ function DataDrawer({ title, onSave, children }) {
                     );
                 });
         },
-        [handleClose, notification, onSave, setData, t]
+        [closeDrawer, notification, onSave, setData, t]
     );
 
     return (
@@ -66,7 +66,7 @@ function DataDrawer({ title, onSave, children }) {
             <Drawer
                 title={title}
                 width={360}
-                onClose={handleClose}
+                onClose={handleFormCancel}
                 open={isOpen}
                 styles={{
                     body: {
@@ -75,7 +75,9 @@ function DataDrawer({ title, onSave, children }) {
                 }}
                 extra={
                     <Space>
-                        <Button onClick={handleClose}>{t("cancel")}</Button>
+                        <Button onClick={handleFormCancel}>
+                            {t("cancel")}
+                        </Button>
                         <Button
                             onClick={() => handleSubmit(form)}
                             type="primary"
