@@ -191,24 +191,20 @@ function TableWithActions({
 
     const parsedColumns = useMemo(() => {
         const newColumns = columns.map((column) => {
+            const { withSearch, searchInputText, withSort, ...rest } = column;
             let additionalProps = {};
-            if (column?.withSearch)
+            if (withSearch)
                 additionalProps = {
-                    ...additionalProps,
-                    ...getColumnSearchProps(
-                        column.dataIndex,
-                        column?.searchInputText
-                    )
+                    ...getColumnSearchProps(column.dataIndex, searchInputText)
                 };
-            if (column?.withSort)
+            if (withSort)
                 additionalProps = {
                     ...additionalProps,
                     ...getColumnSortProps(column.dataIndex)
                 };
             return {
-                title: column.title,
-                dataIndex: column.dataIndex,
-                ...additionalProps
+                ...additionalProps,
+                ...rest
             };
         });
         newColumns.push({

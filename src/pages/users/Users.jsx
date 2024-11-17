@@ -35,7 +35,9 @@ function Users() {
                 title: t("last-name"),
                 dataIndex: "lastName",
                 withSearch: true,
-                searchInputText: t("enter-last-name")
+                searchInputText: t("enter-last-name"),
+                withSort: true,
+                defaultSortOrder: "ascend"
             },
             {
                 title: t("email"),
