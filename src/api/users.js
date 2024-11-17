@@ -11,3 +11,7 @@ export async function deleteUser(id) {
 export async function updateUser(id, data) {
     return await axiosInstance.patch(`/api/Users/${id}`, data);
 }
+
+export async function createUser(data) {
+    return await axiosInstance.post(`/api/Users/create-user`, data);
+}

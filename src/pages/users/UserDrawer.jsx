@@ -1,33 +1,56 @@
 import { Form, Input, Typography } from "antd";
-import { useDrawer } from "../../context/DrawerContext.jsx";
+import { DRAWER_TYPE, useDrawer } from "../../context/DrawerContext.jsx";
 import { useTranslation } from "react-i18next";
 import { PasswordInputs } from "../../components/PasswordInputs.jsx";
 import hashPassword from "../../helpers/hashPassword.js";
-import { updateUser } from "../../api/users.js";
+import { createUser, updateUser } from "../../api/users.js";
 import DataDrawer from "../../components/DataDrawer.jsx";
 
 const { Title } = Typography;
 
-function preparePayload(form) {
+function prepareCreateUserPayload(form) {
     return {
         firstName: form.getFieldValue("firstName"),
         lastName: form.getFieldValue("lastName"),
         email: form.getFieldValue("email"),
-        newPassword: form.getFieldValue("newPassword")
+        roleId: 1,
+        password: form.getFieldValue("newPassword")
             ? hashPassword(form.getFieldValue("newPassword"))
             : null
     };
 }
 
+function prepareEditUserPayload(form) {
+    const { password, ...rest } = prepareCreateUserPayload(form);
+    return {
+        ...rest,
+        newPassword: password
+    };
+}
+
 function UserDrawer() {
-    const { data } = useDrawer();
+    const { data, type } = useDrawer();
     const { t } = useTranslation();
+
+    const handleOnSave = async function (form) {
+        if (type === DRAWER_TYPE.edit)
+            await updateUser(data.key, prepareEditUserPayload(form));
+        else if (type === DRAWER_TYPE.create) {
+            await createUser(prepareCreateUserPayload(form));
+        } else {
+            console.error("unknown drawer type");
+        }
+    };
 
     return (
         <>
             <DataDrawer
-                title={t("edit-user")}
-                onSave={(form) => updateUser(data.key, preparePayload(form))}
+                title={
+                    type === DRAWER_TYPE.edit
+                        ? t("edit-user")
+                        : t("create-user")
+                }
+                onSave={handleOnSave}
             >
                 <Title level={3}>{t("basic-info")}</Title>
                 <Form.Item
@@ -70,7 +93,7 @@ function UserDrawer() {
                     <Input placeholder={t("enter-email")} />
                 </Form.Item>
                 <Title level={3}>{t("password")}</Title>
-                <PasswordInputs required={false} />
+                <PasswordInputs required={type === DRAWER_TYPE.create} />
             </DataDrawer>
         </>
     );
