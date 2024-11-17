@@ -37,18 +37,18 @@ function ProfileInfo() {
                 <Title level={3}>{t("basic-info")}</Title>
                 <Space direction="horizontal">
                     <Text type="secondary">{t("given-names")}</Text>
-                    <Text>{userInfo.firstname}</Text>
+                    <Text>{userInfo.firstName}</Text>
                 </Space>
                 <Space direction="horizontal">
                     <Text type="secondary">{t("last-name")}</Text>
-                    <Text>{userInfo.lastname}</Text>
+                    <Text>{userInfo.lastName}</Text>
                 </Space>
                 <Space direction="horizontal">
                     <Text type="secondary">{t("email")}</Text>
                     <Text
                         editable={{
                             tooltip: t("edit"),
-                            onChange: onEmailChange,
+                            onChange: onEmailChange
                         }}
                     >
                         {email}

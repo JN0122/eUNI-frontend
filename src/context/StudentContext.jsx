@@ -70,13 +70,13 @@ export function StudentProvider({ children }) {
 
     useEffect(() => {
         if (!isAuthenticated) return;
-        if (userInfo?.role !== userRoles.Student) return;
+        if (userInfo?.roleId !== userRoles.Student) return;
         getStudentInfo();
-    }, [getStudentInfo, isAuthenticated, userInfo, userInfo?.role]);
+    }, [getStudentInfo, isAuthenticated, userInfo, userInfo?.roleId]);
 
     return (
         <>
-            {userInfo?.role !== userRoles.Student ? (
+            {userInfo?.roleId !== userRoles.Student ? (
                 children
             ) : (
                 <StudentContext.Provider

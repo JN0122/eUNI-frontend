@@ -3,7 +3,7 @@ import {
     useCallback,
     useContext,
     useEffect,
-    useState,
+    useState
 } from "react";
 import { loginUser, logoutUser } from "../api/auth.js";
 import { isUserAuthenticated, setAuthHeader } from "../api/axios.js";
@@ -24,7 +24,7 @@ export function AuthProvider({ children }) {
                 setUserInfo(null);
             }
         },
-        [setUserInfo],
+        [setUserInfo]
     );
 
     const login = useCallback(
@@ -32,6 +32,8 @@ export function AuthProvider({ children }) {
             let status;
             try {
                 const apiResponse = await loginUser(userData);
+                if (!apiResponse.data?.accessToken)
+                    return console.error("Cannot read access token");
                 setAuthHeader(apiResponse.data.accessToken);
                 await getUserInfo();
                 status = apiResponse.status;
@@ -40,7 +42,7 @@ export function AuthProvider({ children }) {
             }
             return { status };
         },
-        [getUserInfo],
+        [getUserInfo]
     );
 
     const logout = useCallback(
@@ -56,7 +58,7 @@ export function AuthProvider({ children }) {
             }
             return { status };
         },
-        [setUserInfo],
+        [setUserInfo]
     );
 
     useEffect(() => {
@@ -69,7 +71,7 @@ export function AuthProvider({ children }) {
                 userInfo,
                 login,
                 logout,
-                isAuthenticated: isUserAuthenticated(),
+                isAuthenticated: isUserAuthenticated()
             }}
         >
             {children}

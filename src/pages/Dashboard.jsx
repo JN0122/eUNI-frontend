@@ -35,7 +35,7 @@ function Dashboard() {
 
     let items = [];
 
-    switch (userInfo.role) {
+    switch (userInfo.roleId) {
         case USER_ROLE.Admin:
             items = [
                 {

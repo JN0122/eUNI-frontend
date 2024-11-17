@@ -12,23 +12,23 @@ function UserAvatar() {
     const items = useMemo(
         () => [
             {
-                label: `${userInfo?.firstname} ${userInfo?.lastname}`,
+                label: `${userInfo?.firstName} ${userInfo?.lastName}`,
                 key: "0",
-                disabled: true,
+                disabled: true
             },
             {
-                type: "divider",
+                type: "divider"
             },
             {
                 label: <Link to="/profile/info">{t("profile")}</Link>,
-                key: "1",
+                key: "1"
             },
             {
                 label: <a onClick={() => logout()}>{t("logout")}</a>,
-                key: "2",
-            },
+                key: "2"
+            }
         ],
-        [userInfo, t, logout],
+        [userInfo, t, logout]
     );
     if (!userInfo) {
         return (
@@ -44,7 +44,7 @@ function UserAvatar() {
         <a onClick={(e) => e.preventDefault()}>
             <Dropdown
                 menu={{
-                    items,
+                    items
                 }}
                 trigger={["click"]}
                 placement="bottomRight"
