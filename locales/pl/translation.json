@@ -57,5 +57,6 @@
   "search": "Szukaj",
   "reset": "Resetuj",
   "error-could-not-connect-to-api": "Nie można połączyć z API!",
-  "create-user": "Utwórz użytkownika"
+  "create-user": "Utwórz użytkownika",
+  "role": "Rola"
 }

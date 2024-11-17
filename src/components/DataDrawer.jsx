@@ -4,12 +4,11 @@ import { useTranslation } from "react-i18next";
 import { useCallback, useEffect } from "react";
 import getNotificationConfig from "../helpers/getNotificationConfig.js";
 
-function isFormValid(form) {
-    const errors = form.getFieldsError().map((field) => !!field.errors.length);
-    for (const error of errors) {
-        if (error) return false;
-    }
-    return true;
+async function isFormValid(form) {
+    return await form
+        .validateFields()
+        .then(() => true)
+        .catch(() => false);
 }
 
 function getFieldsObject(data) {
@@ -41,8 +40,8 @@ function DataDrawer({ title, onSave, children }) {
     }, [closeDrawer, setData]);
 
     const handleSubmit = useCallback(
-        function (form) {
-            if (!isFormValid(form)) return;
+        async function (form) {
+            if (!(await isFormValid(form))) return;
 
             onSave(form)
                 .then(() => {
@@ -81,6 +80,7 @@ function DataDrawer({ title, onSave, children }) {
                         <Button
                             onClick={() => handleSubmit(form)}
                             type="primary"
+                            htmlType="submit"
                         >
                             {t("save")}
                         </Button>
