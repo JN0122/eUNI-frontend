@@ -2,7 +2,7 @@ import ContentBlock from "../../components/ContentBlock.jsx";
 import { useTranslation } from "react-i18next";
 import { useMemo } from "react";
 import { Button, Flex, Typography } from "antd";
-import { deleteUser, getAllUsers } from "../../api/users.js";
+import { deleteUser, getAllUsers } from "../../api/admin.js";
 import UserDrawer from "./UserDrawer.jsx";
 import TableWithActions from "../../components/TableWithActions.jsx";
 import { useDrawer } from "../../context/DrawerContext.jsx";

@@ -3,7 +3,7 @@ import { DRAWER_TYPE, useDrawer } from "../../context/DrawerContext.jsx";
 import { useTranslation } from "react-i18next";
 import { PasswordInputs } from "../../components/PasswordInputs.jsx";
 import hashPassword from "../../helpers/hashPassword.js";
-import { createUser, updateUser } from "../../api/users.js";
+import { createUser, updateUser } from "../../api/admin.js";
 import DataDrawer from "../../components/DataDrawer.jsx";
 import USER_ROLE from "../../enums/userRoles.js";
 
