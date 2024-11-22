@@ -17,16 +17,9 @@ import { getUserData } from "../api/user.js";
 const UserContext = createContext();
 
 const defaultPermissions = {
-    studentRepresentative: [
-        "schedule:read",
-        "schedule:edit",
-        "class:add",
-        "class:remove",
-        "class:update",
-        "class:delete"
-    ],
+    representative: ["schedule:*", "class:*"],
     student: ["schedule:read"],
-    admin: ["users:create", "users:read", "users:update", "users:delete"]
+    admin: ["users:*"]
 };
 
 export function UserProvider({ children }) {
@@ -48,9 +41,10 @@ export function UserProvider({ children }) {
         async function () {
             try {
                 const response = await getStudentData();
+                const { fieldsOfStudyInfo } = response.data;
                 return setStudentInfo({
                     ...response.data,
-                    currentFieldOfStudy: 0
+                    currentFieldOfStudy: fieldsOfStudyInfo.length ? 0 : null
                 });
             } catch (error) {
                 if (error.status === 500)
@@ -68,20 +62,29 @@ export function UserProvider({ children }) {
         function () {
             let newPermissions = [];
             if (userInfo === null) return newPermissions;
+            if (studentInfo) {
+                const { currentFieldOfStudy, fieldsOfStudyInfo } = studentInfo;
+                if (fieldsOfStudyInfo[currentFieldOfStudy].isRepresentative)
+                    newPermissions = [
+                        ...newPermissions,
+                        ...defaultPermissions.representative
+                    ];
+            }
+
             if (userInfo.roleId === UserRoles.Admin)
                 newPermissions = [
                     ...newPermissions,
                     ...defaultPermissions.admin
                 ];
-            else {
+            else if (userInfo.roleId === UserRoles.Student)
                 newPermissions = [
                     ...newPermissions,
                     ...defaultPermissions.student
                 ];
-            }
+
             return newPermissions;
         },
-        [userInfo]
+        [studentInfo, userInfo]
     );
 
     useEffect(() => {
@@ -90,9 +93,17 @@ export function UserProvider({ children }) {
         getStudentInfo();
     }, [getStudentInfo, getUserInfo, isAuthenticated]);
 
-    const hasPermission = function (permission) {
-        return !!userPermissions.find((value) => value === permission);
-    };
+    const hasPermission = useCallback(
+        function (neededPermission) {
+            return !!userPermissions.find((userPermission) => {
+                const [userCat, userPerm] = userPermission.split(":");
+                const [cat, perm] = neededPermission.split(":");
+                if (userCat === cat && (userPerm === perm || userPerm === "*"))
+                    return true;
+            });
+        },
+        [userPermissions]
+    );
 
     return (
         <>
