@@ -2,7 +2,7 @@ import axiosInstance from "./axios.js";
 
 export async function loginUser(credentials) {
     return await axiosInstance.post(`/api/Auth/login`, credentials, {
-        withCredentials: true,
+        withCredentials: true
     });
 }
 
@@ -11,11 +11,7 @@ export async function logoutUser() {
         `/api/Auth/logout`,
         {},
         {
-            withCredentials: true,
-        },
+            withCredentials: true
+        }
     );
-}
-
-export async function checkIfUserIsAuthenticated() {
-    return await axiosInstance.post("/api/Auth/is-authenticated");
 }
