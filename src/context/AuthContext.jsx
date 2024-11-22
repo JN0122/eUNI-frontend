@@ -11,7 +11,7 @@ import { setAuthHeader } from "../api/axios.js";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(null);
 
     const restoreSession = useCallback(async function () {
         let token = null;
