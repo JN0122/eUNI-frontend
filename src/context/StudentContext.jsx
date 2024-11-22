@@ -7,21 +7,12 @@ import {
 } from "react";
 import { useAuth } from "./AuthContext.jsx";
 import userRoles from "../enums/userRoles.js";
-import { getStudentFieldsOfStudy, getStudentGroups } from "../api/student.js";
 import { notification } from "antd";
 import getNotificationConfig from "../helpers/getNotificationConfig.js";
 import { useTranslation } from "react-i18next";
+import { getStudentInfo } from "../api/student.js";
 
 const StudentContext = createContext();
-
-const getStudentGroup = async function (userId, fieldOfStudyLogId) {
-    const groups = await getStudentGroups(userId, fieldOfStudyLogId);
-    if (groups.status !== 200)
-        throw new Error(
-            `Cannot get group for userInfo: ${userId} fieldOfStudyLogId: ${fieldOfStudyLogId}`
-        );
-    return [groups.data];
-};
 
 export function StudentProvider({ children }) {
     const { isAuthenticated, userInfo } = useAuth();
@@ -30,49 +21,28 @@ export function StudentProvider({ children }) {
     const [currentFieldOfStudyInfo, setCurrentFieldOfStudyInfo] =
         useState(null);
 
-    const getStudentInfo = useCallback(
+    const fetchStudentInfo = useCallback(
         async function () {
-            const responseFieldsOfStudy = await getStudentFieldsOfStudy(
-                userInfo.id
-            );
+            const response = await getStudentInfo();
 
-            if (responseFieldsOfStudy.status !== 200)
+            if (response.status !== 200)
                 return notification.error(
                     getNotificationConfig(t("error-unexpected"))
                 );
 
-            const studentFieldOfStudyPromise = responseFieldsOfStudy.data.map(
-                async function (fieldOfStudy) {
-                    const groups = await getStudentGroup(
-                        userInfo.id,
-                        fieldOfStudy.fieldOfStudyLogId
-                    );
-                    return {
-                        ...fieldOfStudy,
-                        groups: groups[0]
-                    };
-                }
-            );
-
-            const studentFieldOfStudy = await Promise.all(
-                studentFieldOfStudyPromise
-            );
-
-            setStudentInfo({
-                fieldsOfStudy: [...studentFieldOfStudy]
-            });
+            setStudentInfo(response.data);
             setCurrentFieldOfStudyInfo({
-                ...studentFieldOfStudy[0]
+                ...response.data.fieldsOfStudyInfo[0]
             });
         },
-        [t, userInfo?.id]
+        [t]
     );
 
     useEffect(() => {
         if (!isAuthenticated) return;
         if (userInfo?.roleId !== userRoles.Student) return;
-        getStudentInfo();
-    }, [getStudentInfo, isAuthenticated, userInfo, userInfo?.roleId]);
+        fetchStudentInfo();
+    }, [fetchStudentInfo, isAuthenticated, userInfo, userInfo?.roleId]);
 
     return (
         <>
