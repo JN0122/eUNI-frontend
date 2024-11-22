@@ -1,5 +1,5 @@
 import axiosInstance from "./axios.js";
 
-export async function getStudentInfo() {
+export async function getStudentData() {
     return await axiosInstance.get(`/api/Student/info`);
 }

@@ -6,10 +6,10 @@ import DAYS from "../../enums/weekDays.js";
 import { useCallback, useEffect, useState } from "react";
 import { getSchedule } from "../../api/schedule.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
-import { useStudentContext } from "../../context/StudentContext.jsx";
 import getWeekNumber from "../../helpers/getWeekNumber.js";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import getStylesBasedOnClassType from "../../helpers/getStylesBasedOnClassType.js";
+import { useUser } from "../../context/UserContext.jsx";
 
 function getRows(data) {
     if (Object.keys(data).length === 0) return null;
@@ -52,7 +52,7 @@ function calculateRowSpan(data) {
 
 function Schedule() {
     const { t } = useTranslation();
-    const { studentInfo, currentFieldOfStudyInfo } = useStudentContext();
+    const { studentInfo } = useUser();
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState({});
     const [displayScheduleDate, setDisplayScheduleDate] = useState({
@@ -93,10 +93,12 @@ function Schedule() {
 
     const getScheduleData = useCallback(
         async function () {
+            const { fieldsOfStudyInfo, currentFieldOfStudy } = studentInfo;
             const response = await getSchedule({
                 ...displayScheduleDate,
-                fieldOfStudyLogId: currentFieldOfStudyInfo.fieldOfStudyLogId,
-                groupIds: currentFieldOfStudyInfo.groupIds
+                fieldOfStudyLogId:
+                    fieldsOfStudyInfo[currentFieldOfStudy].fieldOfStudyLogId,
+                groupIds: fieldsOfStudyInfo[currentFieldOfStudy].groupIds
             });
             if (response.status === 200) {
                 setData(response.data);
@@ -107,7 +109,12 @@ function Schedule() {
                 );
             }
         },
-        [currentFieldOfStudyInfo, displayScheduleDate, t]
+        [
+            displayScheduleDate,
+            studentInfo?.currentFieldOfStudy,
+            studentInfo?.fieldOfStudyInfo,
+            t
+        ]
     );
 
     useEffect(() => {

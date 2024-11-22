@@ -1,63 +1,52 @@
 import axios from "axios";
+import { restoreAccessToken } from "./auth.js";
 
 const axiosInstance = axios.create({
-    baseURL: "http://localhost:5104",
+    baseURL: "http://localhost:5104"
 });
-
-let isAuthenticated = false;
-
-export function isUserAuthenticated() {
-    return isAuthenticated;
-}
 
 export function setAuthHeader(token) {
     axiosInstance.defaults.headers.common.Authorization = token
         ? `Bearer ${token}`
         : null;
-    isAuthenticated = !!token;
 }
 
-export async function restoreSession() {
-    let token = null;
+async function restoreSession() {
     try {
-        const response = await axiosInstance.post(
-            "/api/Auth/refresh-token",
-            {},
-            {
-                withCredentials: true,
-            },
-        );
-        token = response.data.accessToken;
+        const response = await restoreAccessToken();
+        const token = response.data.accessToken;
+        setAuthHeader(token);
+        return token;
     } catch {
-        console.warn("Could not restore session");
+        setAuthHeader(null);
+        return null;
     }
-    setAuthHeader(token);
 }
-
-await restoreSession();
 
 axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
-
         if (
             error.response?.status === 401 &&
             !originalRequest._retry &&
-            !originalRequest.url.startsWith("/api/Auth")
+            !originalRequest.url.includes("/api/Auth")
         ) {
             originalRequest._retry = true;
 
             try {
-                await restoreSession();
+                const newToken = await restoreSession();
+                originalRequest.headers.Authorization = `Bearer ${newToken}`;
                 return axiosInstance(originalRequest);
             } catch (refreshError) {
                 console.error("Error when refreshing token: ", refreshError);
                 window.location.href = "/login";
+                return Promise.reject(refreshError);
             }
         }
+
         return Promise.reject(error);
-    },
+    }
 );
 
 export default axiosInstance;

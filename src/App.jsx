@@ -10,7 +10,7 @@ import ProfilePassword from "./pages/profile/ProfilePassword.jsx";
 import Users from "./pages/users/Users.jsx";
 import { DrawerProvider } from "./context/DrawerContext.jsx";
 import Schedule from "./pages/schedule/Schedule.jsx";
-import { StudentProvider } from "./context/StudentContext.jsx";
+import { UserProvider } from "./context/UserContext.jsx";
 import EditSchedule from "./pages/schedule/EditSchedule.jsx";
 import { App, ConfigProvider } from "antd";
 
@@ -70,9 +70,9 @@ function AppMain() {
         <ConfigProvider>
             <App>
                 <AuthProvider>
-                    <StudentProvider>
+                    <UserProvider>
                         <RouterProvider router={router} />
-                    </StudentProvider>
+                    </UserProvider>
                 </AuthProvider>
             </App>
         </ConfigProvider>

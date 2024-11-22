@@ -4,9 +4,11 @@ import { UserOutlined } from "@ant-design/icons";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useTranslation } from "react-i18next";
 import { useMemo } from "react";
+import { useUser } from "../context/UserContext.jsx";
 
 function UserAvatar() {
-    const { logout, userInfo } = useAuth();
+    const { logout } = useAuth();
+    const { userInfo } = useUser();
     const { t } = useTranslation();
 
     const items = useMemo(

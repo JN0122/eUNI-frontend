@@ -6,14 +6,14 @@ import {
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { Spin } from "antd";
-import { useAuth } from "../context/AuthContext.jsx";
 import USER_ROLE from "../enums/userRoles.js";
 import { useTranslation } from "react-i18next";
 import { MainMenuProvider } from "../context/MainMenuContext.jsx";
 import AppLayoutWithMainMenu from "../components/AppLayoutWithMainMenu.jsx";
+import { useUser } from "../context/UserContext.jsx";
 
 function Dashboard() {
-    const { userInfo } = useAuth();
+    const { userInfo } = useUser();
     const { t } = useTranslation();
 
     if (!userInfo) {

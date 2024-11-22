@@ -1,18 +1,18 @@
 import { useTranslation } from "react-i18next";
 import { useContentBlock } from "../../context/ContentBlockContext.jsx";
 import { useEffect, useState } from "react";
-import { useAuth } from "../../context/AuthContext.jsx";
 import { notification, Select, Space, Typography } from "antd";
 import LANGS from "../../enums/languages.js";
 import { changeEmail } from "../../api/user.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
+import { useUser } from "../../context/UserContext.jsx";
 
 const { Text, Title } = Typography;
 
 function ProfileInfo() {
     const { t, i18n } = useTranslation();
     const { addBreadcrumb, setBreadcrumbsToDefault } = useContentBlock();
-    const { userInfo } = useAuth();
+    const { userInfo } = useUser();
     const [email, setEmail] = useState(userInfo.email);
 
     useEffect(() => {

@@ -15,3 +15,13 @@ export async function logoutUser() {
         }
     );
 }
+
+export async function restoreAccessToken() {
+    return await axiosInstance.post(
+        "/api/Auth/refresh-token",
+        {},
+        {
+            withCredentials: true
+        }
+    );
+}
