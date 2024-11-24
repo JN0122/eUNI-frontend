@@ -93,7 +93,11 @@ export function UserProvider({ children }) {
     );
 
     useEffect(() => {
-        if (!isAuthenticated) return;
+        if (!isAuthenticated) {
+            setUserInfo(null);
+            setStudentInfo(null);
+            return;
+        }
         getUserInfo();
         getStudentInfo();
     }, [getStudentInfo, getUserInfo, isAuthenticated]);
