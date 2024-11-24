@@ -9,8 +9,9 @@ export function MainMenuProvider({ items, children }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (items[0] !== undefined) navigate(items[0].label.props.to);
-    });
+        if (items[0] !== undefined && pathname === "/")
+            navigate(items[0].label.props.to);
+    }, [items, navigate, pathname]);
 
     const activePageKey = useMemo(
         () =>
