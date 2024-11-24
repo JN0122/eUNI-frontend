@@ -28,7 +28,7 @@ export function UserProvider({ children }) {
     const [userInfo, setUserInfo] = useState(null);
     const [studentInfo, setStudentInfo] = useState(null);
 
-    const currentStudyOfInfo = useMemo(() => {
+    const currentFieldOfInfo = useMemo(() => {
         if (studentInfo === null) return null;
         const { currentFieldOfStudyIndex, fieldsOfStudyInfo } = studentInfo;
         return fieldsOfStudyInfo[currentFieldOfStudyIndex];
@@ -70,7 +70,7 @@ export function UserProvider({ children }) {
         function () {
             let newPermissions = [];
             if (userInfo === null) return newPermissions;
-            if (currentStudyOfInfo?.isRepresentative)
+            if (currentFieldOfInfo?.isRepresentative)
                 newPermissions = [
                     ...newPermissions,
                     ...defaultPermissions.representative
@@ -89,7 +89,7 @@ export function UserProvider({ children }) {
 
             return newPermissions;
         },
-        [currentStudyOfInfo?.isRepresentative, userInfo]
+        [currentFieldOfInfo?.isRepresentative, userInfo]
     );
 
     useEffect(() => {
@@ -117,7 +117,7 @@ export function UserProvider({ children }) {
                     userInfo,
                     studentInfo,
                     hasPermission,
-                    currentStudyOfInfo
+                    currentFieldOfInfo
                 }}
             >
                 {children}

@@ -15,7 +15,7 @@ function Assignments() {
     const { openCreateDrawer } = useDrawer();
     const { t } = useTranslation();
     const { addBreadcrumb, setBreadcrumbsToDefault } = useContentBlock();
-    const { currentStudyOfInfo } = useUser();
+    const { currentFieldOfInfo } = useUser();
 
     useEffect(() => {
         addBreadcrumb(t("assignments"));
@@ -60,10 +60,10 @@ function Assignments() {
         ],
         [t]
     );
-    if (!currentStudyOfInfo) return <Spin></Spin>;
+    if (!currentFieldOfInfo) return <Spin></Spin>;
 
     function handleFetchData() {
-        return getAssignments(currentStudyOfInfo?.fieldOfStudyLogId);
+        return getAssignments(currentFieldOfInfo?.fieldOfStudyLogId);
     }
 
     return (

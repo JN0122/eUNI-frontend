@@ -52,7 +52,7 @@ function calculateRowSpan(data) {
 
 function Schedule() {
     const { t } = useTranslation();
-    const { studentInfo } = useUser();
+    const { currentFieldOfInfo } = useUser();
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState({});
     const [displayScheduleDate, setDisplayScheduleDate] = useState({
@@ -93,12 +93,10 @@ function Schedule() {
 
     const getScheduleData = useCallback(
         async function () {
-            const { fieldsOfStudyInfo, currentFieldOfStudy } = studentInfo;
             const response = await getSchedule({
                 ...displayScheduleDate,
-                fieldOfStudyLogId:
-                    fieldsOfStudyInfo[currentFieldOfStudy].fieldOfStudyLogId,
-                groupIds: fieldsOfStudyInfo[currentFieldOfStudy].groupIds
+                fieldOfStudyLogId: currentFieldOfInfo.fieldOfStudyLogId,
+                groupIds: currentFieldOfInfo.groupIds
             });
             if (response.status === 200) {
                 setData(response.data);
@@ -110,16 +108,16 @@ function Schedule() {
             }
         },
         [
+            currentFieldOfInfo?.fieldOfStudyLogId,
+            currentFieldOfInfo?.groupIds,
             displayScheduleDate,
-            studentInfo?.currentFieldOfStudy,
-            studentInfo?.fieldOfStudyInfo,
             t
         ]
     );
 
     useEffect(() => {
-        if (studentInfo) getScheduleData();
-    }, [getScheduleData, studentInfo]);
+        if (currentFieldOfInfo) getScheduleData();
+    }, [currentFieldOfInfo, getScheduleData]);
 
     const columns = [
         {
