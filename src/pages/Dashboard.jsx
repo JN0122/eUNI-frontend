@@ -17,26 +17,31 @@ function Dashboard() {
     const { t } = useTranslation();
 
     const items = useMemo(
-        () => [
-            hasPermission("users:*") && {
-                label: <Link to={"users"}>{t("users")}</Link>,
-                key: "1",
-                path: "users",
-                icon: <UserOutlined />
-            },
-            hasPermission("schedule:read") && {
-                label: <Link to={"schedule"}>{t("schedule")}</Link>,
-                key: "1",
-                path: "schedule",
-                icon: <TableOutlined />
-            },
-            hasPermission("schedule:*") && {
-                label: <Link to={"edit-schedule"}>{t("edit-schedule")}</Link>,
-                key: "2",
-                path: "edit-schedule",
-                icon: <EditOutlined />
-            }
-        ],
+        () =>
+            [
+                hasPermission("users:*") && {
+                    label: <Link to={"users"}>{t("users")}</Link>,
+                    key: "1",
+                    path: "users",
+                    icon: <UserOutlined />
+                },
+                hasPermission("schedule:read") && {
+                    label: <Link to={"schedule"}>{t("schedule")}</Link>,
+                    key: "1",
+                    path: "schedule",
+                    icon: <TableOutlined />
+                },
+                hasPermission("schedule:*") && {
+                    label: (
+                        <Link to={"edit-schedule/classes"}>
+                            {t("edit-schedule")}
+                        </Link>
+                    ),
+                    key: "2",
+                    path: "edit-schedule",
+                    icon: <EditOutlined />
+                }
+            ].filter(Boolean),
         [hasPermission, t]
     );
 

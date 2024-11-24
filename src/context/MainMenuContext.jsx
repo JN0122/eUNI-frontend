@@ -1,25 +1,30 @@
-import { createContext, useContext, useMemo } from "react";
-import { useLocation } from "react-router-dom";
+import { createContext, useContext, useEffect, useMemo } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import getSubpagePath from "../helpers/getSubpagePath.js";
 
 const MainMenuContext = createContext();
 
 export function MainMenuProvider({ items, children }) {
     const { pathname } = useLocation();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (items[0] !== undefined) navigate(items[0].label.props.to);
+    });
 
     const activePageKey = useMemo(
         () =>
             items
                 .find((item) => item.path === getSubpagePath(pathname))
                 ?.key?.toString() || "0",
-        [items, pathname],
+        [items, pathname]
     );
 
     return (
         <MainMenuContext.Provider
             value={{
                 items,
-                activePageKey,
+                activePageKey
             }}
         >
             {children}
