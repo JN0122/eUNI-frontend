@@ -7,6 +7,8 @@ import AssignmentsDrawer from "./AssignmentsDrawer.jsx";
 import { useContentBlock } from "../../context/ContentBlockContext.jsx";
 import { useUser } from "../../context/UserContext.jsx";
 import { deleteClasses, getClasses } from "../../api/classes.js";
+import WeekDays from "../../enums/weekDays.js";
+import isOddWeekMap from "../../helpers/isOddWeekMap.js";
 
 const { Text } = Typography;
 
@@ -49,11 +51,11 @@ function Classes() {
             },
             {
                 title: t("class-repeatability"),
-                dataIndex: "isOddWeek"
+                dataIndex: "isOddWeekParsed"
             },
             {
                 title: t("week-day"),
-                dataIndex: "weekDay"
+                dataIndex: "weekDayParsed"
             },
             {
                 title: t("start-hour"),
@@ -68,8 +70,16 @@ function Classes() {
     );
     if (!currentFieldOfInfo) return <Spin></Spin>;
 
-    function handleFetchData() {
-        return getClasses(currentFieldOfInfo?.fieldOfStudyLogId);
+    async function handleFetchData() {
+        const response = await getClasses(
+            currentFieldOfInfo?.fieldOfStudyLogId
+        );
+        response.data = response.data.map((value) => {
+            value.isOddWeekParsed = t(isOddWeekMap(value.isOddWeek));
+            value.weekDayParsed = t(WeekDays[value.weekDay]);
+            return value;
+        });
+        return response;
     }
 
     return (
