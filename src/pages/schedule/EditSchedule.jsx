@@ -3,24 +3,37 @@ import ContentBlockWithMenu from "../../components/ContentBlockWithMenu.jsx";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ContentBlockProvider } from "../../context/ContentBlockContext.jsx";
+import { useUser } from "../../context/UserContext.jsx";
+import { CalendarOutlined, FileOutlined } from "@ant-design/icons";
+import { DrawerProvider } from "../../context/DrawerContext.jsx";
 
 function EditSchedule() {
     const { t } = useTranslation();
+    const { hasPermission } = useUser();
 
     const items = useMemo(
         () => [
-            {
-                label: <Link to="#">{t("test")}</Link>,
-                path: "test",
+            hasPermission("classes:*") && {
+                label: <Link to="classes">{t("classes")}</Link>,
+                path: "classes",
+                icon: <CalendarOutlined />,
                 key: 1
+            },
+            hasPermission("assignments:*") && {
+                label: <Link to="assignments">{t("assignments")}</Link>,
+                path: "assignments",
+                icon: <FileOutlined />,
+                key: 2
             }
         ],
-        [t]
+        [hasPermission, t]
     );
 
     return (
         <ContentBlockProvider mainPath={t("edit-schedule")} items={items}>
-            <ContentBlockWithMenu />
+            <DrawerProvider>
+                <ContentBlockWithMenu />
+            </DrawerProvider>
         </ContentBlockProvider>
     );
 }

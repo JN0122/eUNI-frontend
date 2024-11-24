@@ -17,7 +17,7 @@ import { getUserData } from "../api/user.js";
 const UserContext = createContext();
 
 const defaultPermissions = {
-    representative: ["schedule:*", "class:*"],
+    representative: ["schedule:*", "class:*", "classes:*", "assignments:*"],
     student: ["schedule:read"],
     admin: ["users:*"]
 };
@@ -27,6 +27,12 @@ export function UserProvider({ children }) {
     const { t } = useTranslation();
     const [userInfo, setUserInfo] = useState(null);
     const [studentInfo, setStudentInfo] = useState(null);
+
+    const currentStudyOfInfo = useMemo(() => {
+        if (studentInfo === null) return null;
+        const { currentFieldOfStudyIndex, fieldsOfStudyInfo } = studentInfo;
+        return fieldsOfStudyInfo[currentFieldOfStudyIndex];
+    }, [studentInfo]);
 
     const getUserInfo = useCallback(async function () {
         try {
@@ -44,7 +50,9 @@ export function UserProvider({ children }) {
                 const { fieldsOfStudyInfo } = response.data;
                 return setStudentInfo({
                     ...response.data,
-                    currentFieldOfStudy: fieldsOfStudyInfo.length ? 0 : null
+                    currentFieldOfStudyIndex: fieldsOfStudyInfo.length
+                        ? 0
+                        : null
                 });
             } catch (error) {
                 if (error.status === 500)
@@ -62,14 +70,11 @@ export function UserProvider({ children }) {
         function () {
             let newPermissions = [];
             if (userInfo === null) return newPermissions;
-            if (studentInfo) {
-                const { currentFieldOfStudy, fieldsOfStudyInfo } = studentInfo;
-                if (fieldsOfStudyInfo[currentFieldOfStudy].isRepresentative)
-                    newPermissions = [
-                        ...newPermissions,
-                        ...defaultPermissions.representative
-                    ];
-            }
+            if (currentStudyOfInfo?.isRepresentative)
+                newPermissions = [
+                    ...newPermissions,
+                    ...defaultPermissions.representative
+                ];
 
             if (userInfo.roleId === UserRoles.Admin)
                 newPermissions = [
@@ -84,7 +89,7 @@ export function UserProvider({ children }) {
 
             return newPermissions;
         },
-        [studentInfo, userInfo]
+        [currentStudyOfInfo?.isRepresentative, userInfo]
     );
 
     useEffect(() => {
@@ -108,7 +113,12 @@ export function UserProvider({ children }) {
     return (
         <>
             <UserContext.Provider
-                value={{ userInfo, studentInfo, hasPermission }}
+                value={{
+                    userInfo,
+                    studentInfo,
+                    hasPermission,
+                    currentStudyOfInfo
+                }}
             >
                 {children}
             </UserContext.Provider>

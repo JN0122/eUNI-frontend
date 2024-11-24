@@ -19,6 +19,7 @@ function TableWithActions({
     columns,
     fetchData,
     modalConfirmContent,
+    customDataParse,
     onModalConfirm,
     notificationSuccessText
 }) {
@@ -28,6 +29,11 @@ function TableWithActions({
     const [loading, setLoading] = useState(true);
     const searchInput = useRef(null);
     const { notification, modal } = App.useApp();
+
+    const dataParser = (value) => {
+        if (!customDataParse) return value;
+        return customDataParse(value);
+    };
 
     const getDataSource = useCallback(
         async function () {
@@ -215,9 +221,11 @@ function TableWithActions({
                     <a
                         onClick={() => {
                             openEditDrawer();
-                            setData({
-                                ...record
-                            });
+                            setData(
+                                dataParser({
+                                    ...record
+                                })
+                            );
                         }}
                     >
                         {t("edit")}

@@ -58,5 +58,15 @@
   "reset": "Resetuj",
   "error-could-not-connect-to-api": "Nie można połączyć z API!",
   "create-user": "Utwórz użytkownika",
-  "role": "Rola"
+  "role": "Rola",
+  "assignments": "Zadania",
+  "classes": "Zajęcia",
+  "assignment-name": "Nazwa zadania",
+  "deadline-date": "Data oddania",
+  "class-name": "Nazwa przedmiotu",
+  "create-assignment": "Utwórz zadanie",
+  "success-remove-assignment": "Poprawnie usunięto zadanie",
+  "edit-assignment": "Edytuj zadanie",
+  "enter-assignment-name": "Wprowadź nazwę zadania",
+  "enter-deadline-date": "Wybierz datę zadania"
 }
