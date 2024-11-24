@@ -68,5 +68,13 @@
   "success-remove-assignment": "Poprawnie usunięto zadanie",
   "edit-assignment": "Edytuj zadanie",
   "enter-assignment-name": "Wprowadź nazwę zadania",
-  "enter-deadline-date": "Wybierz datę zadania"
+  "enter-deadline-date": "Wybierz datę zadania",
+  "room": "Pokój",
+  "group-name": "Grupa",
+  "class-repeatability": "Powtarzalność",
+  "week-day": "Dzień tygodnia",
+  "start-hour": "Godzina rozpoczęcia",
+  "end-hour": "Godzina zakończenia",
+  "create-class": "Utwórz zajęcie",
+  "success-remove-class": "Poprawnie usunięto zajęcie"
 }

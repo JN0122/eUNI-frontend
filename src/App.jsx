@@ -14,6 +14,7 @@ import { UserProvider } from "./context/UserContext.jsx";
 import EditSchedule from "./pages/schedule/EditSchedule.jsx";
 import { App, ConfigProvider } from "antd";
 import Assignments from "./pages/schedule/Assignments.jsx";
+import Classes from "./pages/schedule/Classes.jsx";
 
 const router = createBrowserRouter([
     {
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
                     {
                         path: "assignments",
                         element: <Assignments />
+                    },
+                    {
+                        path: "classes",
+                        element: <Classes />
                     }
                 ]
             }
