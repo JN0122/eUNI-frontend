@@ -79,5 +79,13 @@
   "start-hour": "Godzina rozpoczęcia",
   "end-hour": "Godzina zakończenia",
   "create-class": "Utwórz zajęcie",
-  "success-remove-class": "Poprawnie usunięto zajęcie"
+  "success-remove-class": "Poprawnie usunięto zajęcie",
+  "study-info": "Informacje o studiach",
+  "current-field-of-study": "Aktualny kierunek studiów",
+  "lecture": "Wykłady",
+  "dean-group": "Grupa dziekańska",
+  "project": "Grupa projektowa",
+  "computer": "Groupa komputerowa",
+  "laboratory": "Grupa laboratoryjna",
+  "semester": "Semestr"
 }

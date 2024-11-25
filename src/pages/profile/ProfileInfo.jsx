@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useContentBlock } from "../../context/ContentBlockContext.jsx";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { notification, Select, Space, Typography } from "antd";
 import LANGS from "../../enums/languages.js";
 import { changeEmail } from "../../api/user.js";
@@ -12,7 +12,7 @@ const { Text, Title } = Typography;
 function ProfileInfo() {
     const { t, i18n } = useTranslation();
     const { addBreadcrumb, setBreadcrumbsToDefault } = useContentBlock();
-    const { userInfo } = useUser();
+    const { userInfo, currentFieldOfInfo } = useUser();
     const [email, setEmail] = useState(userInfo.email);
 
     useEffect(() => {
@@ -30,6 +30,45 @@ function ProfileInfo() {
             notification.error(getNotificationConfig(t("error-unexpected")));
         }
     }
+
+    const studentContent = useMemo(() => {
+        if (currentFieldOfInfo == null) return null;
+        return (
+            <>
+                <Title level={3}>{t("study-info")}</Title>
+                <Space direction="horizontal">
+                    <Text type="secondary">
+                        {`${t("current-field-of-study")}: `}
+                    </Text>
+                    <Text>{currentFieldOfInfo.name}</Text>
+                </Space>
+                <Space direction="horizontal">
+                    <Text type="secondary">{`${t("semester")}: `}</Text>
+                    <Text>{currentFieldOfInfo.semester}</Text>
+                </Space>
+                <Space direction="horizontal">
+                    <Text type="secondary">{t("lecture")}</Text>
+                    <Select options={[{ value: 1, label: "W" }]} />
+                </Space>
+                <Space direction="horizontal">
+                    <Text type="secondary">{t("dean-group")}</Text>
+                    <Select options={[{ value: 1, label: "W" }]} />
+                </Space>
+                <Space direction="horizontal">
+                    <Text type="secondary">{t("project")}</Text>
+                    <Select options={[{ value: 1, label: "W" }]} />
+                </Space>
+                <Space direction="horizontal">
+                    <Text type="secondary">{t("computer")}</Text>
+                    <Select options={[{ value: 1, label: "W" }]} />
+                </Space>
+                <Space direction="horizontal">
+                    <Text type="secondary">{t("laboratory")}</Text>
+                    <Select options={[{ value: 1, label: "W" }]} />
+                </Space>
+            </>
+        );
+    }, [currentFieldOfInfo, t]);
 
     return (
         <>
@@ -54,6 +93,7 @@ function ProfileInfo() {
                         {email}
                     </Text>
                 </Space>
+                {studentContent}
                 <Title level={3}>{t("language")}</Title>
                 <Select
                     defaultValue={i18n.language}
