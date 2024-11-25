@@ -34,11 +34,6 @@ function DataDrawer({ title, onSave, children }) {
         }
     }, [isOpen, form, data]);
 
-    const handleFormCancel = useCallback(() => {
-        closeDrawer();
-        setData({});
-    }, [closeDrawer, setData]);
-
     const handleSubmit = useCallback(
         async function (form) {
             if (!(await isFormValid(form))) return;
@@ -65,7 +60,7 @@ function DataDrawer({ title, onSave, children }) {
             <Drawer
                 title={title}
                 width={360}
-                onClose={handleFormCancel}
+                onClose={closeDrawer}
                 open={isOpen}
                 styles={{
                     body: {
@@ -74,9 +69,7 @@ function DataDrawer({ title, onSave, children }) {
                 }}
                 extra={
                     <Space>
-                        <Button onClick={handleFormCancel}>
-                            {t("cancel")}
-                        </Button>
+                        <Button onClick={closeDrawer}>{t("cancel")}</Button>
                         <Button
                             onClick={() => handleSubmit(form)}
                             type="primary"

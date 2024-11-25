@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { App, Button, Flex, Input, Skeleton, Space, Table } from "antd";
+import { App, Button, Flex, Input, Space, Table } from "antd";
 import { ExclamationCircleFilled, SearchOutlined } from "@ant-design/icons";
 import getNotificationConfig from "../helpers/getNotificationConfig.js";
 import { useDrawer } from "../context/DrawerContext.jsx";
@@ -242,6 +242,7 @@ function TableWithActions({
         return newColumns;
     }, [
         columns,
+        dataParser,
         getColumnSearchProps,
         openEditDrawer,
         setData,
@@ -249,9 +250,6 @@ function TableWithActions({
         t
     ]);
 
-    if (dataSource?.length === 0) {
-        return <Skeleton loading />;
-    }
     return (
         <>
             <Flex gap="middle" vertical>

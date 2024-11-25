@@ -15,6 +15,7 @@ export function DrawerProvider({ children }) {
     const closeDrawer = () => {
         setOpen(false);
         setType(null);
+        setData(null);
     };
 
     function openDrawer(type) {
