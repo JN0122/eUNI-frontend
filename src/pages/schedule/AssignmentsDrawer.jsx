@@ -36,7 +36,10 @@ function AssignmentsDrawer() {
         const response = await getClasses(currentFieldOfInfo.fieldOfStudyLogId);
         setSelectValues(
             response.data.map((classEntity) => {
-                return { value: classEntity.id, label: classEntity.name };
+                return {
+                    value: classEntity.id,
+                    label: `${classEntity.className} (${classEntity.groupName})`
+                };
             })
         );
     }, [currentFieldOfInfo.fieldOfStudyLogId]);
