@@ -8,6 +8,7 @@ import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 import { useUser } from "../../context/UserContext.jsx";
 import { getGroups } from "../../api/fieldOfStudy.js";
 import CLASSES_TYPE from "../../enums/classesType.js";
+import { changeStudentGroup } from "../../api/student.js";
 
 const { Text, Title } = Typography;
 
@@ -83,13 +84,34 @@ function ProfileInfo() {
         );
     }, [currentFieldOfInfo, t]);
 
-    function getCurrentStudentGroup(typeId) {
-        if (currentFieldOfInfo?.groups === undefined) return null;
-        const currentGroup = currentFieldOfInfo.groups.find(
-            (group) => group.type === typeId
-        );
-        return currentGroup?.groupId;
-    }
+    const getCurrentStudentGroup = useCallback(
+        function (typeId) {
+            if (currentFieldOfInfo?.groups === undefined) return null;
+            const currentGroup = currentFieldOfInfo.groups.find(
+                (group) => group.type === typeId
+            );
+            return currentGroup?.groupId;
+        },
+        [currentFieldOfInfo?.groups]
+    );
+
+    const handleGroupChange = useCallback(
+        async function (groupId, typeId) {
+            try {
+                await changeStudentGroup({
+                    fieldOfStudyLogId: currentFieldOfInfo?.fieldOfStudyLogId,
+                    groupId,
+                    groupType: typeId
+                });
+            } catch (error) {
+                console.error(error);
+                notification.error(
+                    getNotificationConfig(t("error-unexpected"))
+                );
+            }
+        },
+        [currentFieldOfInfo?.fieldOfStudyLogId, t]
+    );
 
     const groupContent = useMemo(() => {
         if (groupsOptions === null) return null;
@@ -109,6 +131,9 @@ function ProfileInfo() {
                                 style={{ width: 100 }}
                                 options={groupsOptions[typeId]}
                                 value={value}
+                                onChange={(groupId) =>
+                                    handleGroupChange(groupId, typeId)
+                                }
                             />
                         </Space>
                     );
@@ -116,9 +141,10 @@ function ProfileInfo() {
             </>
         );
     }, [
-        currentFieldOfInfo?.groups,
-        currentFieldOfInfo?.semester,
+        currentFieldOfInfo.semester,
+        getCurrentStudentGroup,
         groupsOptions,
+        handleGroupChange,
         t
     ]);
 
