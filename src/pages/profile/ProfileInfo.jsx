@@ -83,6 +83,14 @@ function ProfileInfo() {
         );
     }, [currentFieldOfInfo, t]);
 
+    function getCurrentStudentGroup(typeId) {
+        if (currentFieldOfInfo?.groups === undefined) return null;
+        const currentGroup = currentFieldOfInfo.groups.find(
+            (group) => group.type === typeId
+        );
+        return currentGroup?.groupId;
+    }
+
     const groupContent = useMemo(() => {
         if (groupsOptions === null) return null;
         return (
@@ -91,45 +99,28 @@ function ProfileInfo() {
                     <Text type="secondary">{`${t("semester")}: `}</Text>
                     <Text>{currentFieldOfInfo.semester}</Text>
                 </Space>
-                {groupsOptions[CLASSES_TYPE.lecture] && (
-                    <Space direction="horizontal">
-                        <Text type="secondary">{t("lecture")}</Text>
-                        <Select options={groupsOptions[CLASSES_TYPE.lecture]} />
-                    </Space>
-                )}
-                {groupsOptions[CLASSES_TYPE.deanGroup] && (
-                    <Space direction="horizontal">
-                        <Text type="secondary">{t("dean-group")}</Text>
-                        <Select
-                            options={groupsOptions[CLASSES_TYPE.deanGroup]}
-                        />
-                    </Space>
-                )}
-                {groupsOptions[CLASSES_TYPE.project] && (
-                    <Space direction="horizontal">
-                        <Text type="secondary">{t("project")}</Text>
-                        <Select options={groupsOptions[CLASSES_TYPE.project]} />
-                    </Space>
-                )}
-                {groupsOptions[CLASSES_TYPE.computer] && (
-                    <Space direction="horizontal">
-                        <Text type="secondary">{t("computer")}</Text>
-                        <Select
-                            options={groupsOptions[CLASSES_TYPE.computer]}
-                        />
-                    </Space>
-                )}
-                {groupsOptions[CLASSES_TYPE.laboratory] && (
-                    <Space direction="horizontal">
-                        <Text type="secondary">{t("laboratory")}</Text>
-                        <Select
-                            options={groupsOptions[CLASSES_TYPE.laboratory]}
-                        />
-                    </Space>
-                )}
+                {Object.keys(CLASSES_TYPE).map((classTypeName, typeId) => {
+                    if (groupsOptions[typeId] === undefined) return;
+                    const value = getCurrentStudentGroup(typeId);
+                    return (
+                        <Space key={typeId} direction="horizontal">
+                            <Text type="secondary">{t(classTypeName)}</Text>
+                            <Select
+                                style={{ width: 100 }}
+                                options={groupsOptions[typeId]}
+                                value={value}
+                            />
+                        </Space>
+                    );
+                })}
             </>
         );
-    }, [currentFieldOfInfo?.semester, groupsOptions, t]);
+    }, [
+        currentFieldOfInfo?.groups,
+        currentFieldOfInfo?.semester,
+        groupsOptions,
+        t
+    ]);
 
     return (
         <>
