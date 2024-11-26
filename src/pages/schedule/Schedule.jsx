@@ -96,7 +96,9 @@ function Schedule() {
             const response = await getSchedule({
                 ...displayScheduleDate,
                 fieldOfStudyLogId: currentFieldOfInfo.fieldOfStudyLogId,
-                groupIds: currentFieldOfInfo.groupIds
+                groupIds: currentFieldOfInfo.groups.map(
+                    (group) => group.groupId
+                )
             });
             if (response.status === 200) {
                 setData(response.data);
