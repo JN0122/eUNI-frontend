@@ -15,7 +15,7 @@ const { Text, Title } = Typography;
 function ProfileInfo() {
     const { t, i18n } = useTranslation();
     const { addBreadcrumb, setBreadcrumbsToDefault } = useContentBlock();
-    const { userInfo, currentFieldOfInfo } = useUser();
+    const { userInfo, currentFieldOfInfo, reFetchStudentInfo } = useUser();
     const [email, setEmail] = useState(userInfo.email);
     const [groupsOptions, setGroupsOptions] = useState(null);
 
@@ -103,6 +103,7 @@ function ProfileInfo() {
                     groupId,
                     groupType: typeId
                 });
+                reFetchStudentInfo();
             } catch (error) {
                 console.error(error);
                 notification.error(

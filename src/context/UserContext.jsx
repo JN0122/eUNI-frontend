@@ -66,6 +66,10 @@ export function UserProvider({ children }) {
         [t]
     );
 
+    const reFetchStudentInfo = useCallback(async () => {
+        await getStudentInfo();
+    }, [getStudentInfo]);
+
     const userPermissions = useMemo(
         function () {
             let newPermissions = [];
@@ -121,7 +125,8 @@ export function UserProvider({ children }) {
                     userInfo,
                     studentInfo,
                     hasPermission,
-                    currentFieldOfInfo
+                    currentFieldOfInfo,
+                    reFetchStudentInfo
                 }}
             >
                 {children}
