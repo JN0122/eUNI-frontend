@@ -4,7 +4,8 @@ export default function (classType) {
     const styles = {
         padding: 0,
         verticalAlign: "middle",
-        borderColor: "transparent"
+        borderColor: "transparent",
+        width: "10rem"
     };
 
     switch (classType) {
