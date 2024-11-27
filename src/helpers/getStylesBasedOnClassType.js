@@ -5,7 +5,7 @@ export default function (classType) {
         padding: 0,
         verticalAlign: "middle",
         borderColor: "transparent",
-        width: "10rem"
+        minWidth: "10rem"
     };
 
     switch (classType) {

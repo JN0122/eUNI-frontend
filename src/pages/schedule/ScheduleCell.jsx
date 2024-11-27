@@ -11,7 +11,8 @@ function ScheduleCell({ cellData }) {
             gap={"0.5rem"}
             style={{
                 padding: "0.5em",
-                margin: "auto"
+                margin: "auto",
+                width: "10rem"
             }}
         >
             <Text strong>{cellData.name}</Text>
