@@ -1,6 +1,6 @@
 import ContentBlock from "../../components/ContentBlock.jsx";
 import { useTranslation } from "react-i18next";
-import { Button, ConfigProvider, Flex, notification, Table } from "antd";
+import { Button, Flex, notification, Table } from "antd";
 import ScheduleCell from "./ScheduleCell.jsx";
 import DAYS from "../../enums/weekDays.js";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -153,45 +153,34 @@ function Schedule() {
     );
 
     return (
-        <ConfigProvider
-            theme={{
-                components: {
-                    Table: {
-                        borderColor: null
-                    }
-                }
-            }}
-        >
-            <ContentBlock breadcrumbs={[{ title: t("schedule") }]}>
-                <Flex
-                    align={"center"}
-                    justify={"space-between"}
-                    style={{ padding: "1rem 0" }}
-                >
-                    <Button
-                        shape="circle"
-                        icon={<LeftOutlined />}
-                        onClick={() => onArrowClick(-1)}
-                    />
-                    {!isLoading && data?.date}
-                    <Button
-                        shape="circle"
-                        icon={<RightOutlined />}
-                        onClick={() => onArrowClick(1)}
-                    />
-                </Flex>
-                <Table
-                    pagination={false}
-                    loading={isLoading}
-                    columns={columns}
-                    bordered={false}
-                    dataSource={getRows(data)}
-                    scroll={{
-                        x: "max-content"
-                    }}
+        <ContentBlock breadcrumbs={[{ title: t("schedule") }]}>
+            <Flex
+                align={"center"}
+                justify={"space-between"}
+                style={{ padding: "1rem 0" }}
+            >
+                <Button
+                    shape="circle"
+                    icon={<LeftOutlined />}
+                    onClick={() => onArrowClick(-1)}
                 />
-            </ContentBlock>
-        </ConfigProvider>
+                {!isLoading && data?.date}
+                <Button
+                    shape="circle"
+                    icon={<RightOutlined />}
+                    onClick={() => onArrowClick(1)}
+                />
+            </Flex>
+            <Table
+                pagination={false}
+                loading={isLoading}
+                columns={columns}
+                dataSource={getRows(data)}
+                scroll={{
+                    x: "max-content"
+                }}
+            />
+        </ContentBlock>
     );
 }
 

@@ -15,16 +15,12 @@ function ScheduleCell({ cellData }) {
                 maxWidth: "10rem"
             }}
         >
-            <Text strong style={{ color: "white" }}>
-                {cellData.name}
-            </Text>
-            <Text style={{ color: "white" }}>{cellData.room}</Text>
+            <Text strong>{cellData.name}</Text>
+            <Text>{cellData.room}</Text>
             {cellData.assignment && (
                 <Flex gap={"0.5rem"} justify={"center"}>
                     <FileOutlined />
-                    <Text style={{ color: "white" }}>
-                        {cellData.assignment.name}
-                    </Text>
+                    <Text>{cellData.assignment.name}</Text>
                 </Flex>
             )}
         </Flex>

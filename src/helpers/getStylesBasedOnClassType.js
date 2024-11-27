@@ -4,26 +4,24 @@ export default function (classType) {
     const styles = {
         padding: 0,
         verticalAlign: "middle",
-        border: "3px solid transparent",
-        borderRadius: "10px",
-        color: "white"
+        borderColor: "transparent"
     };
 
     switch (classType) {
         case CLASSES_TYPE.lecture:
-            styles.backgroundColor = "#55BBFF";
+            styles.backgroundColor = "#ccebff";
             break;
         case CLASSES_TYPE.deanGroup:
-            styles.backgroundColor = "#60A6EF";
+            styles.backgroundColor = "#cfe4fa";
             break;
         case CLASSES_TYPE.laboratory:
-            styles.backgroundColor = "#6B92DE";
+            styles.backgroundColor = "#d3def5";
             break;
         case CLASSES_TYPE.project:
-            styles.backgroundColor = "#767DCE";
+            styles.backgroundColor = "#d6d8f0";
             break;
         case CLASSES_TYPE.computer:
-            styles.backgroundColor = "#8168BE";
+            styles.backgroundColor = "#d9d2ec";
             break;
     }
     return styles;
