@@ -2,7 +2,7 @@ import ContentBlock from "../../components/ContentBlock.jsx";
 import { useTranslation } from "react-i18next";
 import { Button, Flex, notification, Table } from "antd";
 import ScheduleCell from "./ScheduleCell.jsx";
-import DAYS from "../../enums/weekDays.js";
+import { getStudyDays } from "../../enums/weekDays.js";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getSchedule } from "../../api/schedule.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
@@ -28,28 +28,6 @@ function getRows(data) {
     });
 }
 
-function calculateRowSpan(data) {
-    const rowSpan = {};
-    DAYS.map((day) => {
-        let prevSpan = 1;
-        const span = [];
-        data.schedule.map((row) => {
-            let hours = row[day]?.hours;
-            if (hours) {
-                prevSpan += hours - 1;
-                span.push(hours);
-            } else if (prevSpan === 1) {
-                span.push(prevSpan);
-            } else {
-                prevSpan--;
-                span.push(0);
-            }
-        });
-        rowSpan[day] = span;
-    });
-    return rowSpan;
-}
-
 function Schedule() {
     const { t } = useTranslation();
     const { currentFieldOfInfo } = useUser();
@@ -71,6 +49,31 @@ function Schedule() {
         });
     };
 
+    const calculateRowSpan = useCallback(
+        function (data) {
+            const rowSpan = {};
+            getStudyDays(currentFieldOfInfo?.isFullTime).map((day) => {
+                let prevSpan = 1;
+                const span = [];
+                data.schedule.map((row) => {
+                    let hours = row[day]?.hours;
+                    if (hours) {
+                        prevSpan += hours - 1;
+                        span.push(hours);
+                    } else if (prevSpan === 1) {
+                        span.push(prevSpan);
+                    } else {
+                        prevSpan--;
+                        span.push(0);
+                    }
+                });
+                rowSpan[day] = span;
+            });
+            return rowSpan;
+        },
+        [currentFieldOfInfo?.isFullTime]
+    );
+
     const getClassesType = useCallback(
         function (index, day) {
             return data.schedule[index][day]?.type;
@@ -81,7 +84,7 @@ function Schedule() {
     const rowSpan = useMemo(() => {
         if (data === null) return null;
         return calculateRowSpan(data);
-    }, [data]);
+    }, [calculateRowSpan, data]);
 
     const getRowSpan = useCallback(
         function (index, day) {
@@ -140,7 +143,7 @@ function Schedule() {
                 align: "center",
                 className: "vertical-middle"
             },
-            ...DAYS.map((day) => {
+            ...getStudyDays(currentFieldOfInfo?.isFullTime).map((day) => {
                 return {
                     title: t(day.toString()),
                     dataIndex: day.toString(),
@@ -149,7 +152,7 @@ function Schedule() {
                 };
             })
         ],
-        [getRowSpan, t]
+        [currentFieldOfInfo?.isFullTime, getRowSpan, t]
     );
 
     return (

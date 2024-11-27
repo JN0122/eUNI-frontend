@@ -6,7 +6,7 @@ import { useDrawer } from "../../context/DrawerContext.jsx";
 import { useContentBlock } from "../../context/ContentBlockContext.jsx";
 import { useUser } from "../../context/UserContext.jsx";
 import { deleteClass, getClasses } from "../../api/representative.js";
-import WeekDays from "../../enums/weekDays.js";
+import { DAYS } from "../../enums/weekDays.js";
 import { isOddWeekMap } from "../../helpers/isOddWeekMap.js";
 import ClassesDrawer from "./ClassesDrawer.jsx";
 
@@ -79,7 +79,7 @@ function Classes() {
         response.data = response.data.map((value) => {
             value.isOddWeekParsed = t(isOddWeekMap(value.isOddWeek));
             value.isOddWeek = `${value.isOddWeek}`;
-            value.weekDayParsed = t(WeekDays[value.weekDay]);
+            value.weekDayParsed = t(DAYS[value.weekDay]);
             return value;
         });
         return response;
