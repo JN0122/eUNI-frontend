@@ -9,7 +9,7 @@ import {
 } from "../../api/representative.js";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getHours } from "../../api/schedule.js";
-import { DAYS, getStudyDays } from "../../enums/weekDays.js";
+import { getStudyDays } from "../../enums/weekDays.js";
 import { isOddWeekMap, oddWeekValues } from "../../helpers/isOddWeekMap.js";
 import { useUser } from "../../context/UserContext.jsx";
 
@@ -40,7 +40,12 @@ function ClassesDrawer() {
     const weekDayOptions = useMemo(() => {
         return getStudyDays(currentFieldOfInfo?.isFullTime).map(
             (weekday, index) => {
-                return { label: t(DAYS[index]), value: index };
+                return {
+                    label: t(
+                        getStudyDays(currentFieldOfInfo?.isFullTime)[index]
+                    ),
+                    value: currentFieldOfInfo?.isFullTime ? index : index + 5
+                };
             }
         );
     }, [currentFieldOfInfo?.isFullTime, t]);
