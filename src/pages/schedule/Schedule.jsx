@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Button, ConfigProvider, Flex, notification, Table } from "antd";
 import ScheduleCell from "./ScheduleCell.jsx";
 import DAYS from "../../enums/weekDays.js";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { getSchedule } from "../../api/schedule.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 import getWeekNumber from "../../helpers/getWeekNumber.js";
@@ -12,7 +12,7 @@ import getStylesBasedOnClassType from "../../helpers/getStylesBasedOnClassType.j
 import { useUser } from "../../context/UserContext.jsx";
 
 function getRows(data) {
-    if (Object.keys(data).length === 0) return null;
+    if (data === null) return null;
     return data.schedule.map((row) => {
         return {
             key: row.id,
@@ -36,7 +36,7 @@ function calculateRowSpan(data) {
         data.schedule.map((row) => {
             let hours = row[day]?.hours;
             if (hours) {
-                prevSpan += hours;
+                prevSpan += hours - 1;
                 span.push(hours);
             } else if (prevSpan === 1) {
                 span.push(prevSpan);
@@ -54,7 +54,7 @@ function Schedule() {
     const { t } = useTranslation();
     const { currentFieldOfInfo } = useUser();
     const [isLoading, setIsLoading] = useState(true);
-    const [data, setData] = useState({});
+    const [data, setData] = useState(null);
     const [displayScheduleDate, setDisplayScheduleDate] = useState({
         weekNumber: getWeekNumber(new Date()),
         year: new Date().getFullYear()
@@ -75,20 +75,23 @@ function Schedule() {
         function (index, day) {
             return data.schedule[index][day]?.type;
         },
-        [data.schedule]
+        [data?.schedule]
     );
+
+    const rowSpan = useMemo(() => {
+        if (data === null) return null;
+        return calculateRowSpan(data);
+    }, [data]);
 
     const getRowSpan = useCallback(
         function (index, day) {
             const classType = getClassesType(index, day);
-            const rowSpan = calculateRowSpan(data);
-
             return {
                 rowSpan: rowSpan[day][index],
                 style: getStylesBasedOnClassType(classType)
             };
         },
-        [data, getClassesType]
+        [getClassesType, rowSpan]
     );
 
     const getScheduleData = useCallback(
@@ -111,7 +114,7 @@ function Schedule() {
         },
         [
             currentFieldOfInfo?.fieldOfStudyLogId,
-            currentFieldOfInfo?.groupIds,
+            currentFieldOfInfo?.groups,
             displayScheduleDate,
             t
         ]
@@ -121,30 +124,33 @@ function Schedule() {
         if (currentFieldOfInfo) getScheduleData();
     }, [currentFieldOfInfo, getScheduleData]);
 
-    const columns = [
-        {
-            title: t("no."),
-            dataIndex: "key",
-            rowScope: "key",
-            align: "center",
-            className: "vertical-middle"
-        },
-        {
-            title: t("hour"),
-            dataIndex: "hour",
-            rowScope: "row",
-            align: "center",
-            className: "vertical-middle"
-        },
-        ...DAYS.map((day) => {
-            return {
-                title: t(day.toString()),
-                dataIndex: day.toString(),
+    const columns = useMemo(
+        () => [
+            {
+                title: t("no."),
+                dataIndex: "key",
+                rowScope: "key",
                 align: "center",
-                onCell: (_, index) => getRowSpan(index, day.toString())
-            };
-        })
-    ];
+                className: "vertical-middle"
+            },
+            {
+                title: t("hour"),
+                dataIndex: "hour",
+                rowScope: "row",
+                align: "center",
+                className: "vertical-middle"
+            },
+            ...DAYS.map((day) => {
+                return {
+                    title: t(day.toString()),
+                    dataIndex: day.toString(),
+                    align: "center",
+                    onCell: (_, index) => getRowSpan(index, day.toString())
+                };
+            })
+        ],
+        [getRowSpan, t]
+    );
 
     return (
         <ConfigProvider
@@ -167,7 +173,7 @@ function Schedule() {
                         icon={<LeftOutlined />}
                         onClick={() => onArrowClick(-1)}
                     />
-                    {!isLoading && data.date}
+                    {!isLoading && data?.date}
                     <Button
                         shape="circle"
                         icon={<RightOutlined />}
