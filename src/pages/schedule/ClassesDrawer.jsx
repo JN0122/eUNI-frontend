@@ -20,19 +20,22 @@ function ClassesDrawer() {
     const [groupOptions, setGroupOptions] = useState([]);
     const [hourOptions, setHourOptions] = useState([]);
 
-    const preparePayload = useCallback(function (form) {
-        const isOddWeek = form.getFieldValue("isOddWeek");
-        return {
-            fieldOfStudyLogId: currentFieldOfInfo?.fieldOfStudyLogId,
-            name: form.getFieldValue("className"),
-            room: form.getFieldValue("classRoom"),
-            isOddWeek: JSON.parse(isOddWeek),
-            weekDay: form.getFieldValue("weekDay"),
-            groupId: form.getFieldValue("groupId"),
-            startHourId: form.getFieldValue("startHourId"),
-            endHourId: form.getFieldValue("endHourId")
-        };
-    }, []);
+    const preparePayload = useCallback(
+        function (form) {
+            const isOddWeek = form.getFieldValue("isOddWeek");
+            return {
+                fieldOfStudyLogId: currentFieldOfInfo?.fieldOfStudyLogId,
+                name: form.getFieldValue("className"),
+                room: form.getFieldValue("classRoom"),
+                isOddWeek: JSON.parse(isOddWeek),
+                weekDay: form.getFieldValue("weekDay"),
+                groupId: form.getFieldValue("groupId"),
+                startHourId: form.getFieldValue("startHourId"),
+                endHourId: form.getFieldValue("endHourId")
+            };
+        },
+        [currentFieldOfInfo?.fieldOfStudyLogId]
+    );
 
     const weekDayOptions = useMemo(() => {
         return WeekDays.map((weekday, index) => {
@@ -46,15 +49,18 @@ function ClassesDrawer() {
         });
     }, [t]);
 
-    const handleOnSave = async function (form) {
-        if (type === DRAWER_TYPE.edit)
-            await updateClass(data.key, preparePayload(form));
-        else if (type === DRAWER_TYPE.create) {
-            await createClass(preparePayload(form));
-        } else {
-            console.error("unknown drawer type");
-        }
-    };
+    const handleOnSave = useCallback(
+        async function (form) {
+            if (type === DRAWER_TYPE.edit)
+                await updateClass(data.key, preparePayload(form));
+            else if (type === DRAWER_TYPE.create) {
+                await createClass(preparePayload(form));
+            } else {
+                console.error("unknown drawer type");
+            }
+        },
+        [data?.key, preparePayload, type]
+    );
 
     const getGroupOptions = useCallback(async () => {
         if (currentFieldOfInfo == null) return null;
@@ -66,7 +72,7 @@ function ClassesDrawer() {
                 return { value: group.groupId, label: group.groupName };
             })
         );
-    }, []);
+    }, [currentFieldOfInfo]);
 
     const getHourOptions = useCallback(async () => {
         const response = await getHours();
