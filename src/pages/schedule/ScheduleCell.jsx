@@ -10,9 +10,9 @@ function ScheduleCell({ cellData }) {
             vertical
             gap={"0.5rem"}
             style={{
-                padding: "1em",
+                padding: "0.5em",
                 margin: "auto",
-                maxWidth: "15rem"
+                maxWidth: "10rem"
             }}
         >
             <Text strong style={{ color: "white" }}>
