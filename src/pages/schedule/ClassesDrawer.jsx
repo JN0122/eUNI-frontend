@@ -21,11 +21,12 @@ function ClassesDrawer() {
     const [hourOptions, setHourOptions] = useState([]);
 
     const preparePayload = useCallback(function (form) {
+        const isOddWeek = form.getFieldValue("isOddWeek");
         return {
             fieldOfStudyLogId: currentFieldOfInfo?.fieldOfStudyLogId,
             name: form.getFieldValue("className"),
             room: form.getFieldValue("classRoom"),
-            isOddWeek: Boolean(form.getFieldValue("isOddWeek")),
+            isOddWeek: JSON.parse(isOddWeek),
             weekDay: form.getFieldValue("weekDay"),
             groupId: form.getFieldValue("groupId"),
             startHourId: form.getFieldValue("startHourId"),
