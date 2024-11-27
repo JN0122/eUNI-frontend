@@ -130,7 +130,7 @@ function ProfileInfo() {
                             <Select
                                 style={{ width: 100 }}
                                 options={groupsOptions[typeId]}
-                                value={value}
+                                defaultValue={value}
                                 onChange={(groupId) =>
                                     handleGroupChange(groupId, typeId)
                                 }
@@ -141,7 +141,7 @@ function ProfileInfo() {
             </>
         );
     }, [
-        currentFieldOfInfo.semester,
+        currentFieldOfInfo?.semester,
         getCurrentStudentGroup,
         groupsOptions,
         handleGroupChange,
