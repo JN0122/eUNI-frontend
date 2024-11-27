@@ -1,15 +1,16 @@
-import { DatePicker, Form, Input, Select } from "antd";
+import { Form, Input, Select } from "antd";
 import { DRAWER_TYPE, useDrawer } from "../../context/DrawerContext.jsx";
 import { useTranslation } from "react-i18next";
 import DataDrawer from "../../components/DataDrawer.jsx";
 import {
     createAssignment,
+    getAllGroups,
     updateAssignment
 } from "../../api/representative.js";
-import { useCallback, useEffect, useState } from "react";
-import { useUser } from "../../context/UserContext.jsx";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { getHours } from "../../api/schedule.js";
-import { getGroups } from "../../api/fieldOfStudy.js";
+import WeekDays from "../../enums/weekDays.js";
+import { isOddWeekMap, oddWeekValues } from "../../helpers/isOddWeekMap.js";
 
 function preparePayload(form) {
     return {
@@ -21,10 +22,21 @@ function preparePayload(form) {
 
 function ClassesDrawer() {
     const { data, type } = useDrawer();
-    const { currentFieldOfInfo } = useUser();
     const { t } = useTranslation();
     const [groupOptions, setGroupOptions] = useState([]);
     const [hourOptions, setHourOptions] = useState([]);
+
+    const weekDayOptions = useMemo(() => {
+        return WeekDays.map((weekday, index) => {
+            return { label: t(WeekDays[index]), value: index };
+        });
+    }, [t]);
+
+    const oddWeekOptions = useMemo(() => {
+        return oddWeekValues.map((value) => {
+            return { label: t(isOddWeekMap(value)), value: `${value}` };
+        });
+    }, [t]);
 
     const handleOnSave = async function (form) {
         if (type === DRAWER_TYPE.edit)
@@ -36,19 +48,28 @@ function ClassesDrawer() {
         }
     };
 
-    const getClassesValues = useCallback(async () => {
-        if (!currentFieldOfInfo?.fieldOfStudyLogId) return;
-        const response = await getClasses(currentFieldOfInfo.fieldOfStudyLogId);
-        setSelectValues(
-            response.data.map((classEntity) => {
-                return { value: classEntity.id, label: classEntity.name };
+    const getGroupOptions = useCallback(async () => {
+        const response = await getAllGroups();
+        setGroupOptions(
+            response.data.map((group) => {
+                return { value: group.groupId, label: group.groupName };
             })
         );
-    }, [currentFieldOfInfo.fieldOfStudyLogId]);
+    }, []);
+
+    const getHourOptions = useCallback(async () => {
+        const response = await getHours();
+        setHourOptions(
+            response.data.map((hour) => {
+                return { value: hour.hourId, label: hour.hourName };
+            })
+        );
+    }, []);
 
     useEffect(() => {
-        getClassesValues();
-    }, [getClassesValues]);
+        getHourOptions();
+        getGroupOptions();
+    }, [getGroupOptions, getHourOptions]);
 
     return (
         <>
@@ -61,32 +82,8 @@ function ClassesDrawer() {
                 onSave={handleOnSave}
             >
                 <Form.Item
-                    name="assignmentName"
-                    label={t("assignment-name")}
-                    rules={[
-                        {
-                            required: true,
-                            message: t("error-this-field-is-required")
-                        }
-                    ]}
-                >
-                    <Input placeholder={t("enter-assignment-name")} />
-                </Form.Item>
-                <Form.Item
-                    name="deadlineDate"
-                    label={t("deadline-date")}
-                    rules={[
-                        {
-                            required: true,
-                            message: t("error-this-field-is-required")
-                        }
-                    ]}
-                >
-                    <DatePicker needConfirm />
-                </Form.Item>
-                <Form.Item
                     label={t("classes")}
-                    name="classId"
+                    name="className"
                     rules={[
                         {
                             required: true,
@@ -94,7 +91,79 @@ function ClassesDrawer() {
                         }
                     ]}
                 >
-                    <Select options={selectValues} />
+                    <Input placeholder={t("enter-class-name")} />
+                </Form.Item>
+                <Form.Item
+                    name="classRoom"
+                    label={t("room")}
+                    rules={[
+                        {
+                            required: true,
+                            message: t("error-this-field-is-required")
+                        }
+                    ]}
+                >
+                    <Input placeholder={t("enter-room")} />
+                </Form.Item>
+                <Form.Item
+                    label={t("group-name")}
+                    name="groupId"
+                    rules={[
+                        {
+                            required: true,
+                            message: t("error-this-field-is-required")
+                        }
+                    ]}
+                >
+                    <Select options={groupOptions} />
+                </Form.Item>
+                <Form.Item
+                    label={t("class-repeatability")}
+                    name="isOddWeek"
+                    rules={[
+                        {
+                            required: true,
+                            message: t("error-this-field-is-required")
+                        }
+                    ]}
+                >
+                    <Select options={oddWeekOptions} />
+                </Form.Item>
+                <Form.Item
+                    label={t("week-day")}
+                    name="weekDay"
+                    rules={[
+                        {
+                            required: true,
+                            message: t("error-this-field-is-required")
+                        }
+                    ]}
+                >
+                    <Select options={weekDayOptions} />
+                </Form.Item>
+                <Form.Item
+                    label={t("start-hour")}
+                    name="startHourId"
+                    rules={[
+                        {
+                            required: true,
+                            message: t("error-this-field-is-required")
+                        }
+                    ]}
+                >
+                    <Select options={hourOptions} />
+                </Form.Item>
+                <Form.Item
+                    label={t("end-hour")}
+                    name="endHourId"
+                    rules={[
+                        {
+                            required: true,
+                            message: t("error-this-field-is-required")
+                        }
+                    ]}
+                >
+                    <Select options={hourOptions} />
                 </Form.Item>
             </DataDrawer>
         </>

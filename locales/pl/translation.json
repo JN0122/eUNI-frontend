@@ -87,5 +87,7 @@
   "project": "Grupa projektowa",
   "computer": "Groupa komputerowa",
   "laboratory": "Grupa laboratoryjna",
-  "semester": "Semestr"
+  "semester": "Semestr",
+  "enter-room": "Wpowadź numer sali",
+  "enter-class-name": "Wprowadź nazwę zajęć"
 }

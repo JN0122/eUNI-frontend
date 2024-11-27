@@ -7,7 +7,7 @@ import { useContentBlock } from "../../context/ContentBlockContext.jsx";
 import { useUser } from "../../context/UserContext.jsx";
 import { deleteClasses, getClasses } from "../../api/representative.js";
 import WeekDays from "../../enums/weekDays.js";
-import isOddWeekMap from "../../helpers/isOddWeekMap.js";
+import { isOddWeekMap } from "../../helpers/isOddWeekMap.js";
 import ClassesDrawer from "./ClassesDrawer.jsx";
 
 const { Text } = Typography;
@@ -39,7 +39,7 @@ function Classes() {
             {
                 title: t("class-name"),
                 dataIndex: "className",
-                withSort: true
+                withSearch: true
             },
             {
                 title: t("room"),
@@ -51,11 +51,13 @@ function Classes() {
             },
             {
                 title: t("class-repeatability"),
-                dataIndex: "isOddWeekParsed"
+                dataIndex: "isOddWeekParsed",
+                withSort: true
             },
             {
                 title: t("week-day"),
-                dataIndex: "weekDayParsed"
+                dataIndex: "weekDayParsed",
+                withSort: true
             },
             {
                 title: t("start-hour"),
@@ -76,6 +78,7 @@ function Classes() {
         );
         response.data = response.data.map((value) => {
             value.isOddWeekParsed = t(isOddWeekMap(value.isOddWeek));
+            value.isOddWeek = `${value.isOddWeek}`;
             value.weekDayParsed = t(WeekDays[value.weekDay]);
             return value;
         });

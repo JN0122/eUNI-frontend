@@ -1,4 +1,4 @@
-export default function (isOddWeek) {
+export function isOddWeekMap(isOddWeek) {
     switch (isOddWeek) {
         case null:
             return "every-week";
@@ -8,3 +8,5 @@ export default function (isOddWeek) {
             return "every-even-week";
     }
 }
+
+export const oddWeekValues = [null, true, false];

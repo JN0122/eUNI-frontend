@@ -44,3 +44,7 @@ export async function updateClasses(id, payload) {
 export async function deleteClasses(id) {
     return await axiosInstance.delete(`/api/Representative/classes/${id}`);
 }
+
+export async function getAllGroups() {
+    return await axiosInstance.get("/api/Representative/all-groups");
+}
