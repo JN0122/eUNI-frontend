@@ -45,6 +45,8 @@ export async function deleteClass(id) {
     return await axiosInstance.delete(`/api/Representative/classes/${id}`);
 }
 
-export async function getAllGroups() {
-    return await axiosInstance.get("/api/Representative/all-groups");
+export async function getAllGroups(fieldOfStudyLogId) {
+    return await axiosInstance.get("/api/Representative/all-groups", {
+        params: { fieldOfStudyLogId }
+    });
 }

@@ -57,7 +57,10 @@ function ClassesDrawer() {
     };
 
     const getGroupOptions = useCallback(async () => {
-        const response = await getAllGroups();
+        if (currentFieldOfInfo == null) return null;
+        const response = await getAllGroups(
+            currentFieldOfInfo.fieldOfStudyLogId
+        );
         setGroupOptions(
             response.data.map((group) => {
                 return { value: group.groupId, label: group.groupName };
