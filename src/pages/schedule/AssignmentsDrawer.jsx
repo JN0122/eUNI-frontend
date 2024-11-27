@@ -2,9 +2,12 @@ import { DatePicker, Form, Input, Select } from "antd";
 import { DRAWER_TYPE, useDrawer } from "../../context/DrawerContext.jsx";
 import { useTranslation } from "react-i18next";
 import DataDrawer from "../../components/DataDrawer.jsx";
-import { createAssignment, updateAssignment } from "../../api/assignments.js";
+import {
+    createAssignment,
+    getClasses,
+    updateAssignment
+} from "../../api/representative.js";
 import { useCallback, useEffect, useState } from "react";
-import { getClasses } from "../../api/classes.js";
 import { useUser } from "../../context/UserContext.jsx";
 
 function preparePayload(form) {

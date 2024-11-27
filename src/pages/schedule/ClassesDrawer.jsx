@@ -2,10 +2,14 @@ import { DatePicker, Form, Input, Select } from "antd";
 import { DRAWER_TYPE, useDrawer } from "../../context/DrawerContext.jsx";
 import { useTranslation } from "react-i18next";
 import DataDrawer from "../../components/DataDrawer.jsx";
-import { createAssignment, updateAssignment } from "../../api/assignments.js";
+import {
+    createAssignment,
+    updateAssignment
+} from "../../api/representative.js";
 import { useCallback, useEffect, useState } from "react";
-import { getClasses } from "../../api/classes.js";
 import { useUser } from "../../context/UserContext.jsx";
+import { getHours } from "../../api/schedule.js";
+import { getGroups } from "../../api/fieldOfStudy.js";
 
 function preparePayload(form) {
     return {
@@ -19,7 +23,8 @@ function ClassesDrawer() {
     const { data, type } = useDrawer();
     const { currentFieldOfInfo } = useUser();
     const { t } = useTranslation();
-    const [selectValues, setSelectValues] = useState([]);
+    const [groupOptions, setGroupOptions] = useState([]);
+    const [hourOptions, setHourOptions] = useState([]);
 
     const handleOnSave = async function (form) {
         if (type === DRAWER_TYPE.edit)

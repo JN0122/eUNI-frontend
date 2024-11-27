@@ -3,12 +3,12 @@ import { useEffect, useMemo } from "react";
 import { Button, Flex, Spin, Typography } from "antd";
 import TableWithActions from "../../components/TableWithActions.jsx";
 import { useDrawer } from "../../context/DrawerContext.jsx";
-import AssignmentsDrawer from "./AssignmentsDrawer.jsx";
 import { useContentBlock } from "../../context/ContentBlockContext.jsx";
 import { useUser } from "../../context/UserContext.jsx";
-import { deleteClasses, getClasses } from "../../api/classes.js";
+import { deleteClasses, getClasses } from "../../api/representative.js";
 import WeekDays from "../../enums/weekDays.js";
 import isOddWeekMap from "../../helpers/isOddWeekMap.js";
+import ClassesDrawer from "./ClassesDrawer.jsx";
 
 const { Text } = Typography;
 
@@ -92,7 +92,7 @@ function Classes() {
                     {t("create-class")}
                 </Button>
             </Flex>
-            <AssignmentsDrawer />
+            <ClassesDrawer />
             <TableWithActions
                 columns={columns}
                 fetchData={handleFetchData}

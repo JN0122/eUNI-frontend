@@ -4,7 +4,7 @@ import { Button, Flex, Spin, Typography } from "antd";
 import TableWithActions from "../../components/TableWithActions.jsx";
 import { useDrawer } from "../../context/DrawerContext.jsx";
 import AssignmentsDrawer from "./AssignmentsDrawer.jsx";
-import { deleteAssignment, getAssignments } from "../../api/assignments.js";
+import { deleteAssignment, getAssignments } from "../../api/representative.js";
 import { useContentBlock } from "../../context/ContentBlockContext.jsx";
 import { useUser } from "../../context/UserContext.jsx";
 import dayjs from "dayjs";
