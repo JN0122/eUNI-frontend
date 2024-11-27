@@ -3,28 +3,35 @@ import { DRAWER_TYPE, useDrawer } from "../../context/DrawerContext.jsx";
 import { useTranslation } from "react-i18next";
 import DataDrawer from "../../components/DataDrawer.jsx";
 import {
-    createAssignment,
+    createClass,
     getAllGroups,
-    updateAssignment
+    updateClass
 } from "../../api/representative.js";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getHours } from "../../api/schedule.js";
 import WeekDays from "../../enums/weekDays.js";
 import { isOddWeekMap, oddWeekValues } from "../../helpers/isOddWeekMap.js";
-
-function preparePayload(form) {
-    return {
-        assignmentName: form.getFieldValue("assignmentName"),
-        deadlineDate: form.getFieldValue("deadlineDate").format("YYYY-MM-DD"),
-        classId: form.getFieldValue("classId")
-    };
-}
+import { useUser } from "../../context/UserContext.jsx";
 
 function ClassesDrawer() {
     const { data, type } = useDrawer();
+    const { currentFieldOfInfo } = useUser();
     const { t } = useTranslation();
     const [groupOptions, setGroupOptions] = useState([]);
     const [hourOptions, setHourOptions] = useState([]);
+
+    const preparePayload = useCallback(function (form) {
+        return {
+            fieldOfStudyLogId: currentFieldOfInfo?.fieldOfStudyLogId,
+            name: form.getFieldValue("className"),
+            room: form.getFieldValue("classRoom"),
+            isOddWeek: Boolean(form.getFieldValue("isOddWeek")),
+            weekDay: form.getFieldValue("weekDay"),
+            groupId: form.getFieldValue("groupId"),
+            startHourId: form.getFieldValue("startHourId"),
+            endHourId: form.getFieldValue("endHourId")
+        };
+    }, []);
 
     const weekDayOptions = useMemo(() => {
         return WeekDays.map((weekday, index) => {
@@ -40,9 +47,9 @@ function ClassesDrawer() {
 
     const handleOnSave = async function (form) {
         if (type === DRAWER_TYPE.edit)
-            await updateAssignment(data.key, preparePayload(form));
+            await updateClass(data.key, preparePayload(form));
         else if (type === DRAWER_TYPE.create) {
-            await createAssignment(preparePayload(form));
+            await createClass(preparePayload(form));
         } else {
             console.error("unknown drawer type");
         }

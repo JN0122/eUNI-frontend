@@ -5,7 +5,7 @@ import TableWithActions from "../../components/TableWithActions.jsx";
 import { useDrawer } from "../../context/DrawerContext.jsx";
 import { useContentBlock } from "../../context/ContentBlockContext.jsx";
 import { useUser } from "../../context/UserContext.jsx";
-import { deleteClasses, getClasses } from "../../api/representative.js";
+import { deleteClass, getClasses } from "../../api/representative.js";
 import WeekDays from "../../enums/weekDays.js";
 import { isOddWeekMap } from "../../helpers/isOddWeekMap.js";
 import ClassesDrawer from "./ClassesDrawer.jsx";
@@ -31,7 +31,7 @@ function Classes() {
     );
 
     const handleRemove = async function (record) {
-        await deleteClasses(record.key);
+        await deleteClass(record.key);
     };
 
     const columns = useMemo(

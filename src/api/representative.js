@@ -30,18 +30,18 @@ export async function getClasses(fieldOfStudyLogId) {
     });
 }
 
-export async function createClasses(payload) {
+export async function createClass(payload) {
     return await axiosInstance.post(`/api/Representative/classes/`, payload);
 }
 
-export async function updateClasses(id, payload) {
+export async function updateClass(id, payload) {
     return await axiosInstance.put(
         `/api/Representative/classes/${id}`,
         payload
     );
 }
 
-export async function deleteClasses(id) {
+export async function deleteClass(id) {
     return await axiosInstance.delete(`/api/Representative/classes/${id}`);
 }
 
