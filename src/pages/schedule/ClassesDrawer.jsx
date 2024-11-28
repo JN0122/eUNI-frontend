@@ -1,4 +1,4 @@
-import { Form, Input, Select } from "antd";
+import { DatePicker, Form, Input, Select } from "antd";
 import { DRAWER_TYPE, useDrawer } from "../../context/DrawerContext.jsx";
 import { useTranslation } from "react-i18next";
 import DataDrawer from "../../components/DataDrawer.jsx";
@@ -20,7 +20,7 @@ function ClassesDrawer() {
     const [groupOptions, setGroupOptions] = useState([]);
     const [hours, setHours] = useState(null);
 
-    const preparePayload = useCallback(
+    const prepareCreatePayload = useCallback(
         function (form) {
             const isOddWeek = form.getFieldValue("isOddWeek");
             return {
@@ -28,6 +28,24 @@ function ClassesDrawer() {
                 name: form.getFieldValue("className"),
                 room: form.getFieldValue("classRoom"),
                 isOddWeek: JSON.parse(isOddWeek),
+                weekDay: form.getFieldValue("weekDay"),
+                groupId: form.getFieldValue("groupId"),
+                startHourId: form.getFieldValue("startHourId"),
+                endHourId: form.getFieldValue("endHourId")
+            };
+        },
+        [currentFieldOfInfo?.fieldOfStudyLogId]
+    );
+
+    const prepareUpdatePayload = useCallback(
+        function (form) {
+            return {
+                fieldOfStudyLogId: currentFieldOfInfo?.fieldOfStudyLogId,
+                name: form.getFieldValue("className"),
+                room: form.getFieldValue("classRoom"),
+                dates: form
+                    .getFieldValue("dates")
+                    .map((day) => day.format("YYYY-MM-DD")),
                 weekDay: form.getFieldValue("weekDay"),
                 groupId: form.getFieldValue("groupId"),
                 startHourId: form.getFieldValue("startHourId"),
@@ -58,15 +76,15 @@ function ClassesDrawer() {
 
     const handleOnSave = useCallback(
         async function (form) {
-            if (type === DRAWER_TYPE.edit)
-                await updateClass(data.key, preparePayload(form));
-            else if (type === DRAWER_TYPE.create) {
-                await createClass(preparePayload(form));
+            if (type === DRAWER_TYPE.edit) {
+                await updateClass(data?.key, prepareUpdatePayload(form));
+            } else if (type === DRAWER_TYPE.create) {
+                await createClass(prepareCreatePayload(form));
             } else {
                 console.error("unknown drawer type");
             }
         },
-        [data?.key, preparePayload, type]
+        [data?.key, prepareCreatePayload, prepareUpdatePayload, type]
     );
 
     const getGroupOptions = useCallback(async () => {
@@ -155,30 +173,49 @@ function ClassesDrawer() {
                 >
                     <Select options={groupOptions} />
                 </Form.Item>
-                <Form.Item
-                    label={t("class-repeatability")}
-                    name="isOddWeek"
-                    rules={[
-                        {
-                            required: true,
-                            message: t("error-this-field-is-required")
-                        }
-                    ]}
-                >
-                    <Select options={oddWeekOptions} />
-                </Form.Item>
-                <Form.Item
-                    label={t("week-day")}
-                    name="weekDay"
-                    rules={[
-                        {
-                            required: true,
-                            message: t("error-this-field-is-required")
-                        }
-                    ]}
-                >
-                    <Select options={weekDayOptions} />
-                </Form.Item>
+                {type === DRAWER_TYPE.create ? (
+                    <>
+                        <Form.Item
+                            label={t("class-repeatability")}
+                            name="isOddWeek"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: t("error-this-field-is-required")
+                                }
+                            ]}
+                        >
+                            <Select options={oddWeekOptions} />
+                        </Form.Item>
+                        <Form.Item
+                            label={t("week-day")}
+                            name="weekDay"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: t("error-this-field-is-required")
+                                }
+                            ]}
+                        >
+                            <Select options={weekDayOptions} />
+                        </Form.Item>
+                    </>
+                ) : (
+                    <>
+                        <Form.Item
+                            name="dates"
+                            label={t("class-dates")}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: t("error-this-field-is-required")
+                                }
+                            ]}
+                        >
+                            <DatePicker needConfirm multiple />
+                        </Form.Item>
+                    </>
+                )}
                 <Form.Item
                     label={t("start-hour")}
                     name="startHourId"

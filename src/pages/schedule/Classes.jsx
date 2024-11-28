@@ -6,9 +6,8 @@ import { useDrawer } from "../../context/DrawerContext.jsx";
 import { useContentBlock } from "../../context/ContentBlockContext.jsx";
 import { useUser } from "../../context/UserContext.jsx";
 import { deleteClass, getClasses } from "../../api/representative.js";
-import { DAYS } from "../../enums/weekDays.js";
-import { isOddWeekMap } from "../../helpers/isOddWeekMap.js";
 import ClassesDrawer from "./ClassesDrawer.jsx";
+import dayjs from "dayjs";
 
 const { Text } = Typography;
 
@@ -50,14 +49,8 @@ function Classes() {
                 dataIndex: "groupName"
             },
             {
-                title: t("class-repeatability"),
-                dataIndex: "isOddWeekParsed",
-                withSort: true
-            },
-            {
-                title: t("week-day"),
-                dataIndex: "weekDayParsed",
-                withSort: true
+                title: t("class-dates"),
+                dataIndex: "classDates"
             },
             {
                 title: t("start-hour"),
@@ -77,13 +70,12 @@ function Classes() {
             currentFieldOfInfo?.fieldOfStudyLogId
         );
         response.data = response.data.map((value) => {
-            value.isOddWeekParsed = t(isOddWeekMap(value.isOddWeek));
-            value.isOddWeek = `${value.isOddWeek}`;
-            value.weekDayParsed = t(DAYS[value.weekDay]);
-            value.startHourTime = value.startHour?.startTime;
-            value.startHourId = value.startHour?.hourId;
-            value.endHourTime = value.endHour?.endTime;
-            value.endHourId = value.endHour?.hourId;
+            value.classDates = value.dates.join(", ");
+            value.dates = value.dates.map((date) => dayjs(date));
+            value.startHourTime = value.startHour.startTime;
+            value.startHourId = value.startHour.hourId;
+            value.endHourTime = value.endHour.endTime;
+            value.endHourId = value.endHour.hourId;
             return value;
         });
         return response;
