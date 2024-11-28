@@ -50,7 +50,9 @@ function Classes() {
             },
             {
                 title: t("class-dates"),
-                dataIndex: "classDates"
+                dataIndex: "classDates",
+                withSearch: true,
+                width: 200
             },
             {
                 title: t("start-hour"),
