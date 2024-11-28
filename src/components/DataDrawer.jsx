@@ -46,7 +46,8 @@ function DataDrawer({ title, onSave, children }) {
                         getNotificationConfig(t("action-success"))
                     );
                 })
-                .catch(() => {
+                .catch((error) => {
+                    console.error(error);
                     notification.error(
                         getNotificationConfig(t("error-unexpected"))
                     );
