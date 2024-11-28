@@ -15,6 +15,18 @@ import EditSchedule from "./pages/schedule/EditSchedule.jsx";
 import { App, ConfigProvider } from "antd";
 import Assignments from "./pages/schedule/Assignments.jsx";
 import Classes from "./pages/schedule/Classes.jsx";
+import localePL from "antd/locale/pl_PL";
+import dayjs from "dayjs";
+import "dayjs/locale/en";
+import "dayjs/locale/pl";
+import updateLocale from "dayjs/plugin/updateLocale";
+
+dayjs.extend(updateLocale);
+const config = {
+    weekStart: 1
+};
+dayjs.updateLocale("en", config);
+dayjs.updateLocale("pl", config);
 
 const router = createBrowserRouter([
     {
@@ -79,7 +91,7 @@ const router = createBrowserRouter([
 
 function AppMain() {
     return (
-        <ConfigProvider>
+        <ConfigProvider locale={localePL}>
             <App>
                 <AuthProvider>
                     <UserProvider>
