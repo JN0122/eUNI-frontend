@@ -163,12 +163,14 @@ function Schedule() {
                 style={{ padding: "1rem 0" }}
             >
                 <Button
+                    disabled={!data?.canFetchPreviousWeek}
                     shape="circle"
                     icon={<LeftOutlined />}
                     onClick={() => onArrowClick(-1)}
                 />
                 {!isLoading && data?.date}
                 <Button
+                    disabled={!data?.canFetchNextWeek}
                     shape="circle"
                     icon={<RightOutlined />}
                     onClick={() => onArrowClick(1)}
