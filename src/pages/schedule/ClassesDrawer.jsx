@@ -18,7 +18,7 @@ function ClassesDrawer() {
     const { currentFieldOfInfo } = useUser();
     const { t } = useTranslation();
     const [groupOptions, setGroupOptions] = useState([]);
-    const [hourOptions, setHourOptions] = useState([]);
+    const [hours, setHours] = useState(null);
 
     const preparePayload = useCallback(
         function (form) {
@@ -81,19 +81,33 @@ function ClassesDrawer() {
         );
     }, [currentFieldOfInfo]);
 
-    const getHourOptions = useCallback(async () => {
+    const fetchHours = useCallback(async () => {
         const response = await getHours();
-        setHourOptions(
-            response.data.map((hour) => {
-                return { value: hour.hourId, label: hour.hourName };
-            })
-        );
+        setHours(response.data);
     }, []);
 
     useEffect(() => {
-        getHourOptions();
+        fetchHours();
         getGroupOptions();
-    }, [getGroupOptions, getHourOptions]);
+    }, [getGroupOptions, fetchHours]);
+
+    const getHourOptions = useCallback(
+        (value) => {
+            if (hours === null) return null;
+            return hours.map((hour) => {
+                return { label: hour[value], value: hour.hourId };
+            });
+        },
+        [hours]
+    );
+
+    const startHourOptions = useMemo(() => {
+        return getHourOptions("startTime");
+    }, [getHourOptions]);
+
+    const endHourOptions = useMemo(() => {
+        return getHourOptions("endTime");
+    }, [getHourOptions]);
 
     return (
         <>
@@ -175,7 +189,7 @@ function ClassesDrawer() {
                         }
                     ]}
                 >
-                    <Select options={hourOptions} />
+                    <Select options={startHourOptions} />
                 </Form.Item>
                 <Form.Item
                     label={t("end-hour")}
@@ -187,7 +201,7 @@ function ClassesDrawer() {
                         }
                     ]}
                 >
-                    <Select options={hourOptions} />
+                    <Select options={endHourOptions} />
                 </Form.Item>
             </DataDrawer>
         </>

@@ -61,11 +61,11 @@ function Classes() {
             },
             {
                 title: t("start-hour"),
-                dataIndex: "startHour"
+                dataIndex: "startHourTime"
             },
             {
                 title: t("end-hour"),
-                dataIndex: "endHour"
+                dataIndex: "endHourTime"
             }
         ],
         [t]
@@ -80,6 +80,10 @@ function Classes() {
             value.isOddWeekParsed = t(isOddWeekMap(value.isOddWeek));
             value.isOddWeek = `${value.isOddWeek}`;
             value.weekDayParsed = t(DAYS[value.weekDay]);
+            value.startHourTime = value.startHour?.startTime;
+            value.startHourId = value.startHour?.hourId;
+            value.endHourTime = value.endHour?.endTime;
+            value.endHourId = value.endHour?.hourId;
             return value;
         });
         return response;
