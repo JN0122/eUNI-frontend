@@ -92,6 +92,7 @@
   "enter-room": "Wpowadź numer sali",
   "enter-class-name": "Wprowadź nazwę zajęć",
   "day-off": "Dzień wolny od zajęć",
-  "field-of-study-representative": "Starosta kierunku",
-  "select-representative-fields-of-study": "Wybierz kierunki starosty"
+  "select-representative-fields-of-study": "Wybierz kierunki starosty",
+  "representative-fields-of-study": "Kierunki jako starosta",
+  "enter-info": "Wprowadź informacje"
 }
