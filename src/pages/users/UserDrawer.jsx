@@ -13,12 +13,14 @@ import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 const { Title } = Typography;
 
 function prepareCreateUserPayload(form) {
-    console.log(form.getFieldValue("representative"));
     return {
         firstName: form.getFieldValue("firstName"),
         lastName: form.getFieldValue("lastName"),
         email: form.getFieldValue("email"),
         roleId: form.getFieldValue("roleId"),
+        representativeFieldsOfStudyLogIds: form.getFieldValue(
+            "representativeFieldsOfStudyLogIds"
+        ),
         password: form.getFieldValue("newPassword")
             ? hashPassword(form.getFieldValue("newPassword"))
             : null
@@ -154,7 +156,7 @@ function UserDrawer() {
                 </Form.Item>
                 <Form.Item
                     label={t("field-of-study-representative")}
-                    name="fieldOfStudyLogId"
+                    name="representativeFieldsOfStudyLogIds"
                 >
                     <Select
                         mode="multiple"
