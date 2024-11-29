@@ -24,6 +24,9 @@ export default function (classType) {
         case CLASSES_TYPE.computer:
             styles.backgroundColor = "#d9d2ec";
             break;
+        case -1:
+            styles.backgroundColor = "#C19A6B";
+            break;
     }
     return styles;
 }
