@@ -10,22 +10,22 @@ export default function (classType) {
 
     switch (classType) {
         case CLASSES_TYPE.lecture:
-            styles.backgroundColor = "#ccebff";
+            styles.backgroundColor = "#ffcccc";
             break;
         case CLASSES_TYPE.deanGroup:
-            styles.backgroundColor = "#cfe4fa";
+            styles.backgroundColor = "#dfcffa";
             break;
         case CLASSES_TYPE.laboratory:
-            styles.backgroundColor = "#d3def5";
+            styles.backgroundColor = "#d3d9f5";
             break;
         case CLASSES_TYPE.project:
-            styles.backgroundColor = "#d6d8f0";
+            styles.backgroundColor = "#f0e3d6";
             break;
         case CLASSES_TYPE.computer:
-            styles.backgroundColor = "#d9d2ec";
+            styles.backgroundColor = "#ececd2";
             break;
         case -1:
-            styles.backgroundColor = "#C19A6B";
+            styles.backgroundColor = "#d4ecd2";
             break;
     }
     return styles;
