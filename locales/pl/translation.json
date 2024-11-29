@@ -91,5 +91,7 @@
   "semester": "Semestr",
   "enter-room": "Wpowadź numer sali",
   "enter-class-name": "Wprowadź nazwę zajęć",
-  "day-off": "Dzień wolny od zajęć"
+  "day-off": "Dzień wolny od zajęć",
+  "field-of-study-representative": "Starosta kierunku",
+  "select-representative-fields-of-study": "Wybierz kierunki starosty"
 }

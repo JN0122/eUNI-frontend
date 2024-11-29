@@ -20,7 +20,7 @@ function getFieldsObject(data) {
     });
 }
 
-function DataDrawer({ title, onSave, children }) {
+function DataDrawer({ title, onSave, children, ...rest }) {
     const { isOpen, closeDrawer, data, setData } = useDrawer();
     const { t } = useTranslation();
     const [form] = Form.useForm();
@@ -80,6 +80,7 @@ function DataDrawer({ title, onSave, children }) {
                         </Button>
                     </Space>
                 }
+                {...rest}
             >
                 <Form layout="vertical" form={form} autoComplete="off">
                     {children}

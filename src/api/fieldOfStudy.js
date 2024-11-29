@@ -5,3 +5,7 @@ export async function getGroups(fieldOfStudyLogId) {
         params: { fieldOfStudyLogId }
     });
 }
+
+export async function getFieldsOfStudyLogs() {
+    return await axiosInstance.get(`/api/FieldOfStudy/logs`);
+}
