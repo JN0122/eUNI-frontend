@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import DataDrawer from "../../components/DataDrawer.jsx";
 import {
     createClass,
+    getAcademicDaysOff,
     getAllGroups,
     updateClass
 } from "../../api/representative.js";
@@ -12,12 +13,14 @@ import { getHours } from "../../api/schedule.js";
 import { getStudyDays } from "../../enums/weekDays.js";
 import { isOddWeekMap, oddWeekValues } from "../../helpers/isOddWeekMap.js";
 import { useUser } from "../../context/UserContext.jsx";
+import dayjs from "dayjs";
 
 function ClassesDrawer() {
     const { data, type } = useDrawer();
     const { currentFieldOfInfo } = useUser();
     const { t } = useTranslation();
     const [groupOptions, setGroupOptions] = useState([]);
+    const [academicYearDaysOff, setAcademicYearDaysOff] = useState(null);
     const [hours, setHours] = useState(null);
 
     const prepareCreatePayload = useCallback(
@@ -74,6 +77,33 @@ function ClassesDrawer() {
         });
     }, [t]);
 
+    const disabledDate = useCallback(
+        (current) => {
+            return (
+                current &&
+                (current < academicYearDaysOff?.yearStartDate ||
+                    current > academicYearDaysOff?.yearEndDate ||
+                    academicYearDaysOff?.daysOff.find((v) => v.isSame(current)))
+            );
+        },
+        [academicYearDaysOff]
+    );
+
+    const getDaysOff = useCallback(
+        async function () {
+            if (currentFieldOfInfo?.fieldOfStudyLogId === undefined) return;
+            const response = await getAcademicDaysOff(
+                currentFieldOfInfo?.fieldOfStudyLogId
+            );
+            setAcademicYearDaysOff({
+                yearStartDate: dayjs(response.data.startYearDate),
+                yearEndDate: dayjs(response.data.endYearDate),
+                daysOff: response.data.daysOff.map((date) => dayjs(date))
+            });
+        },
+        [currentFieldOfInfo?.fieldOfStudyLogId]
+    );
+
     const handleOnSave = useCallback(
         async function (form) {
             if (type === DRAWER_TYPE.edit) {
@@ -107,7 +137,8 @@ function ClassesDrawer() {
     useEffect(() => {
         fetchHours();
         getGroupOptions();
-    }, [getGroupOptions, fetchHours]);
+        getDaysOff();
+    }, [getGroupOptions, fetchHours, getDaysOff]);
 
     const getHourOptions = useCallback(
         (value) => {
@@ -212,7 +243,11 @@ function ClassesDrawer() {
                                 }
                             ]}
                         >
-                            <DatePicker needConfirm multiple />
+                            <DatePicker
+                                disabledDate={disabledDate}
+                                needConfirm
+                                multiple
+                            />
                         </Form.Item>
                     </>
                 )}

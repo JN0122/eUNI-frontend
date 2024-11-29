@@ -6,6 +6,15 @@ export async function getAssignments(fieldOfStudyLogId) {
     });
 }
 
+export async function getAcademicDaysOff(fieldOfStudyLogId) {
+    return await axiosInstance.get(
+        `/api/Representative/academic-year-days-off`,
+        {
+            params: { fieldOfStudyLogId }
+        }
+    );
+}
+
 export async function createAssignment(payload) {
     return await axiosInstance.post(
         `/api/Representative/assignments/`,
