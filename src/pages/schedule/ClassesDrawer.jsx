@@ -176,16 +176,19 @@ function ClassesDrawer() {
                     name="className"
                     label={t("classes")}
                     placeholder={t("enter-class-name")}
+                    isRequired={true}
                 />
                 <FormInput
                     name="classRoom"
                     label={t("room")}
                     placeholder={t("enter-room")}
+                    isRequired={true}
                 />
                 <FormSelect
                     name="groupId"
                     label={t("group-name")}
                     options={groupOptions}
+                    isRequired={true}
                 />
                 {type === DRAWER_TYPE.create ? (
                     <>
@@ -193,15 +196,21 @@ function ClassesDrawer() {
                             name="isOddWeek"
                             label={t("class-repeatability")}
                             options={oddWeekOptions}
+                            isRequired={true}
                         />
                         <FormSelect
                             name="weekDay"
                             label={t("week-day")}
                             options={weekDayOptions}
+                            isRequired={true}
                         />
                     </>
                 ) : (
-                    <FormCustomItem name="dates" label={t("class-dates")}>
+                    <FormCustomItem
+                        name="dates"
+                        label={t("class-dates")}
+                        isRequired={true}
+                    >
                         {" "}
                         <DatePicker
                             disabledDate={disabledDate}
@@ -214,11 +223,13 @@ function ClassesDrawer() {
                     name="startHourId"
                     label={t("start-hour")}
                     options={startHourOptions}
+                    isRequired={true}
                 />
                 <FormSelect
                     name="endHourId"
                     label={t("end-hour")}
                     options={endHourOptions}
+                    isRequired={true}
                 />
             </DataDrawer>
         </>

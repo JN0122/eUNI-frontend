@@ -64,21 +64,25 @@ function UserDrawer({ fieldsOfStudyInfoOptions }) {
                     name="firstName"
                     label={t("first-name")}
                     placeholder={t("enter-first-name")}
+                    isRequired={true}
                 />
                 <FormInput
                     name="lastName"
                     label={t("last-name")}
                     placeholder={t("enter-last-name")}
+                    isRequired={true}
                 />
                 <FormInput
                     name="lastName"
                     label={t("last-name")}
                     placeholder={t("enter-last-name")}
+                    isRequired={true}
                 />
                 <FormEmail
                     name="email"
                     label={t("email")}
                     placeholder={t("enter-email")}
+                    isRequired={true}
                 />
                 <FormSelect
                     name="roleId"
@@ -90,6 +94,7 @@ function UserDrawer({ fieldsOfStudyInfoOptions }) {
                             label: "Student"
                         }
                     ]}
+                    isRequired={true}
                 />
                 <FormSelect
                     name="representativeFieldsOfStudyLogIds"

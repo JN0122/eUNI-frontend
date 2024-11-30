@@ -1,13 +1,7 @@
 import { Form } from "antd";
 import { useTranslation } from "react-i18next";
 
-export function FormCustomItem({
-    name,
-    label,
-    isRequired = true,
-    children,
-    ...rest
-}) {
+export function FormCustomItem({ name, label, isRequired, children, ...rest }) {
     const { t } = useTranslation();
     let rules = [];
 

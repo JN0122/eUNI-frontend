@@ -69,14 +69,20 @@ function AssignmentsDrawer() {
                     name="assignmentName"
                     label={t("assignment-name")}
                     placeholder={t("enter-assignment-name")}
+                    isRequired={true}
                 />
-                <FormCustomItem name="deadlineDate" label={t("deadline-date")}>
+                <FormCustomItem
+                    name="deadlineDate"
+                    label={t("deadline-date")}
+                    isRequired={true}
+                >
                     <DatePicker needConfirm />
                 </FormCustomItem>
                 <FormSelect
                     name="classId"
                     label={t("classes")}
                     options={selectValues}
+                    isRequired={true}
                 />
             </DataDrawer>
         </>
