@@ -1,14 +1,14 @@
-import { Select, Typography } from "antd";
+import { Typography } from "antd";
 import { DRAWER_TYPE, useDrawer } from "../../context/DrawerContext.jsx";
 import { useTranslation } from "react-i18next";
-import { FormPassword } from "../../components/form/FormPassword.jsx";
+import { FormNewPasswords } from "../../components/form/FormNewPasswords.jsx";
 import hashPassword from "../../helpers/hashPassword.js";
 import { createUser, updateUser } from "../../api/admin.js";
 import DataDrawer from "../../components/DataDrawer.jsx";
 import USER_ROLE from "../../enums/userRoles.js";
 import { FormInput } from "../../components/form/FormInput.jsx";
 import { FormEmail } from "../../components/form/FormEmail.jsx";
-import { FormCustomItem } from "../../components/form/FormCustomItem.jsx";
+import { FormSelect } from "../../components/form/FormSelect.jsx";
 
 const { Title } = Typography;
 
@@ -81,34 +81,25 @@ function UserDrawer({ fieldsOfStudyInfoOptions }) {
                     label={t("email")}
                     placeholder={t("enter-email")}
                 />
-                <FormCustomItem name="roleId" label={t("role")}>
-                    <Select
-                        options={[
-                            { value: USER_ROLE.Admin, label: "Admin" },
-                            {
-                                value: USER_ROLE.Student,
-                                label: "Student"
-                            }
-                        ]}
-                    />
-                </FormCustomItem>
-                <FormCustomItem
-                    label={t("representative-fields-of-study")}
-                    name="representativeFieldsOfStudyLogIds"
-                >
-                    <Select
-                        mode="multiple"
-                        placeholder={t("representative-fields-of-study")}
-                        filterOption={(input, option) =>
-                            (option?.label ?? "")
-                                .toLowerCase()
-                                .includes(input.toLowerCase())
+                <FormSelect
+                    name="roleId"
+                    label={t("role")}
+                    options={[
+                        { value: USER_ROLE.Admin, label: "Admin" },
+                        {
+                            value: USER_ROLE.Student,
+                            label: "Student"
                         }
-                        options={fieldsOfStudyInfoOptions}
-                    />
-                </FormCustomItem>
+                    ]}
+                />
+                <FormSelect
+                    name="representativeFieldsOfStudyLogIds"
+                    label={t("representative-fields-of-study")}
+                    mode="multiple"
+                    options={fieldsOfStudyInfoOptions}
+                />
                 <Title level={3}>{t("password")}</Title>
-                <FormPassword required={type === DRAWER_TYPE.create} />
+                <FormNewPasswords required={type === DRAWER_TYPE.create} />
             </DataDrawer>
         </>
     );

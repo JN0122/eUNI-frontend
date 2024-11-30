@@ -2,7 +2,7 @@ import { Form, Input } from "antd";
 import { useTranslation } from "react-i18next";
 import { FormCustomItem } from "./FormCustomItem.jsx";
 
-export function FormPassword({ required = true, ...rest }) {
+export function FormNewPasswords({ required = true, ...rest }) {
     const { t } = useTranslation();
 
     return (

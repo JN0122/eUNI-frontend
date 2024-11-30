@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { changePassword } from "../../api/user.js";
 import hashPassword from "../../helpers/hashPassword.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
-import { FormPassword } from "../../components/form/FormPassword.jsx";
+import { FormNewPasswords } from "../../components/form/FormNewPasswords.jsx";
 
 const { Title } = Typography;
 
@@ -63,7 +63,7 @@ function ProfilePassword() {
                     />
                 </Form.Item>
                 <Divider type="horizontal" />
-                <FormPassword />
+                <FormNewPasswords />
                 <Form.Item>
                     <Button
                         type="primary"
