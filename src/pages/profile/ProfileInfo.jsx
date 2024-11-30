@@ -22,7 +22,7 @@ function ProfileInfo() {
     const getGroupData = useCallback(
         async function () {
             const response = await getGroups(
-                currentFieldOfStudyInfo.fieldOfStudyLogId
+                currentFieldOfStudyInfo?.fieldOfStudyLogId
             );
             if (response.status !== 200) {
                 console.error("Cannot get group data");
