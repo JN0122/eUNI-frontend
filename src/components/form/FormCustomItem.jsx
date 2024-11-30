@@ -1,15 +1,24 @@
 import { Form } from "antd";
 import { useTranslation } from "react-i18next";
 
-export function FormCustomItem({ name, label, isRequired, children, ...rest }) {
+export function FormCustomItem({
+    name,
+    label,
+    isRequired,
+    customErrorMessage,
+    type,
+    children,
+    ...rest
+}) {
     const { t } = useTranslation();
-    let rules = [];
+    let rules = [{ type }];
 
     if (isRequired)
         rules = [
             {
+                ...rules[0],
                 required: isRequired,
-                message: t("error-this-field-is-required")
+                message: customErrorMessage || t("error-this-field-is-required")
             }
         ];
     return (
