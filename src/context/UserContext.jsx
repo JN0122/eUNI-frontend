@@ -28,12 +28,6 @@ export function UserProvider({ children }) {
     const [userInfo, setUserInfo] = useState(null);
     const [studentInfo, setStudentInfo] = useState(null);
 
-    const currentFieldOfInfo = useMemo(() => {
-        if (studentInfo === null) return null;
-        const { currentFieldOfStudyIndex, fieldsOfStudyInfo } = studentInfo;
-        return fieldsOfStudyInfo[currentFieldOfStudyIndex];
-    }, [studentInfo]);
-
     const getUserInfo = useCallback(async function () {
         try {
             const response = await getUserData();
@@ -47,13 +41,7 @@ export function UserProvider({ children }) {
         async function () {
             try {
                 const response = await getStudentData();
-                const { fieldsOfStudyInfo } = response.data;
-                return setStudentInfo({
-                    ...response.data,
-                    currentFieldOfStudyIndex: fieldsOfStudyInfo.length
-                        ? 0
-                        : null
-                });
+                return setStudentInfo(response.data);
             } catch (error) {
                 if (error.status === 500)
                     return notification.error(
@@ -74,7 +62,7 @@ export function UserProvider({ children }) {
         function () {
             let newPermissions = [];
             if (userInfo === null) return newPermissions;
-            if (currentFieldOfInfo?.isRepresentative)
+            if (studentInfo?.currentFieldOfStudyInfo.isRepresentative)
                 newPermissions = [
                     ...newPermissions,
                     ...defaultPermissions.representative
@@ -93,7 +81,7 @@ export function UserProvider({ children }) {
 
             return newPermissions;
         },
-        [currentFieldOfInfo?.isRepresentative, userInfo]
+        [studentInfo?.currentFieldOfStudyInfo, userInfo]
     );
 
     useEffect(() => {
@@ -125,7 +113,8 @@ export function UserProvider({ children }) {
                     userInfo,
                     studentInfo,
                     hasPermission,
-                    currentFieldOfInfo,
+                    currentFieldOfStudyInfo:
+                        studentInfo?.currentFieldOfStudyInfo,
                     reFetchStudentInfo
                 }}
             >

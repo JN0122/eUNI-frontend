@@ -30,7 +30,7 @@ function getRows(data) {
 
 function Schedule() {
     const { t } = useTranslation();
-    const { currentFieldOfInfo } = useUser();
+    const { currentFieldOfStudyInfo } = useUser();
     const [isLoading, setIsLoading] = useState(true);
     const [data, setData] = useState(null);
     const [displayScheduleDate, setDisplayScheduleDate] = useState({
@@ -52,7 +52,7 @@ function Schedule() {
     const calculateRowSpan = useCallback(
         function (data) {
             const rowSpan = {};
-            getStudyDays(currentFieldOfInfo?.isFullTime).map((day) => {
+            getStudyDays(currentFieldOfStudyInfo?.isFullTime).map((day) => {
                 let prevSpan = 1;
                 const span = [];
                 data.schedule.map((row) => {
@@ -71,7 +71,7 @@ function Schedule() {
             });
             return rowSpan;
         },
-        [currentFieldOfInfo?.isFullTime]
+        [currentFieldOfStudyInfo?.isFullTime]
     );
 
     const getClassesType = useCallback(
@@ -101,8 +101,8 @@ function Schedule() {
         async function () {
             const response = await getSchedule({
                 ...displayScheduleDate,
-                fieldOfStudyLogId: currentFieldOfInfo.fieldOfStudyLogId,
-                groupIds: currentFieldOfInfo.groups.map(
+                fieldOfStudyLogId: currentFieldOfStudyInfo.fieldOfStudyLogId,
+                groupIds: currentFieldOfStudyInfo.groups.map(
                     (group) => group.groupId
                 )
             });
@@ -116,16 +116,16 @@ function Schedule() {
             }
         },
         [
-            currentFieldOfInfo?.fieldOfStudyLogId,
-            currentFieldOfInfo?.groups,
+            currentFieldOfStudyInfo?.fieldOfStudyLogId,
+            currentFieldOfStudyInfo?.groups,
             displayScheduleDate,
             t
         ]
     );
 
     useEffect(() => {
-        if (currentFieldOfInfo) getScheduleData();
-    }, [currentFieldOfInfo, getScheduleData]);
+        if (currentFieldOfStudyInfo) getScheduleData();
+    }, [currentFieldOfStudyInfo, getScheduleData]);
 
     const columns = useMemo(
         () => [
@@ -143,7 +143,7 @@ function Schedule() {
                 align: "center",
                 className: "vertical-middle"
             },
-            ...getStudyDays(currentFieldOfInfo?.isFullTime).map((day) => {
+            ...getStudyDays(currentFieldOfStudyInfo?.isFullTime).map((day) => {
                 return {
                     title: t(day.toString()),
                     dataIndex: day.toString(),
@@ -152,7 +152,7 @@ function Schedule() {
                 };
             })
         ],
-        [currentFieldOfInfo?.isFullTime, getRowSpan, t]
+        [currentFieldOfStudyInfo?.isFullTime, getRowSpan, t]
     );
 
     return (

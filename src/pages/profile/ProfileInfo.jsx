@@ -15,14 +15,14 @@ const { Text, Title } = Typography;
 function ProfileInfo() {
     const { t, i18n } = useTranslation();
     const { addBreadcrumb, setBreadcrumbsToDefault } = useContentBlock();
-    const { userInfo, currentFieldOfInfo, reFetchStudentInfo } = useUser();
+    const { userInfo, currentFieldOfStudyInfo, reFetchStudentInfo } = useUser();
     const [email, setEmail] = useState(userInfo.email);
     const [groupsOptions, setGroupsOptions] = useState(null);
 
     const getGroupData = useCallback(
         async function () {
             const response = await getGroups(
-                currentFieldOfInfo.fieldOfStudyLogId
+                currentFieldOfStudyInfo.fieldOfStudyLogId
             );
             if (response.status !== 200) {
                 console.error("Cannot get group data");
@@ -43,19 +43,19 @@ function ProfileInfo() {
                 return groups;
             });
         },
-        [currentFieldOfInfo?.fieldOfStudyLogId]
+        [currentFieldOfStudyInfo?.fieldOfStudyLogId]
     );
 
     useEffect(() => {
         addBreadcrumb(t("basic-info"));
-        if (currentFieldOfInfo !== null) getGroupData();
+        if (currentFieldOfStudyInfo !== null) getGroupData();
         return () => setBreadcrumbsToDefault();
     }, [
         addBreadcrumb,
         getGroupData,
         setBreadcrumbsToDefault,
         t,
-        currentFieldOfInfo
+        currentFieldOfStudyInfo
     ]);
 
     async function onEmailChange(newEmail) {
@@ -70,7 +70,7 @@ function ProfileInfo() {
     }
 
     const studentContent = useMemo(() => {
-        if (currentFieldOfInfo == null) return null;
+        if (currentFieldOfStudyInfo == null) return null;
         return (
             <>
                 <Title level={3}>{t("study-info")}</Title>
@@ -78,28 +78,29 @@ function ProfileInfo() {
                     <Text type="secondary">
                         {`${t("current-field-of-study")}: `}
                     </Text>
-                    <Text>{currentFieldOfInfo.name}</Text>
+                    <Text>{currentFieldOfStudyInfo.name}</Text>
                 </Space>
             </>
         );
-    }, [currentFieldOfInfo, t]);
+    }, [currentFieldOfStudyInfo, t]);
 
     const getCurrentStudentGroup = useCallback(
         function (typeId) {
-            if (currentFieldOfInfo?.groups === undefined) return null;
-            const currentGroup = currentFieldOfInfo.groups.find(
+            if (currentFieldOfStudyInfo?.groups === undefined) return null;
+            const currentGroup = currentFieldOfStudyInfo.groups.find(
                 (group) => group.type === typeId
             );
             return currentGroup?.groupId;
         },
-        [currentFieldOfInfo?.groups]
+        [currentFieldOfStudyInfo?.groups]
     );
 
     const handleGroupChange = useCallback(
         async function (groupId, typeId) {
             try {
                 await changeStudentGroup({
-                    fieldOfStudyLogId: currentFieldOfInfo?.fieldOfStudyLogId,
+                    fieldOfStudyLogId:
+                        currentFieldOfStudyInfo?.fieldOfStudyLogId,
                     groupId,
                     groupType: typeId
                 });
@@ -111,7 +112,7 @@ function ProfileInfo() {
                 );
             }
         },
-        [currentFieldOfInfo?.fieldOfStudyLogId, reFetchStudentInfo, t]
+        [currentFieldOfStudyInfo?.fieldOfStudyLogId, reFetchStudentInfo, t]
     );
 
     const groupContent = useMemo(() => {
@@ -138,7 +139,7 @@ function ProfileInfo() {
             </>
         );
     }, [
-        currentFieldOfInfo?.semester,
+        currentFieldOfStudyInfo?.semester,
         getCurrentStudentGroup,
         groupsOptions,
         handleGroupChange,

@@ -15,7 +15,7 @@ function Classes() {
     const { openCreateDrawer } = useDrawer();
     const { t } = useTranslation();
     const { addBreadcrumb, setBreadcrumbsToDefault } = useContentBlock();
-    const { currentFieldOfInfo } = useUser();
+    const { currentFieldOfStudyInfo } = useUser();
 
     useEffect(() => {
         addBreadcrumb(t("classes"));
@@ -65,11 +65,11 @@ function Classes() {
         ],
         [t]
     );
-    if (!currentFieldOfInfo) return <Spin></Spin>;
+    if (!currentFieldOfStudyInfo) return <Spin></Spin>;
 
     async function handleFetchData() {
         const response = await getClasses(
-            currentFieldOfInfo?.fieldOfStudyLogId
+            currentFieldOfStudyInfo?.fieldOfStudyLogId
         );
         response.data = response.data.map((value) => {
             value.classDates = value.dates.join(", ");

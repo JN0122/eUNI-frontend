@@ -20,7 +20,7 @@ import { FormCustomItem } from "../../components/form/FormCustomItem.jsx";
 
 function ClassesDrawer() {
     const { data, type } = useDrawer();
-    const { currentFieldOfInfo } = useUser();
+    const { currentFieldOfStudyInfo } = useUser();
     const { t } = useTranslation();
     const [groupOptions, setGroupOptions] = useState([]);
     const [academicYearDaysOff, setAcademicYearDaysOff] = useState(null);
@@ -30,7 +30,7 @@ function ClassesDrawer() {
         function (form) {
             const isOddWeek = form.getFieldValue("isOddWeek");
             return {
-                fieldOfStudyLogId: currentFieldOfInfo?.fieldOfStudyLogId,
+                fieldOfStudyLogId: currentFieldOfStudyInfo?.fieldOfStudyLogId,
                 name: form.getFieldValue("className"),
                 room: form.getFieldValue("classRoom"),
                 isOddWeek: JSON.parse(isOddWeek),
@@ -40,13 +40,13 @@ function ClassesDrawer() {
                 endHourId: form.getFieldValue("endHourId")
             };
         },
-        [currentFieldOfInfo?.fieldOfStudyLogId]
+        [currentFieldOfStudyInfo?.fieldOfStudyLogId]
     );
 
     const prepareUpdatePayload = useCallback(
         function (form) {
             return {
-                fieldOfStudyLogId: currentFieldOfInfo?.fieldOfStudyLogId,
+                fieldOfStudyLogId: currentFieldOfStudyInfo?.fieldOfStudyLogId,
                 name: form.getFieldValue("className"),
                 room: form.getFieldValue("classRoom"),
                 dates: form
@@ -58,21 +58,23 @@ function ClassesDrawer() {
                 endHourId: form.getFieldValue("endHourId")
             };
         },
-        [currentFieldOfInfo?.fieldOfStudyLogId]
+        [currentFieldOfStudyInfo?.fieldOfStudyLogId]
     );
 
     const weekDayOptions = useMemo(() => {
-        return getStudyDays(currentFieldOfInfo?.isFullTime).map(
+        return getStudyDays(currentFieldOfStudyInfo?.isFullTime).map(
             (weekday, index) => {
                 return {
                     label: t(
-                        getStudyDays(currentFieldOfInfo?.isFullTime)[index]
+                        getStudyDays(currentFieldOfStudyInfo?.isFullTime)[index]
                     ),
-                    value: currentFieldOfInfo?.isFullTime ? index : index + 5
+                    value: currentFieldOfStudyInfo?.isFullTime
+                        ? index
+                        : index + 5
                 };
             }
         );
-    }, [currentFieldOfInfo?.isFullTime, t]);
+    }, [currentFieldOfStudyInfo?.isFullTime, t]);
 
     const oddWeekOptions = useMemo(() => {
         return oddWeekValues.map((value) => {
@@ -94,9 +96,10 @@ function ClassesDrawer() {
 
     const getDaysOff = useCallback(
         async function () {
-            if (currentFieldOfInfo?.fieldOfStudyLogId === undefined) return;
+            if (currentFieldOfStudyInfo?.fieldOfStudyLogId === undefined)
+                return;
             const response = await getAcademicDaysOff(
-                currentFieldOfInfo?.fieldOfStudyLogId
+                currentFieldOfStudyInfo?.fieldOfStudyLogId
             );
             setAcademicYearDaysOff({
                 yearStartDate: dayjs(response.data.startYearDate),
@@ -104,20 +107,20 @@ function ClassesDrawer() {
                 daysOff: response.data.daysOff.map((date) => dayjs(date))
             });
         },
-        [currentFieldOfInfo?.fieldOfStudyLogId]
+        [currentFieldOfStudyInfo?.fieldOfStudyLogId]
     );
 
     const getGroupOptions = useCallback(async () => {
-        if (currentFieldOfInfo == null) return null;
+        if (currentFieldOfStudyInfo == null) return null;
         const response = await getAllGroups(
-            currentFieldOfInfo.fieldOfStudyLogId
+            currentFieldOfStudyInfo.fieldOfStudyLogId
         );
         setGroupOptions(
             response.data.map((group) => {
                 return { value: group.groupId, label: group.groupName };
             })
         );
-    }, [currentFieldOfInfo]);
+    }, [currentFieldOfStudyInfo]);
 
     const fetchHours = useCallback(async () => {
         const response = await getHours();
@@ -211,7 +214,6 @@ function ClassesDrawer() {
                         label={t("class-dates")}
                         isRequired={true}
                     >
-                        {" "}
                         <DatePicker
                             disabledDate={disabledDate}
                             needConfirm
@@ -223,13 +225,13 @@ function ClassesDrawer() {
                     name="startHourId"
                     label={t("start-hour")}
                     options={startHourOptions}
-                    isRequired={true}
+                    isRequired={false}
                 />
                 <FormSelect
                     name="endHourId"
                     label={t("end-hour")}
                     options={endHourOptions}
-                    isRequired={true}
+                    isRequired={false}
                 />
             </DataDrawer>
         </>

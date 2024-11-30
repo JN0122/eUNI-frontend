@@ -23,7 +23,7 @@ function preparePayload(form) {
 
 function AssignmentsDrawer() {
     const { data } = useDrawer();
-    const { currentFieldOfInfo } = useUser();
+    const { currentFieldOfStudyInfo } = useUser();
     const { t } = useTranslation();
     const [selectValues, setSelectValues] = useState([]);
 
@@ -39,8 +39,10 @@ function AssignmentsDrawer() {
     );
 
     const getClassesValues = useCallback(async () => {
-        if (!currentFieldOfInfo?.fieldOfStudyLogId) return;
-        const response = await getClasses(currentFieldOfInfo.fieldOfStudyLogId);
+        if (!currentFieldOfStudyInfo?.fieldOfStudyLogId) return;
+        const response = await getClasses(
+            currentFieldOfStudyInfo.fieldOfStudyLogId
+        );
         setSelectValues(
             response.data.map((classEntity) => {
                 return {
@@ -49,7 +51,7 @@ function AssignmentsDrawer() {
                 };
             })
         );
-    }, [currentFieldOfInfo.fieldOfStudyLogId]);
+    }, [currentFieldOfStudyInfo.fieldOfStudyLogId]);
 
     useEffect(() => {
         getClassesValues();
