@@ -9,9 +9,10 @@ export function FormEmail({ name, label, isRequired, placeholder, ...rest }) {
             name={name}
             label={label}
             isRequired={isRequired}
-            customRules={[
+            rules={[
                 {
                     type: "email",
+                    required: true,
                     message: t("error-enter-correct-email")
                 }
             ]}

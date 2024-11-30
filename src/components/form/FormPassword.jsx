@@ -1,12 +1,13 @@
 import { Form, Input } from "antd";
 import { useTranslation } from "react-i18next";
+import { FormCustomItem } from "./FormCustomItem.jsx";
 
 export function FormPassword({ required = true, ...rest }) {
     const { t } = useTranslation();
 
     return (
         <>
-            <Form.Item
+            <FormCustomItem
                 label={t("new-password")}
                 name="newPassword"
                 rules={[
@@ -22,7 +23,7 @@ export function FormPassword({ required = true, ...rest }) {
                     placeholder={t("new-password")}
                     {...rest}
                 />
-            </Form.Item>
+            </FormCustomItem>
             <Form.Item
                 label={t("repeat-new-password")}
                 name="repeatNewPassword"

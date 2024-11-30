@@ -5,19 +5,17 @@ export function FormCustomItem({
     name,
     label,
     isRequired = true,
-    customRules = [{}],
     children,
     ...rest
 }) {
     const { t } = useTranslation();
-    let rules = customRules;
+    let rules = [];
 
     if (isRequired)
         rules = [
             {
                 required: isRequired,
-                message: t("error-this-field-is-required"),
-                ...rules[0]
+                message: t("error-this-field-is-required")
             }
         ];
     return (
