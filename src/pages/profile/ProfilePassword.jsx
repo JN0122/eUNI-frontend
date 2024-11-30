@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { changePassword } from "../../api/user.js";
 import hashPassword from "../../helpers/hashPassword.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
-import { PasswordInputs } from "../../components/PasswordInputs.jsx";
+import { FormPassword } from "../../components/form/FormPassword.jsx";
 
 const { Title } = Typography;
 
@@ -26,7 +26,7 @@ function ProfilePassword() {
         try {
             await changePassword({
                 oldPassword: hashPassword(values.oldPassword),
-                newPassword: hashPassword(values.newPassword),
+                newPassword: hashPassword(values.newPassword)
             });
             form.resetFields();
             notification.success(getNotificationConfig(t("password-success")));
@@ -44,7 +44,7 @@ function ProfilePassword() {
                 onFinish={onSubmit}
                 form={form}
                 style={{
-                    maxWidth: 600,
+                    maxWidth: 600
                 }}
             >
                 <Form.Item
@@ -53,8 +53,8 @@ function ProfilePassword() {
                     rules={[
                         {
                             required: true,
-                            message: t("error-password-is-required"),
-                        },
+                            message: t("error-password-is-required")
+                        }
                     ]}
                 >
                     <Input.Password
@@ -63,7 +63,7 @@ function ProfilePassword() {
                     />
                 </Form.Item>
                 <Divider type="horizontal" />
-                <PasswordInputs />
+                <FormPassword />
                 <Form.Item>
                     <Button
                         type="primary"

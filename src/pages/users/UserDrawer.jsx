@@ -1,7 +1,7 @@
 import { Select, Typography } from "antd";
 import { DRAWER_TYPE, useDrawer } from "../../context/DrawerContext.jsx";
 import { useTranslation } from "react-i18next";
-import { PasswordInputs } from "../../components/PasswordInputs.jsx";
+import { FormPassword } from "../../components/form/FormPassword.jsx";
 import hashPassword from "../../helpers/hashPassword.js";
 import { createUser, updateUser } from "../../api/admin.js";
 import DataDrawer from "../../components/DataDrawer.jsx";
@@ -108,7 +108,7 @@ function UserDrawer({ fieldsOfStudyInfoOptions }) {
                     />
                 </FormCustomItem>
                 <Title level={3}>{t("password")}</Title>
-                <PasswordInputs required={type === DRAWER_TYPE.create} />
+                <FormPassword required={type === DRAWER_TYPE.create} />
             </DataDrawer>
         </>
     );

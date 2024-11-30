@@ -1,7 +1,7 @@
 import { Form, Input } from "antd";
 import { useTranslation } from "react-i18next";
 
-export function PasswordInputs({ required = true, ...rest }) {
+export function FormPassword({ required = true, ...rest }) {
     const { t } = useTranslation();
 
     return (
@@ -13,8 +13,8 @@ export function PasswordInputs({ required = true, ...rest }) {
                     {
                         pattern: import.meta.env.VITE_PASSWORD_PATTERN,
                         required: required,
-                        message: t("error-new-password"),
-                    },
+                        message: t("error-new-password")
+                    }
                 ]}
             >
                 <Input.Password
@@ -31,7 +31,7 @@ export function PasswordInputs({ required = true, ...rest }) {
                     {
                         pattern: import.meta.env.VITE_PASSWORD_PATTERN,
                         required: required,
-                        message: t("error-new-password"),
+                        message: t("error-new-password")
                     },
                     ({ getFieldValue }) => ({
                         validator(_, value) {
@@ -39,10 +39,10 @@ export function PasswordInputs({ required = true, ...rest }) {
                                 return Promise.resolve();
                             }
                             return Promise.reject(
-                                new Error(t("error-password-not-match")),
+                                new Error(t("error-password-not-match"))
                             );
-                        },
-                    }),
+                        }
+                    })
                 ]}
             >
                 <Input.Password
