@@ -111,17 +111,13 @@ function ProfileInfo() {
                 );
             }
         },
-        [currentFieldOfInfo?.fieldOfStudyLogId, t]
+        [currentFieldOfInfo?.fieldOfStudyLogId, reFetchStudentInfo, t]
     );
 
     const groupContent = useMemo(() => {
         if (groupsOptions === null) return null;
         return (
             <>
-                <Space direction="horizontal">
-                    <Text type="secondary">{`${t("semester")}: `}</Text>
-                    <Text>{currentFieldOfInfo.semester}</Text>
-                </Space>
                 {Object.keys(CLASSES_TYPE).map((classTypeName, typeId) => {
                     if (groupsOptions[typeId] === undefined) return;
                     const value = getCurrentStudentGroup(typeId);

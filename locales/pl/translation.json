@@ -41,6 +41,7 @@
   "enter-first-name": "Wprowadź imię",
   "enter-last-name": "Wprowadź nazwisko",
   "enter-email": "Wprowadź adres email",
+  "error-enter-correct-email": "Wprowadź poprawny adres email",
   "enter-password": "Wprowadź hasło",
   "action-success": "Poprawnie przetworzono zapytanie!",
   "schedule": "Plan zajęć",

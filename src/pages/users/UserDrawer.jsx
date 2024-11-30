@@ -1,4 +1,4 @@
-import { Form, Input, Select, Typography } from "antd";
+import { Select, Typography } from "antd";
 import { DRAWER_TYPE, useDrawer } from "../../context/DrawerContext.jsx";
 import { useTranslation } from "react-i18next";
 import { PasswordInputs } from "../../components/PasswordInputs.jsx";
@@ -6,6 +6,9 @@ import hashPassword from "../../helpers/hashPassword.js";
 import { createUser, updateUser } from "../../api/admin.js";
 import DataDrawer from "../../components/DataDrawer.jsx";
 import USER_ROLE from "../../enums/userRoles.js";
+import { FormInput } from "../../components/form/FormInput.jsx";
+import { FormEmail } from "../../components/form/FormEmail.jsx";
+import { FormCustomItem } from "../../components/form/FormCustomItem.jsx";
 
 const { Title } = Typography;
 
@@ -58,55 +61,27 @@ function UserDrawer({ fieldsOfStudyInfoOptions }) {
                 onSave={handleOnSave}
             >
                 <Title level={3}>{t("basic-info")}</Title>
-                <Form.Item
+                <FormInput
                     name="firstName"
                     label={t("first-name")}
-                    rules={[
-                        {
-                            required: true,
-                            message: t("error-this-field-is-required")
-                        }
-                    ]}
-                >
-                    <Input placeholder={t("enter-first-name")} />
-                </Form.Item>
-
-                <Form.Item
+                    placeholder={t("enter-first-name")}
+                />
+                <FormInput
                     name="lastName"
                     label={t("last-name")}
-                    rules={[
-                        {
-                            required: true,
-                            message: t("error-this-field-is-required")
-                        }
-                    ]}
-                >
-                    <Input placeholder={t("enter-last-name")} />
-                </Form.Item>
-
-                <Form.Item
+                    placeholder={t("enter-last-name")}
+                />
+                <FormInput
+                    name="lastName"
+                    label={t("last-name")}
+                    placeholder={t("enter-last-name")}
+                />
+                <FormEmail
                     name="email"
                     label={t("email")}
-                    rules={[
-                        {
-                            type: "email",
-                            required: true,
-                            message: t("error-this-field-is-required")
-                        }
-                    ]}
-                >
-                    <Input placeholder={t("enter-email")} />
-                </Form.Item>
-                <Form.Item
-                    label={t("role")}
-                    name="roleId"
-                    rules={[
-                        {
-                            required: true,
-                            message: t("error-this-field-is-required")
-                        }
-                    ]}
-                >
+                    placeholder={t("enter-email")}
+                />
+                <FormCustomItem name="roleId" label={t("role")}>
                     <Select
                         options={[
                             { value: USER_ROLE.Admin, label: "Admin" },
@@ -116,8 +91,8 @@ function UserDrawer({ fieldsOfStudyInfoOptions }) {
                             }
                         ]}
                     />
-                </Form.Item>
-                <Form.Item
+                </FormCustomItem>
+                <FormCustomItem
                     label={t("representative-fields-of-study")}
                     name="representativeFieldsOfStudyLogIds"
                 >
@@ -131,7 +106,7 @@ function UserDrawer({ fieldsOfStudyInfoOptions }) {
                         }
                         options={fieldsOfStudyInfoOptions}
                     />
-                </Form.Item>
+                </FormCustomItem>
                 <Title level={3}>{t("password")}</Title>
                 <PasswordInputs required={type === DRAWER_TYPE.create} />
             </DataDrawer>
