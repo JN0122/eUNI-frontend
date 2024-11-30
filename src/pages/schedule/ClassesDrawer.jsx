@@ -164,11 +164,10 @@ function ClassesDrawer() {
     return (
         <>
             <DataDrawer
-                title={
-                    type === DRAWER_TYPE.edit
-                        ? t("edit-assignment")
-                        : t("create-assignment")
-                }
+                title={{
+                    create: t("create-assignment"),
+                    edit: t("edit-assignment")
+                }}
                 onSave={handleOnSave}
             >
                 <FormInput

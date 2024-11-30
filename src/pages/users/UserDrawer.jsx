@@ -53,11 +53,7 @@ function UserDrawer({ fieldsOfStudyInfoOptions }) {
         <>
             <DataDrawer
                 width={600}
-                title={
-                    type === DRAWER_TYPE.edit
-                        ? t("edit-user")
-                        : t("create-user")
-                }
+                title={{ create: t("create-user"), edit: t("edit-user") }}
                 onSave={handleOnSave}
             >
                 <Title level={3}>{t("basic-info")}</Title>

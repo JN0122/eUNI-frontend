@@ -1,5 +1,5 @@
 import { App, Button, Drawer, Form, Space } from "antd";
-import { useDrawer } from "../context/DrawerContext.jsx";
+import { DRAWER_TYPE, useDrawer } from "../context/DrawerContext.jsx";
 import { useTranslation } from "react-i18next";
 import { useCallback, useEffect } from "react";
 import getNotificationConfig from "../helpers/getNotificationConfig.js";
@@ -21,7 +21,7 @@ function getFieldsObject(data) {
 }
 
 function DataDrawer({ title, onSave, children, ...rest }) {
-    const { isOpen, closeDrawer, data, setData } = useDrawer();
+    const { isOpen, closeDrawer, data, setData, type } = useDrawer();
     const { t } = useTranslation();
     const [form] = Form.useForm();
     const { notification } = App.useApp();
@@ -55,11 +55,10 @@ function DataDrawer({ title, onSave, children, ...rest }) {
         },
         [closeDrawer, notification, onSave, setData, t]
     );
-
     return (
         <>
             <Drawer
-                title={title}
+                title={type === DRAWER_TYPE.edit ? title.edit : title.create}
                 width={360}
                 onClose={closeDrawer}
                 open={isOpen}
