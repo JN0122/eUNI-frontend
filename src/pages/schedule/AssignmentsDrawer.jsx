@@ -1,5 +1,5 @@
 import { DatePicker } from "antd";
-import { DRAWER_TYPE, useDrawer } from "../../context/DrawerContext.jsx";
+import { useDrawer } from "../../context/DrawerContext.jsx";
 import { useTranslation } from "react-i18next";
 import DataDrawer from "../../components/DataDrawer.jsx";
 import {
@@ -22,20 +22,21 @@ function preparePayload(form) {
 }
 
 function AssignmentsDrawer() {
-    const { data, type } = useDrawer();
+    const { data } = useDrawer();
     const { currentFieldOfInfo } = useUser();
     const { t } = useTranslation();
     const [selectValues, setSelectValues] = useState([]);
 
-    const handleOnSave = async function (form) {
-        if (type === DRAWER_TYPE.edit)
-            await updateAssignment(data.key, preparePayload(form));
-        else if (type === DRAWER_TYPE.create) {
-            await createAssignment(preparePayload(form));
-        } else {
-            console.error("unknown drawer type");
-        }
-    };
+    const onCreate = useCallback(async function (form) {
+        await createAssignment(preparePayload(form));
+    }, []);
+
+    const onEdit = useCallback(
+        async function (form) {
+            await updateAssignment(data?.key, preparePayload(form));
+        },
+        [data?.key]
+    );
 
     const getClassesValues = useCallback(async () => {
         if (!currentFieldOfInfo?.fieldOfStudyLogId) return;
@@ -61,7 +62,8 @@ function AssignmentsDrawer() {
                     create: t("create-assignment"),
                     edit: t("edit-assignment")
                 }}
-                onSave={handleOnSave}
+                onCreate={onCreate}
+                onEdit={onEdit}
             >
                 <FormInput
                     name="assignmentName"

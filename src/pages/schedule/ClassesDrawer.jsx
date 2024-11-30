@@ -107,19 +107,6 @@ function ClassesDrawer() {
         [currentFieldOfInfo?.fieldOfStudyLogId]
     );
 
-    const handleOnSave = useCallback(
-        async function (form) {
-            if (type === DRAWER_TYPE.edit) {
-                await updateClass(data?.key, prepareUpdatePayload(form));
-            } else if (type === DRAWER_TYPE.create) {
-                await createClass(prepareCreatePayload(form));
-            } else {
-                console.error("unknown drawer type");
-            }
-        },
-        [data?.key, prepareCreatePayload, prepareUpdatePayload, type]
-    );
-
     const getGroupOptions = useCallback(async () => {
         if (currentFieldOfInfo == null) return null;
         const response = await getAllGroups(
@@ -161,6 +148,20 @@ function ClassesDrawer() {
         return getHourOptions("endTime");
     }, [getHourOptions]);
 
+    const onCreate = useCallback(
+        async function (form) {
+            await createClass(prepareCreatePayload(form));
+        },
+        [prepareCreatePayload]
+    );
+
+    const onEdit = useCallback(
+        async function (form) {
+            await updateClass(data?.key, prepareUpdatePayload(form));
+        },
+        [data?.key, prepareUpdatePayload]
+    );
+
     return (
         <>
             <DataDrawer
@@ -168,7 +169,8 @@ function ClassesDrawer() {
                     create: t("create-assignment"),
                     edit: t("edit-assignment")
                 }}
-                onSave={handleOnSave}
+                onCreate={onCreate}
+                onEdit={onEdit}
             >
                 <FormInput
                     name="className"

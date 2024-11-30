@@ -20,7 +20,7 @@ function getFieldsObject(data) {
     });
 }
 
-function DataDrawer({ title, onSave, children, ...rest }) {
+function DataDrawer({ title, onEdit, onCreate, children, ...rest }) {
     const { isOpen, closeDrawer, data, setData, type } = useDrawer();
     const { t } = useTranslation();
     const [form] = Form.useForm();
@@ -38,7 +38,7 @@ function DataDrawer({ title, onSave, children, ...rest }) {
         async function (form) {
             if (!(await isFormValid(form))) return;
 
-            onSave(form)
+            (type === DRAWER_TYPE.edit ? onEdit(form) : onCreate(form))
                 .then(() => {
                     setData(null);
                     closeDrawer();
@@ -53,7 +53,7 @@ function DataDrawer({ title, onSave, children, ...rest }) {
                     );
                 });
         },
-        [closeDrawer, notification, onSave, setData, t]
+        [closeDrawer, notification, onCreate, onEdit, setData, t, type]
     );
     return (
         <>

@@ -9,6 +9,7 @@ import USER_ROLE from "../../enums/userRoles.js";
 import { FormInput } from "../../components/form/FormInput.jsx";
 import { FormEmail } from "../../components/form/FormEmail.jsx";
 import { FormSelect } from "../../components/form/FormSelect.jsx";
+import { useCallback } from "react";
 
 const { Title } = Typography;
 
@@ -39,22 +40,24 @@ function UserDrawer({ fieldsOfStudyInfoOptions }) {
     const { data, type } = useDrawer();
     const { t } = useTranslation();
 
-    const handleOnSave = async function (form) {
-        if (type === DRAWER_TYPE.edit)
-            await updateUser(data.key, prepareEditUserPayload(form));
-        else if (type === DRAWER_TYPE.create) {
-            await createUser(prepareCreateUserPayload(form));
-        } else {
-            console.error("unknown drawer type");
-        }
-    };
+    const onCreate = useCallback(async function (form) {
+        await createUser(prepareCreateUserPayload(form));
+    }, []);
+
+    const onEdit = useCallback(
+        async function (form) {
+            await updateUser(data?.key, prepareEditUserPayload(form));
+        },
+        [data?.key]
+    );
 
     return (
         <>
             <DataDrawer
                 width={600}
                 title={{ create: t("create-user"), edit: t("edit-user") }}
-                onSave={handleOnSave}
+                onCreate={onCreate}
+                onEdit={onEdit}
             >
                 <Title level={3}>{t("basic-info")}</Title>
                 <FormInput
