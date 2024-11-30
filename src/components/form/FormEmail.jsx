@@ -9,8 +9,13 @@ export function FormEmail({ name, label, isRequired, placeholder, ...rest }) {
             name={name}
             label={label}
             isRequired={isRequired}
-            customErrorMessage={t("error-enter-correct-email")}
-            type={"email"}
+            rules={[
+                {
+                    type: "email",
+                    required: isRequired,
+                    message: t("error-enter-correct-email")
+                }
+            ]}
         >
             <Input placeholder={placeholder} {...rest} />
         </FormCustomItem>

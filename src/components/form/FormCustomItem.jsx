@@ -6,17 +6,15 @@ export function FormCustomItem({
     label,
     isRequired,
     customErrorMessage,
-    type,
     children,
     ...rest
 }) {
     const { t } = useTranslation();
-    let rules = [{ type }];
+    let rules = [];
 
     if (isRequired)
         rules = [
             {
-                ...rules[0],
                 required: isRequired,
                 message: customErrorMessage || t("error-this-field-is-required")
             }
