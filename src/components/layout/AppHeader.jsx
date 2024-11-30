@@ -9,7 +9,7 @@ const { Header } = Layout;
 
 function AppHeader({ showLogo, additionalUserElement, ...rest }) {
     const {
-        token: { colorBgContainer },
+        token: { colorBgContainer }
     } = theme.useToken();
     const { user, logout } = useAuth();
     const { t } = useTranslation();
@@ -24,19 +24,19 @@ function AppHeader({ showLogo, additionalUserElement, ...rest }) {
             {
                 label: `${user.firstname} ${user.lastname}`,
                 key: "0",
-                disabled: true,
+                disabled: true
             },
             {
-                type: "divider",
+                type: "divider"
             },
             {
                 label: <Link to="/profile">{t("profile")}</Link>,
-                key: "1",
+                key: "1"
             },
             {
                 label: <a onClick={() => logout()}>{t("logout")}</a>,
-                key: "2",
-            },
+                key: "2"
+            }
         ];
     }
 
@@ -44,7 +44,7 @@ function AppHeader({ showLogo, additionalUserElement, ...rest }) {
         <Header
             style={{
                 padding: 0,
-                background: colorBgContainer,
+                background: colorBgContainer
             }}
             {...rest}
         >
@@ -53,7 +53,7 @@ function AppHeader({ showLogo, additionalUserElement, ...rest }) {
                 align="center"
                 style={{
                     flexDirection: showUser && "row-reverse",
-                    height: "100%",
+                    height: "100%"
                 }}
                 gap={"1rem"}
             >
@@ -63,7 +63,7 @@ function AppHeader({ showLogo, additionalUserElement, ...rest }) {
                         <a onClick={(e) => e.preventDefault()}>
                             <Dropdown
                                 menu={{
-                                    items,
+                                    items
                                 }}
                                 trigger={["click"]}
                                 placement="bottomRight"
@@ -81,6 +81,7 @@ function AppHeader({ showLogo, additionalUserElement, ...rest }) {
                 {showLogo && (
                     <Link to="/" style={{ height: "3rem" }}>
                         <img
+                            alt={"eUNI Logo"}
                             src={logo}
                             style={{ height: "100%", margin: "0 1rem" }}
                         />
