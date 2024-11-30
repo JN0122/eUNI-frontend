@@ -1,4 +1,4 @@
-import { DatePicker, Form, Input, Select } from "antd";
+import { DatePicker } from "antd";
 import { DRAWER_TYPE, useDrawer } from "../../context/DrawerContext.jsx";
 import { useTranslation } from "react-i18next";
 import DataDrawer from "../../components/DataDrawer.jsx";
@@ -9,6 +9,9 @@ import {
 } from "../../api/representative.js";
 import { useCallback, useEffect, useState } from "react";
 import { useUser } from "../../context/UserContext.jsx";
+import { FormInput } from "../../components/form/FormInput.jsx";
+import { FormCustomItem } from "../../components/form/FormCustomItem.jsx";
+import { FormSelect } from "../../components/form/FormSelect.jsx";
 
 function preparePayload(form) {
     return {
@@ -61,42 +64,19 @@ function AssignmentsDrawer() {
                 }
                 onSave={handleOnSave}
             >
-                <Form.Item
+                <FormInput
                     name="assignmentName"
                     label={t("assignment-name")}
-                    rules={[
-                        {
-                            required: true,
-                            message: t("error-this-field-is-required")
-                        }
-                    ]}
-                >
-                    <Input placeholder={t("enter-assignment-name")} />
-                </Form.Item>
-                <Form.Item
-                    name="deadlineDate"
-                    label={t("deadline-date")}
-                    rules={[
-                        {
-                            required: true,
-                            message: t("error-this-field-is-required")
-                        }
-                    ]}
-                >
+                    placeholder={t("enter-assignment-name")}
+                />
+                <FormCustomItem name="deadlineDate" label={t("deadline-date")}>
                     <DatePicker needConfirm />
-                </Form.Item>
-                <Form.Item
-                    label={t("classes")}
+                </FormCustomItem>
+                <FormSelect
                     name="classId"
-                    rules={[
-                        {
-                            required: true,
-                            message: t("error-this-field-is-required")
-                        }
-                    ]}
-                >
-                    <Select options={selectValues} />
-                </Form.Item>
+                    label={t("classes")}
+                    options={selectValues}
+                />
             </DataDrawer>
         </>
     );

@@ -1,4 +1,4 @@
-import { DatePicker, Form, Input, Select } from "antd";
+import { DatePicker } from "antd";
 import { DRAWER_TYPE, useDrawer } from "../../context/DrawerContext.jsx";
 import { useTranslation } from "react-i18next";
 import DataDrawer from "../../components/DataDrawer.jsx";
@@ -14,6 +14,9 @@ import { getStudyDays } from "../../enums/weekDays.js";
 import { isOddWeekMap, oddWeekValues } from "../../helpers/isOddWeekMap.js";
 import { useUser } from "../../context/UserContext.jsx";
 import dayjs from "dayjs";
+import { FormInput } from "../../components/form/FormInput.jsx";
+import { FormSelect } from "../../components/form/FormSelect.jsx";
+import { FormCustomItem } from "../../components/form/FormCustomItem.jsx";
 
 function ClassesDrawer() {
     const { data, type } = useDrawer();
@@ -168,113 +171,54 @@ function ClassesDrawer() {
                 }
                 onSave={handleOnSave}
             >
-                <Form.Item
-                    label={t("classes")}
+                <FormInput
                     name="className"
-                    rules={[
-                        {
-                            required: true,
-                            message: t("error-this-field-is-required")
-                        }
-                    ]}
-                >
-                    <Input placeholder={t("enter-class-name")} />
-                </Form.Item>
-                <Form.Item
+                    label={t("classes")}
+                    placeholder={t("enter-class-name")}
+                />
+                <FormInput
                     name="classRoom"
                     label={t("room")}
-                    rules={[
-                        {
-                            required: true,
-                            message: t("error-this-field-is-required")
-                        }
-                    ]}
-                >
-                    <Input placeholder={t("enter-room")} />
-                </Form.Item>
-                <Form.Item
-                    label={t("group-name")}
+                    placeholder={t("enter-room")}
+                />
+                <FormSelect
                     name="groupId"
-                    rules={[
-                        {
-                            required: true,
-                            message: t("error-this-field-is-required")
-                        }
-                    ]}
-                >
-                    <Select options={groupOptions} />
-                </Form.Item>
+                    label={t("group-name")}
+                    options={groupOptions}
+                />
                 {type === DRAWER_TYPE.create ? (
                     <>
-                        <Form.Item
-                            label={t("class-repeatability")}
+                        <FormSelect
                             name="isOddWeek"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: t("error-this-field-is-required")
-                                }
-                            ]}
-                        >
-                            <Select options={oddWeekOptions} />
-                        </Form.Item>
-                        <Form.Item
-                            label={t("week-day")}
+                            label={t("class-repeatability")}
+                            options={oddWeekOptions}
+                        />
+                        <FormSelect
                             name="weekDay"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: t("error-this-field-is-required")
-                                }
-                            ]}
-                        >
-                            <Select options={weekDayOptions} />
-                        </Form.Item>
+                            label={t("week-day")}
+                            options={weekDayOptions}
+                        />
                     </>
                 ) : (
-                    <>
-                        <Form.Item
-                            name="dates"
-                            label={t("class-dates")}
-                            rules={[
-                                {
-                                    required: true,
-                                    message: t("error-this-field-is-required")
-                                }
-                            ]}
-                        >
-                            <DatePicker
-                                disabledDate={disabledDate}
-                                needConfirm
-                                multiple
-                            />
-                        </Form.Item>
-                    </>
+                    <FormCustomItem name="dates" label={t("class-dates")}>
+                        {" "}
+                        <DatePicker
+                            disabledDate={disabledDate}
+                            needConfirm
+                            multiple
+                        />
+                    </FormCustomItem>
                 )}
-                <Form.Item
-                    label={t("start-hour")}
+                <FormSelect
                     name="startHourId"
-                    rules={[
-                        {
-                            required: true,
-                            message: t("error-this-field-is-required")
-                        }
-                    ]}
-                >
-                    <Select options={startHourOptions} />
-                </Form.Item>
-                <Form.Item
-                    label={t("end-hour")}
+                    label={t("start-hour")}
+                    options={startHourOptions}
+                />
+                <FormSelect
                     name="endHourId"
-                    rules={[
-                        {
-                            required: true,
-                            message: t("error-this-field-is-required")
-                        }
-                    ]}
-                >
-                    <Select options={endHourOptions} />
-                </Form.Item>
+                    label={t("end-hour")}
+                    options={endHourOptions}
+                />
             </DataDrawer>
         </>
     );
