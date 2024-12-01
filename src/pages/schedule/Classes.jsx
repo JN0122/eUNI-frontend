@@ -72,8 +72,12 @@ function Classes() {
             currentFieldOfStudyInfo?.fieldOfStudyLogId
         );
         response.data = response.data.map((value) => {
-            value.classDates = value.dates.join(", ");
-            value.dates = value.dates.map((date) => dayjs(date));
+            value.dates = value.dates
+                .map((date) => dayjs(date))
+                .sort((a, b) => a - b);
+            value.classDates = value.dates
+                .map((date) => date.format("YYYY-MM-DD"))
+                .join(", ");
             value.startHourTime = value.startHour.startTime;
             value.startHourId = value.startHour.hourId;
             value.endHourTime = value.endHour.endTime;
