@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useContentBlock } from "../../context/ContentBlockContext.jsx";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { App, Form, Select, Space, Typography } from "antd";
+import { App, Select, Space, Typography } from "antd";
 import LANGS from "../../enums/languages.js";
 import { changeEmail } from "../../api/user.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
@@ -12,7 +12,7 @@ import {
     changeCurrentFieldOfStudy,
     changeStudentGroup
 } from "../../api/student.js";
-import { FormSelect } from "../../components/form/FormSelect.jsx";
+import SelectSearchByLabel from "../../components/form/SelectSearchByLabel.jsx";
 
 const { Text, Title } = Typography;
 
@@ -125,31 +125,24 @@ function ProfileInfo() {
         return (
             <>
                 <Title level={3}>{t("study-info")}</Title>
-                <Space direction="vertical" style={{ minWidth: 100 }}>
-                    <Text type="secondary">
-                        {`${t("current-field-of-study")}: `}
-                    </Text>
-                    <Form
-                        initialValues={{
-                            representativeFieldsOfStudyLogIds:
-                                currentFieldOfStudyInfo?.fieldOfStudyLogId
-                        }}
-                    >
-                        <FormSelect
-                            name="representativeFieldsOfStudyLogIds"
-                            popupMatchSelectWidth={false}
-                            style={{ minWidth: 100 }}
-                            onChange={handleCurrentFieldOfStudyChange}
-                            options={fieldsOfStudyOptions}
-                        />
-                    </Form>
-                </Space>
+                <Text type="secondary">
+                    {`${t("current-field-of-study")}: `}
+                </Text>
+                <SelectSearchByLabel
+                    name="representativeFieldsOfStudyLogIds"
+                    popupMatchSelectWidth={false}
+                    defaultValue={currentFieldOfStudyInfo?.fieldOfStudyLogId}
+                    style={{ minWidth: 100 }}
+                    onChange={handleCurrentFieldOfStudyChange}
+                    options={fieldsOfStudyOptions}
+                />
             </>
         );
     }, [
         currentFieldOfStudyInfo,
         fetchFieldsOfStudyLogs,
         fieldsOfStudyOptions,
+        handleCurrentFieldOfStudyChange,
         t
     ]);
 
