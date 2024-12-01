@@ -1,17 +1,10 @@
-import { Select } from "antd";
 import { FormCustomItem } from "./FormCustomItem.jsx";
+import SelectSearchByLabel from "./SelectSearchByLabel.jsx";
 
 export function FormSelect({ label, name, isRequired, ...rest }) {
     return (
         <FormCustomItem label={label} name={name} isRequired={isRequired}>
-            <Select
-                filterOption={(input, option) =>
-                    (option?.label ?? "")
-                        .toLowerCase()
-                        .includes(input.toLowerCase())
-                }
-                {...rest}
-            />
+            <SelectSearchByLabel {...rest} />
         </FormCustomItem>
     );
 }
