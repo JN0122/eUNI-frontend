@@ -225,13 +225,13 @@ function ClassesDrawer() {
                     name="startHourId"
                     label={t("start-hour")}
                     options={startHourOptions}
-                    isRequired={false}
+                    isRequired={true}
                 />
                 <FormSelect
                     name="endHourId"
                     label={t("end-hour")}
                     options={endHourOptions}
-                    isRequired={false}
+                    isRequired={true}
                 />
             </DataDrawer>
         </>
