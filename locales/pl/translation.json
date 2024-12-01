@@ -95,5 +95,6 @@
   "day-off": "Dzień wolny od zajęć",
   "select-representative-fields-of-study": "Wybierz kierunki starosty",
   "representative-fields-of-study": "Kierunki jako starosta",
-  "enter-info": "Wprowadź informacje"
+  "enter-info": "Wprowadź informacje",
+  "success-current-field-of-study-change": "Poprawnie zmieniono aktualny kierunek studiów"
 }

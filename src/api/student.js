@@ -7,3 +7,9 @@ export async function getStudentData() {
 export async function changeStudentGroup(payload) {
     return await axiosInstance.post(`/api/Student/group`, payload);
 }
+
+export async function changeCurrentFieldOfStudy(id) {
+    return await axiosInstance.post(
+        `/api/Student/current-field-of-study/${id}`
+    );
+}
