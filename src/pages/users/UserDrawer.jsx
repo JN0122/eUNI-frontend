@@ -54,7 +54,7 @@ function UserDrawer({ fieldsOfStudyInfoOptions }) {
     return (
         <>
             <DataDrawer
-                width={600}
+                width={650}
                 title={{ create: t("create-user"), edit: t("edit-user") }}
                 onCreate={onCreate}
                 onEdit={onEdit}
@@ -100,6 +100,7 @@ function UserDrawer({ fieldsOfStudyInfoOptions }) {
                     name="representativeFieldsOfStudyLogIds"
                     label={t("representative-fields-of-study")}
                     mode="multiple"
+                    popupMatchSelectWidth={false}
                     options={fieldsOfStudyInfoOptions}
                 />
                 <Title level={3}>{t("password")}</Title>

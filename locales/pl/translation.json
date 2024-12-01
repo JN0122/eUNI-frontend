@@ -96,5 +96,9 @@
   "select-representative-fields-of-study": "Wybierz kierunki starosty",
   "representative-fields-of-study": "Kierunki jako starosta",
   "enter-info": "Wprowadź informacje",
-  "success-current-field-of-study-change": "Poprawnie zmieniono aktualny kierunek studiów"
+  "success-current-field-of-study-change": "Poprawnie zmieniono aktualny kierunek studiów",
+  "full-time-field-of-study": "Stacjonarne",
+  "part-time-field-of-study": "Niestacjonarne",
+  "studies-cycle-1": "Inżynierskie",
+  "studies-cycle-2": "Magisterskie"
 }

@@ -61,6 +61,10 @@ function ProfileInfo() {
                         return {
                             label: [
                                 fieldOfStudy.yearName,
+                                t(`studies-cycle-${fieldOfStudy.studiesCycle}`),
+                                fieldOfStudy.isFullTime
+                                    ? t("full-time-field-of-study")
+                                    : t("part-time-field-of-study"),
                                 fieldOfStudy.name,
                                 `${t("semester")} ${fieldOfStudy.semester}`
                             ].join(" > "),
