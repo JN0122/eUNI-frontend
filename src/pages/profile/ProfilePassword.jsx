@@ -1,20 +1,29 @@
-import { Button, Divider, Form, Input, notification, Typography } from "antd";
+import { Button, Divider, Form, Typography } from "antd";
 import { useTranslation } from "react-i18next";
 import { useContentBlock } from "../../hooks/useContentBlock.jsx";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { changePassword } from "../../api/user.js";
 import hashPassword from "../../helpers/hashPassword.js";
-import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 import { FormNewPasswords } from "../../components/form/FormNewPasswords.jsx";
+import { useApi } from "../../hooks/useApi.jsx";
+import { useNotification } from "../../hooks/useNotification.jsx";
+import FormPassword from "../../components/form/FormPassword.jsx";
 
 const { Title } = Typography;
 
 function ProfilePassword() {
     const { t } = useTranslation();
+    const { displayNotification, handleApiError } = useNotification();
     const { addBreadcrumb, setBreadcrumbsToDefault } = useContentBlock();
     const [form] = Form.useForm();
-
-    const [submitLoading, setSubmitLoading] = useState(false);
+    const [changePasswordRequest, isLoading] = useApi(
+        changePassword,
+        () => {
+            displayNotification(t("password-success"));
+            form.resetFields();
+        },
+        handleApiError
+    );
 
     useEffect(() => {
         addBreadcrumb(t("change-password"));
@@ -22,18 +31,10 @@ function ProfilePassword() {
     }, [addBreadcrumb, setBreadcrumbsToDefault, t]);
 
     async function onSubmit(values) {
-        setSubmitLoading(true);
-        try {
-            await changePassword({
-                oldPassword: hashPassword(values.oldPassword),
-                newPassword: hashPassword(values.newPassword)
-            });
-            form.resetFields();
-            notification.success(getNotificationConfig(t("password-success")));
-        } catch {
-            notification.error(getNotificationConfig(t("error-unexpected")));
-        }
-        setSubmitLoading(false);
+        await changePasswordRequest({
+            oldPassword: hashPassword(values.oldPassword),
+            newPassword: hashPassword(values.newPassword)
+        });
     }
 
     return (
@@ -47,28 +48,19 @@ function ProfilePassword() {
                     maxWidth: 600
                 }}
             >
-                <Form.Item
-                    label={t("old-password")}
+                <FormPassword
                     name="oldPassword"
-                    rules={[
-                        {
-                            required: true,
-                            message: t("error-password-is-required")
-                        }
-                    ]}
-                >
-                    <Input.Password
-                        autoComplete="current-password"
-                        placeholder={t("old-password")}
-                    />
-                </Form.Item>
+                    label={t("old-password")}
+                    isRequired={true}
+                    placeholder={t("old-password")}
+                />
                 <Divider type="horizontal" />
                 <FormNewPasswords />
                 <Form.Item>
                     <Button
                         type="primary"
                         htmlType="submit"
-                        loading={submitLoading}
+                        loading={isLoading}
                     >
                         {t("save")}
                     </Button>

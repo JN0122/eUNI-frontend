@@ -1,15 +1,16 @@
 import ContentBlock from "../../components/content/ContentBlock.jsx";
 import { useTranslation } from "react-i18next";
-import { Button, Flex, notification, Table } from "antd";
+import { Button, Flex, Table } from "antd";
 import ScheduleCell from "./ScheduleCell.jsx";
 import { getStudyDays } from "../../enums/days.js";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getSchedule } from "../../api/schedule.js";
-import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 import getWeekNumber from "../../helpers/getWeekNumber.js";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import getStylesBasedOnClassType from "../../helpers/getStylesBasedOnClassType.js";
 import { useUser } from "../../hooks/useUser.jsx";
+import { useApi } from "../../hooks/useApi.jsx";
+import { useNotification } from "../../hooks/useNotification.jsx";
 
 function getRows(data) {
     if (data === null) return null;
@@ -31,7 +32,7 @@ function getRows(data) {
 function Schedule() {
     const { t } = useTranslation();
     const { currentFieldOfStudyInfo } = useUser();
-    const [isLoading, setIsLoading] = useState(true);
+    const { handleApiError } = useNotification();
     const [data, setData] = useState(null);
     const [displayScheduleDate, setDisplayScheduleDate] = useState({
         weekNumber: getWeekNumber(new Date()),
@@ -97,35 +98,33 @@ function Schedule() {
         [getClassesType, rowSpan]
     );
 
+    const [getScheduleRequest, isLoading] = useApi(
+        getSchedule,
+        (data) => setData(data),
+        handleApiError
+    );
+
     const getScheduleData = useCallback(
         async function () {
-            const response = await getSchedule({
+            await getScheduleRequest({
                 ...displayScheduleDate,
                 fieldOfStudyLogId: currentFieldOfStudyInfo.fieldOfStudyLogId,
                 groupIds: currentFieldOfStudyInfo.groups.map(
                     (group) => group.groupId
                 )
             });
-            if (response.status === 200) {
-                setData(response.data);
-                setIsLoading(false);
-            } else {
-                notification.error(
-                    getNotificationConfig(t("error-unexpected"))
-                );
-            }
         },
         [
-            currentFieldOfStudyInfo?.fieldOfStudyLogId,
-            currentFieldOfStudyInfo?.groups,
+            currentFieldOfStudyInfo.fieldOfStudyLogId,
+            currentFieldOfStudyInfo.groups,
             displayScheduleDate,
-            t
+            getScheduleRequest
         ]
     );
 
     useEffect(() => {
-        if (currentFieldOfStudyInfo) getScheduleData();
-    }, [currentFieldOfStudyInfo, getScheduleData]);
+        if (currentFieldOfStudyInfo && data === null) getScheduleData();
+    }, [currentFieldOfStudyInfo, data, getScheduleData]);
 
     const columns = useMemo(
         () => [

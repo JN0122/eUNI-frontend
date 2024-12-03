@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import hashPassword from "../../helpers/hashPassword.js";
-import apiStatusTranslationCode from "../../helpers/apiStatusTranslationCode.js";
 import { FormEmail } from "../../components/form/FormEmail.jsx";
 import FormPassword from "../../components/form/FormPassword.jsx";
+import { useApi } from "../../hooks/useApi.jsx";
 
 function Login() {
     const {
@@ -18,7 +18,6 @@ function Login() {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const [errorMessage, setErrorMessage] = useState(null);
-    const [submitLoading, setSubmitLoading] = useState(false);
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -26,20 +25,17 @@ function Login() {
         }
     }, [isAuthenticated, navigate]);
 
+    const [loginRequest, submitLoading] = useApi(
+        login,
+        () => navigate("/"),
+        () => setErrorMessage(t("error-login"))
+    );
+
     async function onFinish(values) {
-        setSubmitLoading(true);
-        const response = await login({
+        await loginRequest({
             email: values.email,
             password: hashPassword(values.password)
         });
-        setSubmitLoading(false);
-        if (response.status === 200) {
-            navigate("/");
-        } else {
-            setErrorMessage(
-                t(apiStatusTranslationCode("error-login", response.status))
-            );
-        }
     }
 
     return (
