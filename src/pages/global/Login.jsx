@@ -1,14 +1,14 @@
-import AppLayout from "../components/AppLayout.jsx";
+import AppLayout from "../../components/layout/AppLayout.jsx";
 import { Alert, Button, Checkbox, Flex, Form, theme } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { useAuth } from "../hooks/useAuth.jsx";
+import { useAuth } from "../../hooks/useAuth.jsx";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import hashPassword from "../helpers/hashPassword.js";
-import getErrorTranslationCode from "../helpers/getErrorTranslationCode.js";
-import { FormEmail } from "../components/form/FormEmail.jsx";
-import FormPassword from "../components/form/FormPassword.jsx";
+import hashPassword from "../../helpers/hashPassword.js";
+import getErrorTranslationCode from "../../helpers/getErrorTranslationCode.js";
+import { FormEmail } from "../../components/form/FormEmail.jsx";
+import FormPassword from "../../components/form/FormPassword.jsx";
 
 function Login() {
     const {

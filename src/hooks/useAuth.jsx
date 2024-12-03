@@ -6,7 +6,7 @@ import {
     useState
 } from "react";
 import { loginUser, logoutUser, restoreAccessToken } from "../api/auth.js";
-import { setAuthHeader } from "../api/axios.js";
+import { setAuthHeader } from "../lib/axios/axios.js";
 
 const UseAuth = createContext();
 

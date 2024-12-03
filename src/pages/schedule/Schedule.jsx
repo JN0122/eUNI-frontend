@@ -1,4 +1,4 @@
-import ContentBlock from "../../components/ContentBlock.jsx";
+import ContentBlock from "../../components/content/ContentBlock.jsx";
 import { useTranslation } from "react-i18next";
 import { Button, Flex, notification, Table } from "antd";
 import ScheduleCell from "./ScheduleCell.jsx";

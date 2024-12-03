@@ -1,10 +1,10 @@
-import ContentBlock from "../../components/ContentBlock.jsx";
+import ContentBlock from "../../components/content/ContentBlock.jsx";
 import { useTranslation } from "react-i18next";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { App, Button, Flex, Typography } from "antd";
 import { deleteUser, getAllUsers } from "../../api/admin.js";
 import UserDrawer from "./UserDrawer.jsx";
-import TableWithActions from "../../components/TableWithActions.jsx";
+import TableWithActions from "../../components/content/TableWithActions.jsx";
 import { useDrawer } from "../../hooks/useDrawer.jsx";
 import { getFieldsOfStudyLogs } from "../../api/fieldOfStudy.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";

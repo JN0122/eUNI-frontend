@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { FormNewPasswords } from "../../components/form/FormNewPasswords.jsx";
 import hashPassword from "../../helpers/hashPassword.js";
 import { createUser, updateUser } from "../../api/admin.js";
-import DataDrawer from "../../components/DataDrawer.jsx";
+import DataDrawer from "../../components/content/DataDrawer.jsx";
 import USER_ROLE from "../../enums/userRoles.js";
 import { FormInput } from "../../components/form/FormInput.jsx";
 import { FormEmail } from "../../components/form/FormEmail.jsx";

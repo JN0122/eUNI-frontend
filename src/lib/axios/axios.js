@@ -1,5 +1,5 @@
 import axios from "axios";
-import { restoreAccessToken } from "./auth.js";
+import { restoreAccessToken } from "../../api/auth.js";
 
 const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL

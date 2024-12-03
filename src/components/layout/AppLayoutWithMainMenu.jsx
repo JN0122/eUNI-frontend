@@ -1,7 +1,7 @@
 import AppLayout from "./AppLayout.jsx";
-import SiderMenu from "./SiderMenu.jsx";
+import SiderMenu from "../sider/SiderMenu.jsx";
 import { Outlet } from "react-router-dom";
-import { useMainMenu } from "../hooks/useMainMenu.jsx";
+import { useMainMenu } from "../../hooks/useMainMenu.jsx";
 
 export default function AppLayoutWithMainMenu() {
     const { activePageKey, items } = useMainMenu();

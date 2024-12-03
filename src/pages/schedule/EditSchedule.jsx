@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import ContentBlockWithMenu from "../../components/ContentBlockWithMenu.jsx";
+import ContentBlockWithMenu from "../../components/content/ContentBlockWithMenu.jsx";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ContentBlockProvider } from "../../hooks/useContentBlock.jsx";

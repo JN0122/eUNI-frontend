@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useEffect, useMemo } from "react";
 import { Button, Flex, Spin, Typography } from "antd";
-import TableWithActions from "../../components/TableWithActions.jsx";
+import TableWithActions from "../../components/content/TableWithActions.jsx";
 import { useDrawer } from "../../hooks/useDrawer.jsx";
 import AssignmentsDrawer from "./AssignmentsDrawer.jsx";
 import { deleteAssignment, getAssignments } from "../../api/representative.js";

@@ -1,4 +1,4 @@
-import AppLayout from "../components/AppLayout.jsx";
+import AppLayout from "../../components/layout/AppLayout.jsx";
 
 function NotFound() {
     return (

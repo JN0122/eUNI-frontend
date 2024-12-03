@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Button, ConfigProvider, Layout, theme } from "antd";
 import { useTranslation } from "react-i18next";
-import AppHeader from "./AppHeader.jsx";
-import logo from "../assets/images/logo-white-text.png";
+import AppHeader from "../header/AppHeader.jsx";
+import logo from "../../assets/images/logo-white-text.png";
 import { useNavigate } from "react-router-dom";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { useMediaQuery } from "react-responsive";

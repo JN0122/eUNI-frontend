@@ -1,7 +1,7 @@
 import ContentBlock from "./ContentBlock.jsx";
-import SiderMenu from "./SiderMenu.jsx";
+import SiderMenu from "../sider/SiderMenu.jsx";
 import { Outlet } from "react-router-dom";
-import { useContentBlock } from "../hooks/useContentBlock.jsx";
+import { useContentBlock } from "../../hooks/useContentBlock.jsx";
 import { useMediaQuery } from "react-responsive";
 
 function ContentBlockWithMenu() {

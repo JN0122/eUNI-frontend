@@ -1,8 +1,8 @@
 import { App, Button, Drawer, Form, Space } from "antd";
-import { DRAWER_TYPE, useDrawer } from "../hooks/useDrawer.jsx";
+import { DRAWER_TYPE, useDrawer } from "../../hooks/useDrawer.jsx";
 import { useTranslation } from "react-i18next";
 import { useCallback, useEffect } from "react";
-import getNotificationConfig from "../helpers/getNotificationConfig.js";
+import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 
 async function isFormValid(form) {
     return await form

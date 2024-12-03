@@ -1,7 +1,7 @@
 import { DatePicker } from "antd";
 import { DRAWER_TYPE, useDrawer } from "../../hooks/useDrawer.jsx";
 import { useTranslation } from "react-i18next";
-import DataDrawer from "../../components/DataDrawer.jsx";
+import DataDrawer from "../../components/content/DataDrawer.jsx";
 import {
     createClass,
     getAcademicDaysOff,

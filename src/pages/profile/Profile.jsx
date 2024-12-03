@@ -2,7 +2,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { ContentBlockProvider } from "../../hooks/useContentBlock.jsx";
-import ContentBlockWithMenu from "../../components/ContentBlockWithMenu.jsx";
+import ContentBlockWithMenu from "../../components/content/ContentBlockWithMenu.jsx";
 import { useMemo } from "react";
 
 function Profile() {

@@ -1,4 +1,4 @@
-import axiosInstance from "./axios.js";
+import axiosInstance from "../lib/axios/axios.js";
 
 export async function getGroups(fieldOfStudyLogId) {
     return await axiosInstance.get(`/api/FieldOfStudy/groups`, {

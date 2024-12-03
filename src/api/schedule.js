@@ -1,4 +1,4 @@
-import axiosInstance from "./axios.js";
+import axiosInstance from "../lib/axios/axios.js";
 
 export async function getSchedule(data) {
     return await axiosInstance.post("/api/Schedule/get-schedule", data);

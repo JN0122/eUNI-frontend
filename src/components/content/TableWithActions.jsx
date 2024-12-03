@@ -2,8 +2,8 @@ import { useTranslation } from "react-i18next";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { App, Button, Flex, Input, Space, Table } from "antd";
 import { ExclamationCircleFilled, SearchOutlined } from "@ant-design/icons";
-import getNotificationConfig from "../helpers/getNotificationConfig.js";
-import { useDrawer } from "../hooks/useDrawer.jsx";
+import getNotificationConfig from "../../helpers/getNotificationConfig.js";
+import { useDrawer } from "../../hooks/useDrawer.jsx";
 
 const getColumnSortProps = (dataIndex) => {
     return {
