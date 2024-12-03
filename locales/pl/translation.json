@@ -100,5 +100,8 @@
   "full-time-field-of-study": "Stacjonarne",
   "part-time-field-of-study": "Niestacjonarne",
   "studies-cycle-1": "Inżynierskie",
-  "studies-cycle-2": "Magisterskie"
+  "studies-cycle-2": "Magisterskie",
+  "copy-link": "Kopiuj link",
+  "success-copy": "Skopiowano!",
+  "error-cannot-copy": "Nie można skopiować!"
 }

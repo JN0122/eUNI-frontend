@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useContentBlock } from "../../context/ContentBlockContext.jsx";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { App, Select, Space, Typography } from "antd";
+import { App, Button, Select, Space, Typography } from "antd";
 import LANGS from "../../enums/languages.js";
 import { changeEmail } from "../../api/user.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
@@ -13,6 +13,8 @@ import {
     changeStudentGroup
 } from "../../api/student.js";
 import SelectSearchByLabel from "../../components/form/SelectSearchByLabel.jsx";
+import { CalendarOutlined } from "@ant-design/icons";
+import { getGroupCalendarPath } from "../../api/schedule.js";
 
 const { Text, Title } = Typography;
 
@@ -24,6 +26,8 @@ function ProfileInfo() {
     const [email, setEmail] = useState(userInfo.email);
     const [groupsOptions, setGroupsOptions] = useState(null);
     const [fieldsOfStudyOptions, setFieldsOfStudyOptions] = useState(null);
+    const { message } = App.useApp();
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
     const getGroupData = useCallback(
         async function () {
@@ -186,6 +190,28 @@ function ProfileInfo() {
         ]
     );
 
+    const handleCopy = async function (groupId) {
+        const response = await getGroupCalendarPath(
+            currentFieldOfStudyInfo?.fieldOfStudyLogId,
+            groupId
+        );
+
+        navigator.clipboard
+            .writeText(apiUrl + response.data)
+            .then(() => {
+                message.open({
+                    type: "success",
+                    content: t("success-copy")
+                });
+            })
+            .catch(() => {
+                message.open({
+                    type: "error",
+                    content: t("error-cannot-copy")
+                });
+            });
+    };
+
     const groupContent = useMemo(() => {
         if (groupsOptions === null) return null;
         return (
@@ -204,6 +230,14 @@ function ProfileInfo() {
                                     handleGroupChange(groupId, typeId)
                                 }
                             />
+                            <Button
+                                color="primary"
+                                variant="outlined"
+                                onClick={() => handleCopy(value)}
+                            >
+                                {t("copy-link")}
+                                <CalendarOutlined />
+                            </Button>
                         </Space>
                     );
                 })}
