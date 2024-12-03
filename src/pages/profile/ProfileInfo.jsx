@@ -1,11 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { useContentBlock } from "../../hooks/ContentBlockContext.jsx";
+import { useContentBlock } from "../../hooks/useContentBlock.jsx";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { App, Button, Select, Space, Typography } from "antd";
 import LANGS from "../../enums/languages.js";
 import { changeEmail } from "../../api/user.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
-import { useUser } from "../../hooks/UserContext.jsx";
+import { useUser } from "../../hooks/useUser.jsx";
 import { getFieldsOfStudyLogs, getGroups } from "../../api/fieldOfStudy.js";
 import CLASSES_TYPE from "../../enums/classesType.js";
 import {

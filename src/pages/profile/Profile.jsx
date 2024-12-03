@@ -1,7 +1,7 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { ContentBlockProvider } from "../../hooks/ContentBlockContext.jsx";
+import { ContentBlockProvider } from "../../hooks/useContentBlock.jsx";
 import ContentBlockWithMenu from "../../components/ContentBlockWithMenu.jsx";
 import { useMemo } from "react";
 

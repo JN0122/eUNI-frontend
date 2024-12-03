@@ -8,7 +8,7 @@ import {
 import { loginUser, logoutUser, restoreAccessToken } from "../api/auth.js";
 import { setAuthHeader } from "../api/axios.js";
 
-const AuthContext = createContext();
+const UseAuth = createContext();
 
 export function AuthProvider({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -52,7 +52,7 @@ export function AuthProvider({ children }) {
     }, [restoreSession]);
 
     return (
-        <AuthContext.Provider
+        <UseAuth.Provider
             value={{
                 login,
                 logout,
@@ -60,14 +60,14 @@ export function AuthProvider({ children }) {
             }}
         >
             {children}
-        </AuthContext.Provider>
+        </UseAuth.Provider>
     );
 }
 
 export const useAuth = () => {
-    const context = useContext(AuthContext);
+    const context = useContext(UseAuth);
     if (!context) {
-        throw new Error("Cannot use AuthContext without provider");
+        throw new Error("Cannot use UseAuth without provider");
     }
     return context;
 };

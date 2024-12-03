@@ -9,7 +9,7 @@ import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 import getWeekNumber from "../../helpers/getWeekNumber.js";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import getStylesBasedOnClassType from "../../helpers/getStylesBasedOnClassType.js";
-import { useUser } from "../../hooks/UserContext.jsx";
+import { useUser } from "../../hooks/useUser.jsx";
 
 function getRows(data) {
     if (data === null) return null;

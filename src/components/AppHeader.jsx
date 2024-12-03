@@ -1,6 +1,6 @@
 import { Flex, Layout, theme } from "antd";
 import logo from "../assets/images/logo.png";
-import { useAuth } from "../hooks/AuthContext.jsx";
+import { useAuth } from "../hooks/useAuth.jsx";
 import { Link } from "react-router-dom";
 import UserAvatar from "./UserAvatar.jsx";
 

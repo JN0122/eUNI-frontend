@@ -1,10 +1,10 @@
 import { Avatar, Dropdown, Skeleton } from "antd";
 import { Link } from "react-router-dom";
 import { UserOutlined } from "@ant-design/icons";
-import { useAuth } from "../hooks/AuthContext.jsx";
+import { useAuth } from "../hooks/useAuth.jsx";
 import { useTranslation } from "react-i18next";
 import { useMemo } from "react";
-import { useUser } from "../hooks/UserContext.jsx";
+import { useUser } from "../hooks/useUser.jsx";
 
 function UserAvatar() {
     const { logout } = useAuth();

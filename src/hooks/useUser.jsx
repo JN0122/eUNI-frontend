@@ -6,7 +6,7 @@ import {
     useMemo,
     useState
 } from "react";
-import { useAuth } from "./AuthContext.jsx";
+import { useAuth } from "./useAuth.jsx";
 import UserRoles from "../enums/userRoles.js";
 import { notification } from "antd";
 import getNotificationConfig from "../helpers/getNotificationConfig.js";
@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { getStudentData } from "../api/student.js";
 import { getUserData } from "../api/user.js";
 
-const UserContext = createContext();
+const UseUser = createContext();
 
 const defaultPermissions = {
     representative: ["schedule:*", "class:*", "classes:*", "assignments:*"],
@@ -108,7 +108,7 @@ export function UserProvider({ children }) {
 
     return (
         <>
-            <UserContext.Provider
+            <UseUser.Provider
                 value={{
                     userInfo,
                     studentInfo,
@@ -119,15 +119,15 @@ export function UserProvider({ children }) {
                 }}
             >
                 {children}
-            </UserContext.Provider>
+            </UseUser.Provider>
         </>
     );
 }
 
 export const useUser = () => {
-    const context = useContext(UserContext);
+    const context = useContext(UseUser);
     if (!context) {
-        throw new Error("useUser must be used within UserContext.Provider");
+        throw new Error("useUser must be used within UseUser.Provider");
     }
     return context;
 };

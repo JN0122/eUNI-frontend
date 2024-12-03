@@ -1,5 +1,5 @@
 import { DatePicker } from "antd";
-import { DRAWER_TYPE, useDrawer } from "../../hooks/DrawerContext.jsx";
+import { DRAWER_TYPE, useDrawer } from "../../hooks/useDrawer.jsx";
 import { useTranslation } from "react-i18next";
 import DataDrawer from "../../components/DataDrawer.jsx";
 import {
@@ -12,7 +12,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { getHours } from "../../api/schedule.js";
 import { getStudyDays } from "../../enums/weekDays.js";
 import { isOddWeekMap, oddWeekValues } from "../../helpers/isOddWeekMap.js";
-import { useUser } from "../../hooks/UserContext.jsx";
+import { useUser } from "../../hooks/useUser.jsx";
 import dayjs from "dayjs";
 import { FormInput } from "../../components/form/FormInput.jsx";
 import { FormSelect } from "../../components/form/FormSelect.jsx";

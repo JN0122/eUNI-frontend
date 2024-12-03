@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 
-const DrawerContext = createContext();
+const UseDrawer = createContext();
 
 export const DRAWER_TYPE = {
     edit: 0,
@@ -27,7 +27,7 @@ export function DrawerProvider({ children }) {
     const openCreateDrawer = () => openDrawer(DRAWER_TYPE.create);
 
     return (
-        <DrawerContext.Provider
+        <UseDrawer.Provider
             value={{
                 isOpen: open,
                 closeDrawer,
@@ -39,12 +39,12 @@ export function DrawerProvider({ children }) {
             }}
         >
             {children}
-        </DrawerContext.Provider>
+        </UseDrawer.Provider>
     );
 }
 
 export function useDrawer() {
-    const context = useContext(DrawerContext);
+    const context = useContext(UseDrawer);
     if (!context) throw new Error("Cannot use DrawerProvider without provider");
     return context;
 }

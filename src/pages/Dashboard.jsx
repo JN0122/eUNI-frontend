@@ -7,9 +7,9 @@ import {
 import { Link } from "react-router-dom";
 import { Spin } from "antd";
 import { useTranslation } from "react-i18next";
-import { MainMenuProvider } from "../hooks/MainMenuContext.jsx";
+import { MainMenuProvider } from "../hooks/useMainMenu.jsx";
 import AppLayoutWithMainMenu from "../components/AppLayoutWithMainMenu.jsx";
-import { useUser } from "../hooks/UserContext.jsx";
+import { useUser } from "../hooks/useUser.jsx";
 import { useMemo } from "react";
 
 function Dashboard() {

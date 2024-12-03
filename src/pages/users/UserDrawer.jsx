@@ -1,5 +1,5 @@
 import { Typography } from "antd";
-import { DRAWER_TYPE, useDrawer } from "../../hooks/DrawerContext.jsx";
+import { DRAWER_TYPE, useDrawer } from "../../hooks/useDrawer.jsx";
 import { useTranslation } from "react-i18next";
 import { FormNewPasswords } from "../../components/form/FormNewPasswords.jsx";
 import hashPassword from "../../helpers/hashPassword.js";

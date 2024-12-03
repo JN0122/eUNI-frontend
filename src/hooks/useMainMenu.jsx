@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import getSubpagePath from "../helpers/getSubpagePath.js";
 
-const MainMenuContext = createContext();
+const UseMainMenu = createContext();
 
 export function MainMenuProvider({ items, children }) {
     const { pathname } = useLocation();
@@ -22,19 +22,19 @@ export function MainMenuProvider({ items, children }) {
     );
 
     return (
-        <MainMenuContext.Provider
+        <UseMainMenu.Provider
             value={{
                 items,
                 activePageKey
             }}
         >
             {children}
-        </MainMenuContext.Provider>
+        </UseMainMenu.Provider>
     );
 }
 
 export const useMainMenu = () => {
-    const context = useContext(MainMenuContext);
+    const context = useContext(UseMainMenu);
     if (!context) {
         throw new Error("Cannot use MainMenu hooks without provider");
     }
