@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { ContentBlockProvider } from "../../hooks/useContentBlock.jsx";
 import { useUser } from "../../hooks/useUser.jsx";
-import { CalendarOutlined, FileOutlined } from "@ant-design/icons";
+import { CalendarOutlined } from "@ant-design/icons";
 import { DrawerProvider } from "../../hooks/useDrawer.jsx";
 
 function EditSchedule() {
@@ -18,12 +18,6 @@ function EditSchedule() {
                 path: "classes",
                 icon: <CalendarOutlined />,
                 key: 1
-            },
-            hasPermission("assignments:*") && {
-                label: <Link to="assignments">{t("assignments")}</Link>,
-                path: "assignments",
-                icon: <FileOutlined />,
-                key: 2
             }
         ],
         [hasPermission, t]
