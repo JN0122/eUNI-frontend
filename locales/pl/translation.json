@@ -107,5 +107,6 @@
   "error-not-found": "Nie znaleziono!",
   "error-forbidden": "Brak dostępu!",
   "error-unauthorized": "Nie autoryzowano!",
-  "error-bad-request": "Niepoprawne zapytanie!"
+  "error-bad-request": "Niepoprawne zapytanie!",
+  "success-group-changed": "Grupa została zmieniona!"
 }

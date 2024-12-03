@@ -1,12 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { useContentBlock } from "../../hooks/useContentBlock.jsx";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { App, Button, Select, Space, Typography } from "antd";
+import { Button, Select, Space, Typography } from "antd";
 import LANGS from "../../enums/languages.js";
 import { changeEmail } from "../../api/user.js";
-import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 import { useUser } from "../../hooks/useUser.jsx";
-import { getFieldsOfStudyLogs, getGroups } from "../../api/fieldOfStudy.js";
 import CLASSES_TYPE from "../../enums/classesType.js";
 import {
     changeCurrentFieldOfStudy,
@@ -15,121 +13,70 @@ import {
 import SelectSearchByLabel from "../../components/form/SelectSearchByLabel.jsx";
 import { CalendarOutlined } from "@ant-design/icons";
 import { getGroupCalendarPath } from "../../api/schedule.js";
+import useFieldOfStudyGroupsOptions from "../../hooks/options/useFieldOfStudyGroupsOptions.jsx";
+import useFieldsOfStudyLogsOptions from "../../hooks/options/useFieldsOfStudyLogsOptions.jsx";
+import { CopyToClipboard } from "../../helpers/CopyToClipboard.js";
+import { useNotification } from "../../hooks/useNotification.jsx";
+import { useApi } from "../../hooks/useApi.jsx";
+import NOTIFICATION_TYPES from "../../enums/NotificationTypes.js";
 
 const { Text, Title } = Typography;
+const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
 function ProfileInfo() {
     const { t, i18n } = useTranslation();
-    const { notification } = App.useApp();
+    const { displayMessage, displayNotification, handleApiError } =
+        useNotification();
     const { addBreadcrumb, setBreadcrumbsToDefault } = useContentBlock();
     const { userInfo, currentFieldOfStudyInfo, reFetchStudentInfo } = useUser();
-    const [email, setEmail] = useState(userInfo.email);
-    const [groupsOptions, setGroupsOptions] = useState(null);
-    const [fieldsOfStudyOptions, setFieldsOfStudyOptions] = useState(null);
-    const { message } = App.useApp();
-    const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
-    const getGroupData = useCallback(
-        async function () {
-            const response = await getGroups(
-                currentFieldOfStudyInfo?.fieldOfStudyLogId
-            );
-            if (response.status !== 200) {
-                console.error("Cannot get group data");
-                return;
-            }
-            setGroupsOptions(() => {
-                const groups = {};
-                response.data.map((data) => {
-                    const newGroup = {
-                        label: data.groupName,
-                        value: data.groupId
-                    };
-                    groups[data.type] =
-                        groups[data.type] === undefined
-                            ? [newGroup]
-                            : [...groups[data.type], newGroup];
-                });
-                return groups;
-            });
-        },
-        [currentFieldOfStudyInfo?.fieldOfStudyLogId]
+    const groupsOptions = useFieldOfStudyGroupsOptions(
+        currentFieldOfStudyInfo?.fieldOfStudyLogId
     );
-
-    const fetchFieldsOfStudyLogs = useCallback(
-        async function () {
-            try {
-                const response = await getFieldsOfStudyLogs();
-                setFieldsOfStudyOptions(
-                    response.data.map((fieldOfStudy) => {
-                        return {
-                            label: [
-                                fieldOfStudy.yearName,
-                                t(`studies-cycle-${fieldOfStudy.studiesCycle}`),
-                                fieldOfStudy.isFullTime
-                                    ? t("full-time-field-of-study")
-                                    : t("part-time-field-of-study"),
-                                fieldOfStudy.name,
-                                `${t("semester")} ${fieldOfStudy.semester}`
-                            ].join(" > "),
-                            value: fieldOfStudy.fieldOfStudyLogId
-                        };
-                    })
-                );
-            } catch (err) {
-                notification.error(
-                    getNotificationConfig(t("error-unexpected"))
-                );
-                console.error(err.message);
-            }
-        },
-        [notification, t]
-    );
+    const fieldsOfStudyOptions = useFieldsOfStudyLogsOptions();
+    const [email, setEmail] = useState(userInfo?.email);
 
     useEffect(() => {
         addBreadcrumb(t("basic-info"));
-        if (currentFieldOfStudyInfo !== null) getGroupData();
         return () => setBreadcrumbsToDefault();
-    }, [
-        addBreadcrumb,
-        getGroupData,
-        setBreadcrumbsToDefault,
-        t,
-        currentFieldOfStudyInfo
-    ]);
+    }, [addBreadcrumb, setBreadcrumbsToDefault, t, currentFieldOfStudyInfo]);
 
-    async function onEmailChange(newEmail) {
-        if (newEmail === email) return;
-        try {
-            await changeEmail({ email: newEmail });
-            setEmail(newEmail);
-            notification.success(getNotificationConfig(t("email-success")));
-        } catch {
-            notification.error(getNotificationConfig(t("error-unexpected")));
-        }
-    }
+    const [changeEmailRequest] = useApi(
+        changeEmail,
+        () => {
+            displayNotification(t("email-success"));
+        },
+        handleApiError
+    );
 
-    const handleCurrentFieldOfStudyChange = async function (id) {
-        try {
-            await changeCurrentFieldOfStudy(id);
-            reFetchStudentInfo();
-            notification.success(
-                getNotificationConfig(
-                    t("success-current-field-of-study-change")
-                )
+    const onEmailChange = useCallback(
+        async function (newEmail) {
+            if (newEmail === email) return;
+            await changeEmailRequest({ email: newEmail }).then(() =>
+                setEmail(newEmail)
             );
-        } catch (error) {
-            notification.error(getNotificationConfig(t("error-unexpected")));
-            console.log(error?.message);
-        }
-    };
+        },
+        [changeEmailRequest, email]
+    );
+
+    const [changeCurrentFieldOfStudyRequest] = useApi(
+        changeCurrentFieldOfStudy,
+        () => {
+            displayNotification(t("success-current-field-of-study-change"));
+            reFetchStudentInfo();
+        },
+        handleApiError
+    );
+
+    const handleCurrentFieldOfStudyChange = useCallback(
+        async function (id) {
+            await changeCurrentFieldOfStudyRequest(id);
+        },
+        [changeCurrentFieldOfStudyRequest]
+    );
 
     const studentContent = useMemo(() => {
         if (currentFieldOfStudyInfo == null) return null;
-        if (fieldsOfStudyOptions === null) {
-            fetchFieldsOfStudyLogs();
-            return null;
-        }
         return (
             <>
                 <Title level={3}>{t("study-info")}</Title>
@@ -148,7 +95,6 @@ function ProfileInfo() {
         );
     }, [
         currentFieldOfStudyInfo,
-        fetchFieldsOfStudyLogs,
         fieldsOfStudyOptions,
         handleCurrentFieldOfStudyChange,
         t
@@ -165,51 +111,50 @@ function ProfileInfo() {
         [currentFieldOfStudyInfo?.groups]
     );
 
+    const [groupChangeRequest] = useApi(
+        changeStudentGroup,
+        () => {
+            displayNotification(t("success-group-changed"));
+            reFetchStudentInfo();
+        },
+        handleApiError
+    );
+
     const handleGroupChange = useCallback(
         async function (groupId, typeId) {
-            try {
-                await changeStudentGroup({
-                    fieldOfStudyLogId:
-                        currentFieldOfStudyInfo?.fieldOfStudyLogId,
-                    groupId,
-                    groupType: typeId
-                });
-                reFetchStudentInfo();
-            } catch (error) {
-                console.error(error);
-                notification.error(
-                    getNotificationConfig(t("error-unexpected"))
-                );
-            }
+            await groupChangeRequest({
+                fieldOfStudyLogId: currentFieldOfStudyInfo?.fieldOfStudyLogId,
+                groupId,
+                groupType: typeId
+            });
         },
-        [
-            currentFieldOfStudyInfo?.fieldOfStudyLogId,
-            notification,
-            reFetchStudentInfo,
-            t
-        ]
+        [currentFieldOfStudyInfo?.fieldOfStudyLogId, groupChangeRequest]
+    );
+
+    const [getGroupCalendarPathRequest] = useApi(
+        getGroupCalendarPath,
+        (data) =>
+            CopyToClipboard(
+                apiUrl + data,
+                () =>
+                    displayMessage(
+                        t("success-copy"),
+                        NOTIFICATION_TYPES.success
+                    ),
+                () =>
+                    displayMessage(
+                        t("error-cannot-copy"),
+                        NOTIFICATION_TYPES.error
+                    )
+            ),
+        handleApiError
     );
 
     const handleCopy = async function (groupId) {
-        const response = await getGroupCalendarPath(
+        await getGroupCalendarPathRequest(
             currentFieldOfStudyInfo?.fieldOfStudyLogId,
             groupId
         );
-
-        navigator.clipboard
-            .writeText(apiUrl + response.data)
-            .then(() => {
-                message.open({
-                    type: "success",
-                    content: t("success-copy")
-                });
-            })
-            .catch(() => {
-                message.open({
-                    type: "error",
-                    content: t("error-cannot-copy")
-                });
-            });
     };
 
     const groupContent = useMemo(() => {
@@ -244,9 +189,9 @@ function ProfileInfo() {
             </>
         );
     }, [
-        currentFieldOfStudyInfo?.semester,
         getCurrentStudentGroup,
         groupsOptions,
+        handleCopy,
         handleGroupChange,
         t
     ]);
