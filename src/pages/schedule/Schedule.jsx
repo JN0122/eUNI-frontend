@@ -2,7 +2,7 @@ import ContentBlock from "../../components/content/ContentBlock.jsx";
 import { useTranslation } from "react-i18next";
 import { Button, Flex, notification, Table } from "antd";
 import ScheduleCell from "./ScheduleCell.jsx";
-import { getStudyDays } from "../../enums/weekDays.js";
+import { getStudyDays } from "../../enums/days.js";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getSchedule } from "../../api/schedule.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";

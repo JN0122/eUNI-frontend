@@ -10,8 +10,8 @@ import {
 } from "../../api/representative.js";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getHours } from "../../api/schedule.js";
-import { getStudyDays } from "../../enums/weekDays.js";
-import { isOddWeekMap, oddWeekValues } from "../../helpers/isOddWeekMap.js";
+import { getStudyDays } from "../../enums/days.js";
+import { oddWeek, oddWeekValues } from "../../helpers/oddWeek.js";
 import { useUser } from "../../hooks/useUser.jsx";
 import dayjs from "dayjs";
 import { FormInput } from "../../components/form/FormInput.jsx";
@@ -78,7 +78,7 @@ function ClassesDrawer() {
 
     const oddWeekOptions = useMemo(() => {
         return oddWeekValues.map((value) => {
-            return { label: t(isOddWeekMap(value)), value: `${value}` };
+            return { label: t(oddWeek(value)), value: `${value}` };
         });
     }, [t]);
 

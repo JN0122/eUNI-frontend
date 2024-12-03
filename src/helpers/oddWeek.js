@@ -1,4 +1,4 @@
-export function isOddWeekMap(isOddWeek) {
+export function oddWeek(isOddWeek) {
     switch (isOddWeek) {
         case null:
             return "every-week";
