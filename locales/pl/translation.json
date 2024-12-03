@@ -103,5 +103,9 @@
   "studies-cycle-2": "Magisterskie",
   "copy-link": "Kopiuj link",
   "success-copy": "Skopiowano!",
-  "error-cannot-copy": "Nie można skopiować!"
+  "error-cannot-copy": "Nie można skopiować!",
+  "error-not-found": "Nie znaleziono!",
+  "error-forbidden": "Brak dostępu!",
+  "error-unauthorized": "Nie autoryzowano!",
+  "error-bad-request": "Niepoprawne zapytanie!"
 }

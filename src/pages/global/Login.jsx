@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import hashPassword from "../../helpers/hashPassword.js";
-import getErrorTranslationCode from "../../helpers/getErrorTranslationCode.js";
+import apiStatusTranslationCode from "../../helpers/apiStatusTranslationCode.js";
 import { FormEmail } from "../../components/form/FormEmail.jsx";
 import FormPassword from "../../components/form/FormPassword.jsx";
 
@@ -37,7 +37,7 @@ function Login() {
             navigate("/");
         } else {
             setErrorMessage(
-                t(getErrorTranslationCode("error-login", response.status))
+                t(apiStatusTranslationCode("error-login", response.status))
             );
         }
     }
