@@ -1,4 +1,4 @@
-import { useAuth } from "../context/AuthContext.jsx";
+import { useAuth } from "../hooks/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { LoadingOutlined } from "@ant-design/icons";

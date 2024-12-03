@@ -2,11 +2,11 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useMemo } from "react";
 import { Button, Flex, Spin, Typography } from "antd";
 import TableWithActions from "../../components/TableWithActions.jsx";
-import { useDrawer } from "../../context/DrawerContext.jsx";
+import { useDrawer } from "../../hooks/DrawerContext.jsx";
 import AssignmentsDrawer from "./AssignmentsDrawer.jsx";
 import { deleteAssignment, getAssignments } from "../../api/representative.js";
-import { useContentBlock } from "../../context/ContentBlockContext.jsx";
-import { useUser } from "../../context/UserContext.jsx";
+import { useContentBlock } from "../../hooks/ContentBlockContext.jsx";
+import { useUser } from "../../hooks/UserContext.jsx";
 import dayjs from "dayjs";
 
 const { Text } = Typography;

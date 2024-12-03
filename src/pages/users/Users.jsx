@@ -5,7 +5,7 @@ import { App, Button, Flex, Typography } from "antd";
 import { deleteUser, getAllUsers } from "../../api/admin.js";
 import UserDrawer from "./UserDrawer.jsx";
 import TableWithActions from "../../components/TableWithActions.jsx";
-import { useDrawer } from "../../context/DrawerContext.jsx";
+import { useDrawer } from "../../hooks/DrawerContext.jsx";
 import { getFieldsOfStudyLogs } from "../../api/fieldOfStudy.js";
 import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 

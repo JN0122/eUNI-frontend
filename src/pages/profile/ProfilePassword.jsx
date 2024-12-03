@@ -1,6 +1,6 @@
 import { Button, Divider, Form, Input, notification, Typography } from "antd";
 import { useTranslation } from "react-i18next";
-import { useContentBlock } from "../../context/ContentBlockContext.jsx";
+import { useContentBlock } from "../../hooks/ContentBlockContext.jsx";
 import { useEffect, useState } from "react";
 import { changePassword } from "../../api/user.js";
 import hashPassword from "../../helpers/hashPassword.js";

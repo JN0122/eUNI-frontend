@@ -36,7 +36,7 @@ export function MainMenuProvider({ items, children }) {
 export const useMainMenu = () => {
     const context = useContext(MainMenuContext);
     if (!context) {
-        throw new Error("Cannot use MainMenu context without provider");
+        throw new Error("Cannot use MainMenu hooks without provider");
     }
     return context;
 };

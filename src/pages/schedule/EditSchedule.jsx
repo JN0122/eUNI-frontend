@@ -2,10 +2,10 @@ import { useTranslation } from "react-i18next";
 import ContentBlockWithMenu from "../../components/ContentBlockWithMenu.jsx";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import { ContentBlockProvider } from "../../context/ContentBlockContext.jsx";
-import { useUser } from "../../context/UserContext.jsx";
+import { ContentBlockProvider } from "../../hooks/ContentBlockContext.jsx";
+import { useUser } from "../../hooks/UserContext.jsx";
 import { CalendarOutlined, FileOutlined } from "@ant-design/icons";
-import { DrawerProvider } from "../../context/DrawerContext.jsx";
+import { DrawerProvider } from "../../hooks/DrawerContext.jsx";
 
 function EditSchedule() {
     const { t } = useTranslation();

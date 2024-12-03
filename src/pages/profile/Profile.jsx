@@ -1,7 +1,7 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { ContentBlockProvider } from "../../context/ContentBlockContext.jsx";
+import { ContentBlockProvider } from "../../hooks/ContentBlockContext.jsx";
 import ContentBlockWithMenu from "../../components/ContentBlockWithMenu.jsx";
 import { useMemo } from "react";
 
@@ -14,18 +14,18 @@ function Profile() {
                 label: <Link to="info">{t("basic-info")}</Link>,
                 path: "info",
                 key: 1,
-                icon: <UserOutlined />,
+                icon: <UserOutlined />
             },
             {
                 label: <Link to="password">{t("change-password")}</Link>,
                 path: "password",
                 key: 2,
-                icon: <LockOutlined />,
-            },
+                icon: <LockOutlined />
+            }
         ],
-        [t],
+        [t]
     );
-    
+
     return (
         <ContentBlockProvider mainPath={t("profile")} items={items}>
             <ContentBlockWithMenu />

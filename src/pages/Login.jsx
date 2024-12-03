@@ -1,7 +1,7 @@
 import AppLayout from "../components/AppLayout.jsx";
 import { Alert, Button, Checkbox, Flex, Form, theme } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { useAuth } from "../context/AuthContext.jsx";
+import { useAuth } from "../hooks/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
