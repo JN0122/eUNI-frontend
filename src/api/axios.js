@@ -2,7 +2,7 @@ import axios from "axios";
 import { restoreAccessToken } from "./auth.js";
 
 const axiosInstance = axios.create({
-    baseURL: "http://localhost:5104"
+    baseURL: import.meta.env.VITE_API_BASE_URL
 });
 
 export function setAuthHeader(token) {
