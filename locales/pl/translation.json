@@ -108,5 +108,8 @@
   "error-forbidden": "Brak dostępu!",
   "error-unauthorized": "Nie autoryzowano!",
   "error-bad-request": "Niepoprawne zapytanie!",
-  "success-group-changed": "Grupa została zmieniona!"
+  "success-group-changed": "Grupa została zmieniona!",
+  "go-back": "Powrót",
+  "page-not-found": "Strona nie istnieje!",
+  "something-went-wrong": "Coś poszło nie tak, przepraszamy!"
 }

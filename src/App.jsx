@@ -19,6 +19,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/en";
 import "dayjs/locale/pl";
 import updateLocale from "dayjs/plugin/updateLocale";
+import InternalError from "./pages/global/InternalError.jsx";
 
 dayjs.extend(updateLocale);
 const config = {
@@ -30,6 +31,7 @@ dayjs.updateLocale("pl", config);
 const router = createBrowserRouter([
     {
         path: "/",
+        errorElement: <InternalError />,
         element: (
             <ProtectedRoute>
                 <Dashboard />
