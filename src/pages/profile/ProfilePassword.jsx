@@ -5,9 +5,9 @@ import { useEffect } from "react";
 import { changePassword } from "../../api/user.js";
 import hashPassword from "../../helpers/hashPassword.js";
 import { FormNewPasswords } from "../../components/form/FormNewPasswords.jsx";
-import { useApi } from "../../hooks/useApi.jsx";
 import { useNotification } from "../../hooks/useNotification.jsx";
 import FormPassword from "../../components/form/FormPassword.jsx";
+import { useApiWithLoading } from "../../hooks/useApiWithLoading.jsx";
 
 const { Title } = Typography;
 
@@ -16,7 +16,7 @@ function ProfilePassword() {
     const { displayNotification, handleApiError } = useNotification();
     const { addBreadcrumb, setBreadcrumbsToDefault } = useContentBlock();
     const [form] = Form.useForm();
-    const [changePasswordRequest, isLoading] = useApi(
+    const [changePasswordRequest, isLoading] = useApiWithLoading(
         changePassword,
         () => {
             displayNotification(t("password-success"));

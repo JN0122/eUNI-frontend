@@ -31,7 +31,7 @@ export default function useFieldsOfStudyLogsOptions() {
         [t]
     );
 
-    const [callApi] = useApi(getFieldsOfStudyLogs, parseGroups, handleApiError);
+    const callApi = useApi(getFieldsOfStudyLogs, parseGroups, handleApiError);
     useEffect(() => {
         callApi();
     }, [callApi]);

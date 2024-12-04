@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import hashPassword from "../../helpers/hashPassword.js";
 import { FormEmail } from "../../components/form/FormEmail.jsx";
 import FormPassword from "../../components/form/FormPassword.jsx";
-import { useApi } from "../../hooks/useApi.jsx";
+import { useApiWithLoading } from "../../hooks/useApiWithLoading.jsx";
 
 function Login() {
     const {
@@ -25,7 +25,7 @@ function Login() {
         }
     }, [isAuthenticated, navigate]);
 
-    const [loginRequest, submitLoading] = useApi(
+    const [loginRequest, submitLoading] = useApiWithLoading(
         login,
         () => navigate("/"),
         () => setErrorMessage(t("error-login"))

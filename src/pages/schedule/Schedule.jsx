@@ -9,8 +9,8 @@ import getWeekNumber from "../../helpers/getWeekNumber.js";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import getStylesBasedOnClassType from "../../helpers/getStylesBasedOnClassType.js";
 import { useUser } from "../../hooks/useUser.jsx";
-import { useApi } from "../../hooks/useApi.jsx";
 import { useNotification } from "../../hooks/useNotification.jsx";
+import { useApiWithLoading } from "../../hooks/useApiWithLoading.jsx";
 
 function getRows(data) {
     if (data === null) return null;
@@ -40,7 +40,6 @@ function Schedule() {
     });
 
     const onArrowClick = function (step) {
-        setIsLoading(true);
         setDisplayScheduleDate((prev) => {
             const newScheduleDate = {
                 ...prev
@@ -98,33 +97,27 @@ function Schedule() {
         [getClassesType, rowSpan]
     );
 
-    const [getScheduleRequest, isLoading] = useApi(
+    const [getScheduleRequest, isLoading] = useApiWithLoading(
         getSchedule,
         (data) => setData(data),
         handleApiError
     );
-
-    const getScheduleData = useCallback(
-        async function () {
-            await getScheduleRequest({
-                ...displayScheduleDate,
-                fieldOfStudyLogId: currentFieldOfStudyInfo.fieldOfStudyLogId,
-                groupIds: currentFieldOfStudyInfo.groups.map(
-                    (group) => group.groupId
-                )
-            });
-        },
-        [
-            currentFieldOfStudyInfo.fieldOfStudyLogId,
-            currentFieldOfStudyInfo.groups,
-            displayScheduleDate,
-            getScheduleRequest
-        ]
-    );
-
+    
     useEffect(() => {
-        if (currentFieldOfStudyInfo && data === null) getScheduleData();
-    }, [currentFieldOfStudyInfo, data, getScheduleData]);
+        if (!currentFieldOfStudyInfo) return;
+        getScheduleRequest({
+            ...displayScheduleDate,
+            fieldOfStudyLogId: currentFieldOfStudyInfo.fieldOfStudyLogId,
+            groupIds: currentFieldOfStudyInfo.groups.map(
+                (group) => group.groupId
+            )
+        });
+    }, [
+        currentFieldOfStudyInfo,
+        displayScheduleDate,
+        displayScheduleDate.weekNumber,
+        displayScheduleDate.year
+    ]);
 
     const columns = useMemo(
         () => [

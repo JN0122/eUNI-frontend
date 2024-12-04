@@ -22,7 +22,7 @@ export default function useFieldOfStudyGroupsOptions(fieldOfStudyLogId) {
         setGroupsOptions(groups);
     }, []);
 
-    const [callApi] = useApi(getGroups, parseGroups, handleApiError);
+    const callApi = useApi(getGroups, parseGroups, handleApiError);
 
     useEffect(() => {
         if (fieldOfStudyLogId == null) return;

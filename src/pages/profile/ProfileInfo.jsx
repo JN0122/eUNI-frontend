@@ -41,7 +41,7 @@ function ProfileInfo() {
         return () => setBreadcrumbsToDefault();
     }, [addBreadcrumb, setBreadcrumbsToDefault, t, currentFieldOfStudyInfo]);
 
-    const [changeEmailRequest] = useApi(
+    const changeEmailRequest = useApi(
         changeEmail,
         () => {
             displayNotification(t("email-success"));
@@ -59,7 +59,7 @@ function ProfileInfo() {
         [changeEmailRequest, email]
     );
 
-    const [changeCurrentFieldOfStudyRequest] = useApi(
+    const changeCurrentFieldOfStudyRequest = useApi(
         changeCurrentFieldOfStudy,
         () => {
             displayNotification(t("success-current-field-of-study-change"));
@@ -111,7 +111,7 @@ function ProfileInfo() {
         [currentFieldOfStudyInfo?.groups]
     );
 
-    const [groupChangeRequest] = useApi(
+    const groupChangeRequest = useApi(
         changeStudentGroup,
         () => {
             displayNotification(t("success-group-changed"));
@@ -131,7 +131,7 @@ function ProfileInfo() {
         [currentFieldOfStudyInfo?.fieldOfStudyLogId, groupChangeRequest]
     );
 
-    const [getGroupCalendarPathRequest] = useApi(
+    const getGroupCalendarPathRequest = useApi(
         getGroupCalendarPath,
         (data) =>
             CopyToClipboard(
