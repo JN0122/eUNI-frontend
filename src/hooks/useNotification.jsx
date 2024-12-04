@@ -55,8 +55,12 @@ export function useNotification() {
                         okText: t("delete"),
                         okType: "danger",
                         cancelText: t("cancel"),
-                        onOk,
-                        onCancel
+                        onOk() {
+                            onOk();
+                        },
+                        onCancel() {
+                            onCancel();
+                        }
                     });
                     break;
                 default:
