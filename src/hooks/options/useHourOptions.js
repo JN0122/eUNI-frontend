@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { getHours } from "../../api/schedule.js";
-import { useApi } from "../useApi.jsx";
+import { useApi } from "../useApi.js";
 import { useNotification } from "../useNotification.jsx";
 
 export default function useHourOptions() {

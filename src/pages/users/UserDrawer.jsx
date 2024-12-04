@@ -1,14 +1,14 @@
 import { Typography } from "antd";
 import { DRAWER_TYPE, useDrawer } from "../../hooks/useDrawer.jsx";
 import { useTranslation } from "react-i18next";
-import { FormNewPasswords } from "../../components/form/FormNewPasswords.jsx";
+import { FormItemNewPasswords } from "../../components/form/FormItemNewPasswords.jsx";
 import hashPassword from "../../helpers/hashPassword.js";
 import { createUser, updateUser } from "../../api/admin.js";
 import DataDrawer from "../../components/content/DataDrawer.jsx";
 import USER_ROLE from "../../enums/userRoles.js";
-import { FormInput } from "../../components/form/FormInput.jsx";
-import { FormEmail } from "../../components/form/FormEmail.jsx";
-import { FormSelect } from "../../components/form/FormSelect.jsx";
+import { FormItemInput } from "../../components/form/FormItemInput.jsx";
+import { FormItemEmail } from "../../components/form/FormItemEmail.jsx";
+import { FormItemSelect } from "../../components/form/FormItemSelect.jsx";
 import { useCallback } from "react";
 
 const { Title } = Typography;
@@ -60,31 +60,31 @@ function UserDrawer({ fieldsOfStudyInfoOptions }) {
                 onEdit={onEdit}
             >
                 <Title level={3}>{t("basic-info")}</Title>
-                <FormInput
+                <FormItemInput
                     name="firstName"
                     label={t("first-name")}
                     placeholder={t("enter-first-name")}
                     isRequired={true}
                 />
-                <FormInput
+                <FormItemInput
                     name="lastName"
                     label={t("last-name")}
                     placeholder={t("enter-last-name")}
                     isRequired={true}
                 />
-                <FormInput
+                <FormItemInput
                     name="lastName"
                     label={t("last-name")}
                     placeholder={t("enter-last-name")}
                     isRequired={true}
                 />
-                <FormEmail
+                <FormItemEmail
                     name="email"
                     label={t("email")}
                     placeholder={t("enter-email")}
                     isRequired={true}
                 />
-                <FormSelect
+                <FormItemSelect
                     name="roleId"
                     label={t("role")}
                     options={[
@@ -96,7 +96,7 @@ function UserDrawer({ fieldsOfStudyInfoOptions }) {
                     ]}
                     isRequired={true}
                 />
-                <FormSelect
+                <FormItemSelect
                     name="representativeFieldsOfStudyLogIds"
                     label={t("representative-fields-of-study")}
                     mode="multiple"
@@ -104,7 +104,7 @@ function UserDrawer({ fieldsOfStudyInfoOptions }) {
                     options={fieldsOfStudyInfoOptions}
                 />
                 <Title level={3}>{t("password")}</Title>
-                <FormNewPasswords required={type === DRAWER_TYPE.create} />
+                <FormItemNewPasswords required={type === DRAWER_TYPE.create} />
             </DataDrawer>
         </>
     );

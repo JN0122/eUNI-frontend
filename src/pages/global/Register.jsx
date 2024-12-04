@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import hashPassword from "../../helpers/hashPassword.js";
-import { FormEmail } from "../../components/form/FormEmail.jsx";
-import { useApiWithLoading } from "../../hooks/useApiWithLoading.jsx";
-import { FormInput } from "../../components/form/FormInput.jsx";
-import { FormNewPasswords } from "../../components/form/FormNewPasswords.jsx";
+import { FormItemEmail } from "../../components/form/FormItemEmail.jsx";
+import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
+import { FormItemInput } from "../../components/form/FormItemInput.jsx";
+import { FormItemNewPasswords } from "../../components/form/FormItemNewPasswords.jsx";
 import { goBack } from "../../helpers/goBack.js";
 
 export default function Register() {
@@ -54,26 +54,26 @@ export default function Register() {
                     />
                 )}
                 <Form name="register" onFinish={onFinish} layout={"vertical"}>
-                    <FormInput
+                    <FormItemInput
                         name={"firstName"}
                         placeholder={t("enter-first-name")}
                         label={t("first-name")}
                         isRequired={true}
                     />
-                    <FormInput
+                    <FormItemInput
                         name={"lastName"}
                         placeholder={t("enter-last-name")}
                         label={t("last-name")}
                         isRequired={true}
                     />
-                    <FormEmail
+                    <FormItemEmail
                         name="email"
                         label={t("email")}
                         autoComplete="username"
                         isRequired={true}
                         placeholder={t("enter-email")}
                     />
-                    <FormNewPasswords />
+                    <FormItemNewPasswords />
                     <Form.Item>
                         <Button
                             block

@@ -13,11 +13,11 @@ import {
 import SelectSearchByLabel from "../../components/form/SelectSearchByLabel.jsx";
 import { CalendarOutlined } from "@ant-design/icons";
 import { getGroupCalendarPath } from "../../api/schedule.js";
-import useFieldOfStudyGroupsOptions from "../../hooks/options/useFieldOfStudyGroupsOptions.jsx";
-import useFieldsOfStudyLogsOptions from "../../hooks/options/useFieldsOfStudyLogsOptions.jsx";
+import useFieldOfStudyGroupsOptions from "../../hooks/options/useFieldOfStudyGroupsOptions.js";
+import useFieldsOfStudyLogsOptions from "../../hooks/options/useFieldsOfStudyLogsOptions.js";
 import { CopyToClipboard } from "../../helpers/CopyToClipboard.js";
 import { useNotification } from "../../hooks/useNotification.jsx";
-import { useApi } from "../../hooks/useApi.jsx";
+import { useApi } from "../../hooks/useApi.js";
 import { NOTIFICATION_TYPES } from "../../enums/NotificationTypes.js";
 
 const { Text, Title } = Typography;

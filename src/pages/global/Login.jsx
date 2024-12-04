@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import hashPassword from "../../helpers/hashPassword.js";
-import { FormEmail } from "../../components/form/FormEmail.jsx";
-import FormPassword from "../../components/form/FormPassword.jsx";
-import { useApiWithLoading } from "../../hooks/useApiWithLoading.jsx";
+import { FormItemEmail } from "../../components/form/FormItemEmail.jsx";
+import FormItemPassword from "../../components/form/FormItemPassword.jsx";
+import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
 
 function Login() {
     const {
@@ -56,14 +56,14 @@ function Login() {
                     initialValues={{ remember: true }}
                     onFinish={onFinish}
                 >
-                    <FormEmail
+                    <FormItemEmail
                         name="email"
                         isRequired={true}
                         prefix={<UserOutlined />}
                         autoComplete="username"
                         placeholder={t("email")}
                     />
-                    <FormPassword
+                    <FormItemPassword
                         name="password"
                         isRequired={true}
                         prefix={<LockOutlined />}

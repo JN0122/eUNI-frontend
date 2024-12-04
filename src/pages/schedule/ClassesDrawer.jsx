@@ -2,15 +2,15 @@ import { DRAWER_TYPE, useDrawer } from "../../hooks/useDrawer.jsx";
 import { useTranslation } from "react-i18next";
 import DataDrawer from "../../components/content/DataDrawer.jsx";
 import { useUser } from "../../hooks/useUser.jsx";
-import { FormInput } from "../../components/form/FormInput.jsx";
-import { FormSelect } from "../../components/form/FormSelect.jsx";
+import { FormItemInput } from "../../components/form/FormItemInput.jsx";
+import { FormItemSelect } from "../../components/form/FormItemSelect.jsx";
 import useHourOptions from "../../hooks/options/useHourOptions.js";
 import { useGroupOptions } from "../../hooks/options/useGroupOptions.js";
 import { useWeekOptions } from "../../hooks/options/useWeekOptions.js";
-import { FormAcademicDatePicker } from "../../components/form/FormAcademicDatePicker.jsx";
+import { FormItemAcademicDatePicker } from "../../components/form/FormItemAcademicDatePicker.jsx";
 import { useNotification } from "../../hooks/useNotification.jsx";
 import { useCallback } from "react";
-import { useApi } from "../../hooks/useApi.jsx";
+import { useApi } from "../../hooks/useApi.js";
 import { createClass, updateClass } from "../../api/representative.js";
 
 function ClassesDrawer({ selectedRow }) {
@@ -89,19 +89,19 @@ function ClassesDrawer({ selectedRow }) {
             }}
             initialValues={selectedRow}
         >
-            <FormInput
+            <FormItemInput
                 name="className"
                 label={t("classes")}
                 placeholder={t("enter-class-name")}
                 isRequired={true}
             />
-            <FormInput
+            <FormItemInput
                 name="classRoom"
                 label={t("room")}
                 placeholder={t("enter-room")}
                 isRequired={true}
             />
-            <FormSelect
+            <FormItemSelect
                 name="groupId"
                 label={t("group-name")}
                 options={groupOptions}
@@ -109,13 +109,13 @@ function ClassesDrawer({ selectedRow }) {
             />
             {type === DRAWER_TYPE.create ? (
                 <>
-                    <FormSelect
+                    <FormItemSelect
                         name="isOddWeek"
                         label={t("class-repeatability")}
                         options={oddWeekOptions}
                         isRequired={true}
                     />
-                    <FormSelect
+                    <FormItemSelect
                         name="weekDay"
                         label={t("week-day")}
                         options={weekDayOptions}
@@ -123,7 +123,7 @@ function ClassesDrawer({ selectedRow }) {
                     />
                 </>
             ) : (
-                <FormAcademicDatePicker
+                <FormItemAcademicDatePicker
                     name="dates"
                     label={t("class-dates")}
                     isRequired={true}
@@ -132,13 +132,13 @@ function ClassesDrawer({ selectedRow }) {
                     }
                 />
             )}
-            <FormSelect
+            <FormItemSelect
                 name="startHourId"
                 label={t("start-hour")}
                 options={startHourOptions}
                 isRequired={true}
             />
-            <FormSelect
+            <FormItemSelect
                 name="endHourId"
                 label={t("end-hour")}
                 options={endHourOptions}

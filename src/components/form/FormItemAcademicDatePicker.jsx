@@ -3,7 +3,7 @@ import { FormCustomItem } from "./FormCustomItem.jsx";
 import { useCallback } from "react";
 import { useAcademicYearDaysOff } from "../../hooks/options/useDaysOff.js";
 
-export function FormAcademicDatePicker({
+export function FormItemAcademicDatePicker({
     fieldOfStudyLogId,
     name,
     label,
@@ -23,7 +23,7 @@ export function FormAcademicDatePicker({
         },
         [academicYearDaysOff]
     );
-    
+
     if (academicYearDaysOff.length === 0)
         return <Skeleton.Input active={true} />;
 

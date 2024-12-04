@@ -10,6 +10,6 @@ export default function NotLoggedInRoute({ children }) {
         if (!isAuthenticated) return;
         navigate("/");
     }, [isAuthenticated, navigate]);
-    
+
     return children;
 }

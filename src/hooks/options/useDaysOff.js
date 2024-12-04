@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getAcademicDaysOff } from "../../api/representative.js";
 import dayjs from "dayjs";
 import { useNotification } from "../useNotification.jsx";
-import { useApi } from "../useApi.jsx";
+import { useApi } from "../useApi.js";
 
 export function useAcademicYearDaysOff(fieldOfStudyLogId) {
     const [academicYearDaysOff, setAcademicYearDaysOff] = useState([]);

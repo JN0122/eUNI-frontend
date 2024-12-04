@@ -10,7 +10,7 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import getStylesBasedOnClassType from "../../helpers/getStylesBasedOnClassType.js";
 import { useUser } from "../../hooks/useUser.jsx";
 import { useNotification } from "../../hooks/useNotification.jsx";
-import { useApiWithLoading } from "../../hooks/useApiWithLoading.jsx";
+import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
 
 function getRows(data) {
     if (data === null) return null;
@@ -102,7 +102,7 @@ function Schedule() {
         (data) => setData(data),
         handleApiError
     );
-    
+
     useEffect(() => {
         if (!currentFieldOfStudyInfo) return;
         getScheduleRequest({

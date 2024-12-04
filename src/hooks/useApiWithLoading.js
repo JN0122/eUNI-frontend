@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useApi } from "./useApi.jsx";
+import { useApi } from "./useApi.js";
 
 export function useApiWithLoading(apiCall, onSuccess, onError) {
     const [loading, setLoading] = useState(false);

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNotification } from "../useNotification.jsx";
 import { getFieldsOfStudyLogs } from "../../api/fieldOfStudy.js";
-import { useApi } from "../useApi.jsx";
+import { useApi } from "../useApi.js";
 import { useTranslation } from "react-i18next";
 
 export default function useFieldsOfStudyLogsOptions() {

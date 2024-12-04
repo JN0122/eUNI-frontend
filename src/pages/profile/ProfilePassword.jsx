@@ -4,10 +4,10 @@ import { useContentBlock } from "../../hooks/useContentBlock.jsx";
 import { useEffect } from "react";
 import { changePassword } from "../../api/user.js";
 import hashPassword from "../../helpers/hashPassword.js";
-import { FormNewPasswords } from "../../components/form/FormNewPasswords.jsx";
+import { FormItemNewPasswords } from "../../components/form/FormItemNewPasswords.jsx";
 import { useNotification } from "../../hooks/useNotification.jsx";
-import FormPassword from "../../components/form/FormPassword.jsx";
-import { useApiWithLoading } from "../../hooks/useApiWithLoading.jsx";
+import FormItemPassword from "../../components/form/FormItemPassword.jsx";
+import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
 
 const { Title } = Typography;
 
@@ -48,14 +48,14 @@ function ProfilePassword() {
                     maxWidth: 600
                 }}
             >
-                <FormPassword
+                <FormItemPassword
                     name="oldPassword"
                     label={t("old-password")}
                     isRequired={true}
                     placeholder={t("old-password")}
                 />
                 <Divider type="horizontal" />
-                <FormNewPasswords />
+                <FormItemNewPasswords />
                 <Form.Item>
                     <Button
                         type="primary"

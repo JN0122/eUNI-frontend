@@ -9,8 +9,8 @@ import { deleteClass, getClasses } from "../../api/representative.js";
 import ClassesDrawer from "./ClassesDrawer.jsx";
 import dayjs from "dayjs";
 import { useNotification } from "../../hooks/useNotification.jsx";
-import { useApiWithLoading } from "../../hooks/useApiWithLoading.jsx";
-import { useApi } from "../../hooks/useApi.jsx";
+import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
+import { useApi } from "../../hooks/useApi.js";
 
 const { Text } = Typography;
 

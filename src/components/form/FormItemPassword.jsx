@@ -2,7 +2,7 @@ import { Input } from "antd";
 import { FormCustomItem } from "./FormCustomItem.jsx";
 import { useTranslation } from "react-i18next";
 
-export default function FormPassword({
+export default function FormItemPassword({
     name,
     isRequired,
     placeholder,

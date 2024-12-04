@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNotification } from "../useNotification.jsx";
 import { getGroups } from "../../api/fieldOfStudy.js";
-import { useApi } from "../useApi.jsx";
+import { useApi } from "../useApi.js";
 
 export default function useFieldOfStudyGroupsOptions(fieldOfStudyLogId) {
     const { handleApiError } = useNotification();

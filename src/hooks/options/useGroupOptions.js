@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAllGroups } from "../../api/representative.js";
 import { useNotification } from "../useNotification.jsx";
-import { useApi } from "../useApi.jsx";
+import { useApi } from "../useApi.js";
 
 export function useGroupOptions(fieldOfStudyLogId) {
     const [groupOptions, setGroupOptions] = useState([]);
