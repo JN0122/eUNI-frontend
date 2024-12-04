@@ -1,6 +1,7 @@
 import AppLayout from "../../components/layout/AppLayout.jsx";
 import { Button, Result } from "antd";
 import { useTranslation } from "react-i18next";
+import { goBack } from "../../helpers/goBack.js";
 
 function NotFound() {
     const { t } = useTranslation();
@@ -12,10 +13,7 @@ function NotFound() {
                 title="404"
                 subTitle={t("page-not-found")}
                 extra={
-                    <Button
-                        type="primary"
-                        onClick={() => window.history.back()}
-                    >
+                    <Button type="primary" onClick={goBack}>
                         {t("go-back")}
                     </Button>
                 }
