@@ -1,12 +1,13 @@
 import { App } from "antd";
 import getNotificationConfig from "../helpers/getNotificationConfig.js";
-import NOTIFICATION_TYPES from "../enums/NotificationTypes.js";
+import { MODAL_TYPES, NOTIFICATION_TYPES } from "../enums/NotificationTypes.js";
 import apiStatusTranslationCode from "../helpers/apiStatusTranslationCode.js";
 import { useTranslation } from "react-i18next";
 import { useCallback } from "react";
+import { ExclamationCircleFilled } from "@ant-design/icons";
 
 export function useNotification() {
-    const { notification, message } = App.useApp();
+    const { notification, message, modal } = App.useApp();
     const { t } = useTranslation();
 
     const displayNotification = useCallback(
@@ -43,6 +44,28 @@ export function useNotification() {
         [message]
     );
 
+    const displayConfirmModal = useCallback(
+        function (modalContent, type, onOk, onCancel = () => {}) {
+            switch (type) {
+                case MODAL_TYPES.delete:
+                    modal.confirm({
+                        title: t("delete-are-you-sure"),
+                        icon: <ExclamationCircleFilled />,
+                        content: modalContent,
+                        okText: t("delete"),
+                        okType: "danger",
+                        cancelText: t("cancel"),
+                        onOk,
+                        onCancel
+                    });
+                    break;
+                default:
+                    throw new Error("Unknown modal type");
+            }
+        },
+        [modal, t]
+    );
+
     const handleApiError = useCallback(
         function (error) {
             displayNotification(
@@ -53,5 +76,10 @@ export function useNotification() {
         [displayNotification, t]
     );
 
-    return { displayNotification, displayMessage, handleApiError };
+    return {
+        displayNotification,
+        displayMessage,
+        displayConfirmModal,
+        handleApiError
+    };
 }

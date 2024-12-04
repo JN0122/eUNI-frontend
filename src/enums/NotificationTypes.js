@@ -1,5 +1,8 @@
-const NOTIFICATION_TYPES = {
+export const NOTIFICATION_TYPES = {
     success: 1,
     error: 2
 };
-export default NOTIFICATION_TYPES;
+
+export const MODAL_TYPES = {
+    delete: 0
+};

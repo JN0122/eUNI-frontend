@@ -18,7 +18,7 @@ import useFieldsOfStudyLogsOptions from "../../hooks/options/useFieldsOfStudyLog
 import { CopyToClipboard } from "../../helpers/CopyToClipboard.js";
 import { useNotification } from "../../hooks/useNotification.jsx";
 import { useApi } from "../../hooks/useApi.jsx";
-import NOTIFICATION_TYPES from "../../enums/NotificationTypes.js";
+import { NOTIFICATION_TYPES } from "../../enums/NotificationTypes.js";
 
 const { Text, Title } = Typography;
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
