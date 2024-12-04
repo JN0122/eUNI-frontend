@@ -1,6 +1,6 @@
 import { DRAWER_TYPE, useDrawer } from "../../hooks/useDrawer.jsx";
 import { useTranslation } from "react-i18next";
-import DataDrawer from "../../components/content/DataDrawer.jsx";
+import FormDrawer from "../../components/form/FormDrawer.jsx";
 import { useUser } from "../../hooks/useUser.jsx";
 import { FormItemInput } from "../../components/form/FormItemInput.jsx";
 import { FormItemSelect } from "../../components/form/FormItemSelect.jsx";
@@ -78,7 +78,7 @@ function ClassesDrawer({ selectedRow }) {
     );
 
     return (
-        <DataDrawer
+        <FormDrawer
             title={{
                 create: t("create-assignment"),
                 edit: t("edit-assignment")
@@ -144,7 +144,7 @@ function ClassesDrawer({ selectedRow }) {
                 options={endHourOptions}
                 isRequired={true}
             />
-        </DataDrawer>
+        </FormDrawer>
     );
 }
 

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { FormItemNewPasswords } from "../../components/form/FormItemNewPasswords.jsx";
 import hashPassword from "../../helpers/hashPassword.js";
 import { createUser, updateUser } from "../../api/admin.js";
-import DataDrawer from "../../components/content/DataDrawer.jsx";
+import FormDrawer from "../../components/form/FormDrawer.jsx";
 import USER_ROLE from "../../enums/userRoles.js";
 import { FormItemInput } from "../../components/form/FormItemInput.jsx";
 import { FormItemEmail } from "../../components/form/FormItemEmail.jsx";
@@ -53,7 +53,7 @@ function UserDrawer({ fieldsOfStudyInfoOptions }) {
 
     return (
         <>
-            <DataDrawer
+            <FormDrawer
                 width={650}
                 title={{ create: t("create-user"), edit: t("edit-user") }}
                 onCreate={onCreate}
@@ -105,7 +105,7 @@ function UserDrawer({ fieldsOfStudyInfoOptions }) {
                 />
                 <Title level={3}>{t("password")}</Title>
                 <FormItemNewPasswords required={type === DRAWER_TYPE.create} />
-            </DataDrawer>
+            </FormDrawer>
         </>
     );
 }
