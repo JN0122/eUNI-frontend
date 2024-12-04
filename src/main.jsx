@@ -6,7 +6,7 @@ import "./styles.css";
 import "./lib/i18n/i18n.js";
 
 createRoot(document.getElementById("root")).render(
-    <Suspense fallback="loading">
+    <Suspense>
         <App />
     </Suspense>
 );
