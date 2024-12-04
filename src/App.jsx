@@ -20,6 +20,8 @@ import "dayjs/locale/en";
 import "dayjs/locale/pl";
 import updateLocale from "dayjs/plugin/updateLocale";
 import InternalError from "./pages/global/InternalError.jsx";
+import Register from "./pages/global/Register.jsx";
+import NotLoggedInRoute from "./routes/NotLoggedInRoute.jsx";
 
 dayjs.extend(updateLocale);
 const config = {
@@ -78,7 +80,19 @@ const router = createBrowserRouter([
     },
     {
         path: "/login",
-        element: <Login />
+        element: (
+            <NotLoggedInRoute>
+                <Login />
+            </NotLoggedInRoute>
+        )
+    },
+    {
+        path: "/register",
+        element: (
+            <NotLoggedInRoute>
+                <Register />
+            </NotLoggedInRoute>
+        )
     },
     {
         path: "*",

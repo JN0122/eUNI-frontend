@@ -1,32 +1,34 @@
 import AppLayout from "../../components/layout/AppLayout.jsx";
-import { Alert, Button, Flex, Form, theme } from "antd";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { useAuth } from "../../hooks/useAuth.jsx";
+import { Alert, Button, Form, theme } from "antd";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import hashPassword from "../../helpers/hashPassword.js";
 import { FormEmail } from "../../components/form/FormEmail.jsx";
-import FormPassword from "../../components/form/FormPassword.jsx";
 import { useApiWithLoading } from "../../hooks/useApiWithLoading.jsx";
+import { FormInput } from "../../components/form/FormInput.jsx";
+import { FormNewPasswords } from "../../components/form/FormNewPasswords.jsx";
+import { goBack } from "../../helpers/goBack.js";
 
-function Login() {
+export default function Register() {
     const {
         token: { colorBgContainer, borderRadiusLG }
     } = theme.useToken();
-    const { login } = useAuth();
     const navigate = useNavigate();
     const { t } = useTranslation();
     const [errorMessage, setErrorMessage] = useState(null);
 
-    const [loginRequest, submitLoading] = useApiWithLoading(
-        login,
+    const [registerRequest, submitLoading] = useApiWithLoading(
+        async () => {
+            return Promise.reject();
+        },
         () => navigate("/"),
         () => setErrorMessage(t("error-login"))
     );
 
     async function onFinish(values) {
-        await loginRequest({
+        await registerRequest({
             email: values.email,
             password: hashPassword(values.password)
         });
@@ -51,30 +53,27 @@ function Login() {
                         style={{ marginBottom: "1rem" }}
                     />
                 )}
-                <Form
-                    name="login"
-                    initialValues={{ remember: true }}
-                    onFinish={onFinish}
-                >
+                <Form name="register" onFinish={onFinish} layout={"vertical"}>
+                    <FormInput
+                        name={"firstName"}
+                        placeholder={t("enter-first-name")}
+                        label={t("first-name")}
+                        isRequired={true}
+                    />
+                    <FormInput
+                        name={"lastName"}
+                        placeholder={t("enter-last-name")}
+                        label={t("last-name")}
+                        isRequired={true}
+                    />
                     <FormEmail
                         name="email"
-                        isRequired={true}
-                        prefix={<UserOutlined />}
+                        label={t("email")}
                         autoComplete="username"
-                        placeholder={t("email")}
-                    />
-                    <FormPassword
-                        name="password"
                         isRequired={true}
-                        prefix={<LockOutlined />}
-                        placeholder={t("password")}
+                        placeholder={t("enter-email")}
                     />
-                    <Form.Item>
-                        <Flex justify="space-between" align="center">
-                            <a href="">{t("forgot-password")}</a>
-                        </Flex>
-                    </Form.Item>
-
+                    <FormNewPasswords />
                     <Form.Item>
                         <Button
                             block
@@ -82,21 +81,19 @@ function Login() {
                             htmlType="submit"
                             loading={submitLoading}
                         >
-                            {t("login")}
+                            {t("register-account")}
                         </Button>
                     </Form.Item>
+                    <Button
+                        block
+                        icon={<ArrowLeftOutlined />}
+                        onClick={goBack}
+                        type="link"
+                    >
+                        {t("go-back")}
+                    </Button>
                 </Form>
-                <Button
-                    block
-                    color="primary"
-                    variant="outlined"
-                    onClick={() => navigate("/register")}
-                >
-                    {t("register-account")}
-                </Button>
             </div>
         </AppLayout>
     );
 }
-
-export default Login;
