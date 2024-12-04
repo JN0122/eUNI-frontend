@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { App, Button, Flex, Input, Space, Table } from "antd";
-import { ExclamationCircleFilled, SearchOutlined } from "@ant-design/icons";
-import getNotificationConfig from "../../helpers/getNotificationConfig.js";
+import { useCallback, useMemo, useRef } from "react";
+import { Button, Flex, Input, Space, Table } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import { useDrawer } from "../../hooks/useDrawer.jsx";
+import { useNotification } from "../../hooks/useNotification.jsx";
+import { MODAL_TYPES } from "../../enums/NotificationTypes.js";
 
 const getColumnSortProps = (dataIndex) => {
     return {
@@ -17,90 +18,26 @@ const getColumnSortProps = (dataIndex) => {
 
 function TableWithActions({
     columns,
-    fetchData,
-    modalConfirmContent,
-    customDataParse,
-    onModalConfirm,
-    notificationSuccessText
+    rows,
+    modalRenderConfirmContent,
+    onDelete,
+    onEdit,
+    ...rest
 }) {
     const { t } = useTranslation();
-    const { openEditDrawer, setData, data } = useDrawer();
-    const [dataSource, setDataSource] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { openEditDrawer } = useDrawer();
     const searchInput = useRef(null);
-    const { notification, modal } = App.useApp();
-
-    const dataParser = (value) => {
-        if (!customDataParse) return value;
-        return customDataParse(value);
-    };
-
-    const getDataSource = useCallback(
-        async function () {
-            setLoading(true);
-            const response = await fetchData();
-
-            if (response.status !== 200)
-                return notification.error(
-                    getNotificationConfig(t("error-could-not-connect-to-api"))
-                );
-            setDataSource(
-                response.data.map((user) => {
-                    const { id, ...rest } = user;
-                    return {
-                        ...rest,
-                        key: id
-                    };
-                })
-            );
-            setLoading(false);
-        },
-        [fetchData, notification, t]
-    );
-
-    useEffect(() => {
-        if (data === null) getDataSource();
-    }, [getDataSource, data]);
-
-    const handleModalConfirm = useCallback(
-        async function (record) {
-            try {
-                await onModalConfirm(record);
-                await getDataSource();
-                notification.success(
-                    getNotificationConfig(notificationSuccessText)
-                );
-            } catch {
-                notification.error(
-                    getNotificationConfig(t("error-unexpected"))
-                );
-            }
-        },
-        [
-            getDataSource,
-            notification,
-            notificationSuccessText,
-            onModalConfirm,
-            t
-        ]
-    );
+    const { displayConfirmModal } = useNotification();
 
     const showDeleteConfirm = useCallback(
         function (record) {
-            modal.confirm({
-                title: t("delete-are-you-sure"),
-                icon: <ExclamationCircleFilled />,
-                content: modalConfirmContent(record),
-                okText: t("delete"),
-                okType: "danger",
-                cancelText: t("cancel"),
-                onOk() {
-                    handleModalConfirm(record);
-                },
-                onCancel() {}
-            });
+            displayConfirmModal(
+                modalRenderConfirmContent(record),
+                MODAL_TYPES.delete,
+                () => onDelete(record)
+            );
         },
-        [handleModalConfirm, modal, modalConfirmContent, t]
+        [displayConfirmModal, modalRenderConfirmContent, onDelete]
     );
 
     const handleSearch = (selectedKeys, confirm) => {
@@ -197,7 +134,12 @@ function TableWithActions({
 
     const parsedColumns = useMemo(() => {
         const newColumns = columns.map((column) => {
-            const { withSearch, searchInputText, withSort, ...rest } = column;
+            const {
+                withSearch,
+                searchInputText = "",
+                withSort,
+                ...rest
+            } = column;
             let additionalProps = {};
             if (withSearch)
                 additionalProps = {
@@ -221,11 +163,7 @@ function TableWithActions({
                     <a
                         onClick={() => {
                             openEditDrawer();
-                            setData(
-                                dataParser({
-                                    ...record
-                                })
-                            );
+                            onEdit(record);
                         }}
                     >
                         {t("edit")}
@@ -242,10 +180,9 @@ function TableWithActions({
         return newColumns;
     }, [
         columns,
-        dataParser,
         getColumnSearchProps,
+        onEdit,
         openEditDrawer,
-        setData,
         showDeleteConfirm,
         t
     ]);
@@ -255,11 +192,11 @@ function TableWithActions({
             <Flex gap="middle" vertical>
                 <Table
                     columns={parsedColumns}
-                    loading={loading}
-                    dataSource={dataSource}
+                    dataSource={rows}
                     scroll={{
                         x: "max-content"
                     }}
+                    {...rest}
                 />
             </Flex>
         </>

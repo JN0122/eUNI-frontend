@@ -10,12 +10,9 @@ export const DRAWER_TYPE = {
 export function DrawerProvider({ children }) {
     const [open, setOpen] = useState(false);
     const [type, setType] = useState(null);
-    const [data, setData] = useState(null);
 
     const closeDrawer = () => {
         setOpen(false);
-        setType(null);
-        setData(null);
     };
 
     function openDrawer(type) {
@@ -33,8 +30,6 @@ export function DrawerProvider({ children }) {
                 closeDrawer,
                 openEditDrawer,
                 openCreateDrawer,
-                data,
-                setData,
                 type
             }}
         >

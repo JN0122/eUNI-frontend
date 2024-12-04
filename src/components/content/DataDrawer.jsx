@@ -1,60 +1,37 @@
-import { App, Button, Drawer, Form, Space } from "antd";
+import { Button, Drawer, Form, Space } from "antd";
 import { DRAWER_TYPE, useDrawer } from "../../hooks/useDrawer.jsx";
 import { useTranslation } from "react-i18next";
 import { useCallback, useEffect } from "react";
-import getNotificationConfig from "../../helpers/getNotificationConfig.js";
 
-async function isFormValid(form) {
-    return await form
-        .validateFields()
-        .then(() => true)
-        .catch(() => false);
-}
-
-function getFieldsObject(data) {
-    return Object.keys(data).map((key) => {
-        return {
-            name: key,
-            value: data[key]
-        };
-    });
-}
-
-function DataDrawer({ title, onEdit, onCreate, children, ...rest }) {
-    const { isOpen, closeDrawer, data, setData, type } = useDrawer();
+function DataDrawer({ title, onSubmit, children, initialValues, ...rest }) {
+    const { isOpen, closeDrawer, type } = useDrawer();
     const { t } = useTranslation();
     const [form] = Form.useForm();
-    const { notification } = App.useApp();
-
-    useEffect(() => {
-        if (isOpen && data !== null) {
-            form.setFields(getFieldsObject(data));
-        } else {
-            form.resetFields();
-        }
-    }, [isOpen, form, data]);
 
     const handleSubmit = useCallback(
-        async function (form) {
-            if (!(await isFormValid(form))) return;
-
-            (type === DRAWER_TYPE.edit ? onEdit(form) : onCreate(form))
+        async function () {
+            return await form
+                .validateFields()
                 .then(() => {
-                    setData(null);
+                    switch (type) {
+                        case DRAWER_TYPE.edit:
+                            onSubmit.edit(form.getFieldsValue(true));
+                            break;
+                        case DRAWER_TYPE.create:
+                            onSubmit.create(form.getFieldsValue(true));
+                            break;
+                    }
                     closeDrawer();
-                    notification.success(
-                        getNotificationConfig(t("action-success"))
-                    );
                 })
-                .catch((error) => {
-                    console.error(error);
-                    notification.error(
-                        getNotificationConfig(t("error-unexpected"))
-                    );
-                });
+                .catch(() => {});
         },
-        [closeDrawer, notification, onCreate, onEdit, setData, t, type]
+        [closeDrawer, form, onSubmit, type]
     );
+
+    useEffect(() => {
+        if (isOpen) form.resetFields();
+    }, [form, isOpen]);
+
     return (
         <>
             <Drawer
@@ -71,7 +48,7 @@ function DataDrawer({ title, onEdit, onCreate, children, ...rest }) {
                     <Space>
                         <Button onClick={closeDrawer}>{t("cancel")}</Button>
                         <Button
-                            onClick={() => handleSubmit(form)}
+                            onClick={handleSubmit}
                             type="primary"
                             htmlType="submit"
                         >
@@ -79,9 +56,16 @@ function DataDrawer({ title, onEdit, onCreate, children, ...rest }) {
                         </Button>
                     </Space>
                 }
-                {...rest}
             >
-                <Form layout="vertical" form={form} autoComplete="off">
+                <Form
+                    layout="vertical"
+                    autoComplete="off"
+                    form={form}
+                    initialValues={
+                        type === DRAWER_TYPE.edit ? initialValues : {}
+                    }
+                    {...rest}
+                >
                     {children}
                 </Form>
             </Drawer>
