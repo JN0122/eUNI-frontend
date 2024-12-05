@@ -16,6 +16,7 @@ import { useNotification } from "../../hooks/useNotification.jsx";
 import { useApi } from "../../hooks/useApi.js";
 import hashPassword from "../../helpers/hashPassword.js";
 import UserDrawerForm from "../../components/form/forms/UsersDrawerForm.jsx";
+import { DrawerProvider } from "../../hooks/useDrawer.jsx";
 
 const { Text } = Typography;
 
@@ -157,20 +158,22 @@ function Users() {
 
     return (
         <ContentBlock breadcrumbs={[{ title: t("users") }]}>
-            <DrawerNewItemButton label={t("create-user")} />
-            <UserDrawerForm
-                onEdit={handleEdit}
-                onCreate={handleCreate}
-                initialValues={selectedRow}
-            />
-            <TableWithActions
-                columns={columns}
-                rows={rowsWithFieldsOfStudy}
-                loading={isLoading}
-                modalRenderConfirmContent={renderModalContent}
-                onDelete={(row) => deleteClassRequest(row.id)}
-                onEdit={(row) => setSelectedRow(row)}
-            />
+            <DrawerProvider>
+                <DrawerNewItemButton label={t("create-user")} />
+                <UserDrawerForm
+                    onEdit={handleEdit}
+                    onCreate={handleCreate}
+                    initialValues={selectedRow}
+                />
+                <TableWithActions
+                    columns={columns}
+                    rows={rowsWithFieldsOfStudy}
+                    loading={isLoading}
+                    modalRenderConfirmContent={renderModalContent}
+                    onDelete={(row) => deleteClassRequest(row.id)}
+                    onEdit={(row) => setSelectedRow(row)}
+                />
+            </DrawerProvider>
         </ContentBlock>
     );
 }

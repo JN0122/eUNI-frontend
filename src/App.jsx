@@ -8,7 +8,6 @@ import Profile from "./pages/profile/Profile.jsx";
 import ProfileInfo from "./pages/profile/ProfileInfo.jsx";
 import ProfilePassword from "./pages/profile/ProfilePassword.jsx";
 import Users from "./pages/users/Users.jsx";
-import { DrawerProvider } from "./hooks/useDrawer.jsx";
 import Schedule from "./pages/schedule/Schedule.jsx";
 import { UserProvider } from "./hooks/useUser.jsx";
 import EditSchedule from "./pages/schedule/EditSchedule.jsx";
@@ -56,11 +55,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/users",
-                element: (
-                    <DrawerProvider>
-                        <Users />
-                    </DrawerProvider>
-                )
+                element: <Users />
             },
             {
                 path: "/schedule",
