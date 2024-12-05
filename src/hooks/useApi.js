@@ -14,7 +14,7 @@ export function useApi(
             try {
                 await restoreSession();
                 const response = await apiCall(...args);
-                return onSuccess(response.data);
+                return onSuccess(response?.data);
             } catch (e) {
                 return onError(e);
             }
@@ -26,7 +26,7 @@ export function useApi(
         async (...args) => {
             try {
                 const response = await apiCall(...args);
-                return onSuccess(response.data);
+                return onSuccess(response?.data);
             } catch (e) {
                 if (e.status !== 401 || !tryToRestoreSession) return onError(e);
                 await restoreSessionAndRetry(...args);
