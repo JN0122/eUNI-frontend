@@ -20,7 +20,7 @@ import ContentBlockBreadcrumb from "../../components/content/ContentBlockBreadcr
 
 const { Text } = Typography;
 
-function Classes() {
+function EditScheduleClasses() {
     const { openCreateDrawer } = useDrawer();
     const { t } = useTranslation();
     const { currentFieldOfStudyInfo } = useUser();
@@ -188,4 +188,4 @@ function Classes() {
     );
 }
 
-export default Classes;
+export default EditScheduleClasses;

@@ -13,7 +13,7 @@ import Schedule from "./pages/schedule/Schedule.jsx";
 import { UserProvider } from "./hooks/useUser.jsx";
 import EditSchedule from "./pages/schedule/EditSchedule.jsx";
 import { App, ConfigProvider } from "antd";
-import Classes from "./pages/schedule/Classes.jsx";
+import EditScheduleClasses from "./pages/schedule/EditScheduleClasses.jsx";
 import localePL from "antd/locale/pl_PL";
 import dayjs from "dayjs";
 import "dayjs/locale/en";
@@ -72,7 +72,7 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: "classes",
-                        element: <Classes />
+                        element: <EditScheduleClasses />
                     }
                 ]
             }
