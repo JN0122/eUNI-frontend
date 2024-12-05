@@ -70,7 +70,7 @@ function ProfileInfo() {
     );
 
     const studentContent = useMemo(() => {
-        if (currentFieldOfStudyInfo == null) return null;
+        if (currentFieldOfStudyInfo === undefined) return null;
         return (
             <>
                 <Title level={3}>{t("study-info")}</Title>
