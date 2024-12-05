@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Typography } from "antd";
 import TableWithActions from "../../components/content/TableWithActions.jsx";
-import { useDrawer } from "../../hooks/useDrawer.jsx";
 import { useUser } from "../../hooks/useUser.jsx";
 import {
     createClass,
@@ -21,7 +20,6 @@ import ContentBlockBreadcrumb from "../../components/content/ContentBlockBreadcr
 const { Text } = Typography;
 
 function EditScheduleClasses() {
-    const { openCreateDrawer } = useDrawer();
     const { t } = useTranslation();
     const { currentFieldOfStudyInfo } = useUser();
     const { handleApiError, displayMessage } = useNotification();
@@ -167,10 +165,7 @@ function EditScheduleClasses() {
 
     return (
         <ContentBlockBreadcrumb currentPath={t("classes")}>
-            <DrawerNewItemButton
-                label={t("create-class")}
-                onClick={openCreateDrawer}
-            />
+            <DrawerNewItemButton label={t("create-class")} />
             <ClassesDrawerForm
                 onCreate={handleCreate}
                 onEdit={handleEdit}

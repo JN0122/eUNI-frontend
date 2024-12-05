@@ -1,64 +1,127 @@
 import ContentBlock from "../../components/content/ContentBlock.jsx";
 import { useTranslation } from "react-i18next";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { App, Button, Flex, Typography } from "antd";
-import { deleteUser, getAllUsers } from "../../api/admin.js";
-import UserDrawer from "./UserDrawer.jsx";
+import { Typography } from "antd";
+import {
+    createUser,
+    deleteUser,
+    getAllUsers,
+    updateUser
+} from "../../api/admin.js";
 import TableWithActions from "../../components/content/TableWithActions.jsx";
-import { useDrawer } from "../../hooks/useDrawer.jsx";
-import { getFieldsOfStudyLogs } from "../../api/fieldOfStudy.js";
-import getNotificationConfig from "../../helpers/getNotificationConfig.js";
+import useFieldsOfStudyLogsOptions from "../../hooks/options/useFieldsOfStudyLogsOptions.js";
+import DrawerNewItemButton from "../../components/form/DrawerNewItemButton.jsx";
+import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
+import { useNotification } from "../../hooks/useNotification.jsx";
+import { useApi } from "../../hooks/useApi.js";
+import hashPassword from "../../helpers/hashPassword.js";
+import UserDrawerForm from "../../components/form/forms/UsersDrawerForm.jsx";
 
 const { Text } = Typography;
 
-function Users() {
-    const { openCreateDrawer } = useDrawer();
-    const { t } = useTranslation();
-    const [fieldsOfStudyInfoOptions, setFieldsOfStudyInfoOptions] =
-        useState(null);
-    const { notification } = App.useApp();
-
-    const fetchFieldsOfStudyLogs = useCallback(
-        async function () {
-            try {
-                const response = await getFieldsOfStudyLogs();
-                setFieldsOfStudyInfoOptions(
-                    response.data.map((fieldOfStudy) => {
-                        return {
-                            label: [
-                                fieldOfStudy.yearName,
-                                t(`studies-cycle-${fieldOfStudy.studiesCycle}`),
-                                fieldOfStudy.isFullTime
-                                    ? t("full-time-field-of-study")
-                                    : t("part-time-field-of-study"),
-                                fieldOfStudy.name,
-                                `${t("semester")} ${fieldOfStudy.semester}`
-                            ].join(" > "),
-                            value: fieldOfStudy.fieldOfStudyLogId
-                        };
-                    })
-                );
-            } catch (err) {
-                notification.error(
-                    getNotificationConfig(t("error-unexpected"))
-                );
-                console.error(err.message);
-            }
-        },
-        [notification, t]
-    );
-
-    const modalConfirmContent = (record) => (
-        <>
-            {t("first-name")}: <Text strong>{record.firstName}</Text> <br />
-            {t("last-name")}: <Text strong>{record.lastName}</Text> <br />
-            {t("email")}: <Text strong>{record.email}</Text> <br />
-        </>
-    );
-
-    const removeUser = async function (record) {
-        await deleteUser(record.key);
+function prepareCreateUserPayload(values) {
+    return {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        roleId: values.roleId,
+        representativeFieldsOfStudyLogIds:
+            values.representativeFieldsOfStudyLogIds,
+        password: values.newPassword ? hashPassword(values.newPassword) : null
     };
+}
+
+function prepareEditUserPayload(values) {
+    const { password, ...rest } = prepareCreateUserPayload(values);
+    return {
+        ...rest,
+        newPassword: password
+    };
+}
+
+function Users() {
+    const { t } = useTranslation();
+    const fieldsOfStudyInfoOptions = useFieldsOfStudyLogsOptions();
+    const { handleApiError, displayNotification } = useNotification();
+    const [rows, setRows] = useState([]);
+    const [selectedRow, setSelectedRow] = useState({});
+
+    const renderModalContent = useCallback(
+        (row) => (
+            <>
+                {t("first-name")}: <Text strong>{row.firstName}</Text> <br />
+                {t("last-name")}: <Text strong>{row.lastName}</Text> <br />
+                {t("email")}: <Text strong>{row.email}</Text> <br />
+            </>
+        ),
+        [t]
+    );
+
+    const createUseRequest = useApi(
+        createUser,
+        () => getUsersRequest(),
+        handleApiError
+    );
+
+    const handleCreate = useCallback(
+        function (values) {
+            createUseRequest(prepareCreateUserPayload(values));
+        },
+        [createUseRequest]
+    );
+
+    const updateUserUpdate = useApi(
+        updateUser,
+        () => getUsersRequest(),
+        handleApiError
+    );
+
+    const handleEdit = useCallback(
+        function (values) {
+            updateUserUpdate(values.id, prepareEditUserPayload(values));
+        },
+        [updateUserUpdate]
+    );
+
+    const deleteClassRequest = useApi(
+        deleteUser,
+        () => {
+            displayNotification(t("success-remove-user"));
+            getUsersRequest();
+        },
+        handleApiError
+    );
+
+    const rowsWithFieldsOfStudy = useMemo(() => {
+        return rows.map((value) => {
+            value.representativeFieldsOfStudy =
+                value.representativeFieldsOfStudyLogIds
+                    .map(
+                        (id) =>
+                            fieldsOfStudyInfoOptions?.find(
+                                (f) => f.value === id
+                            )?.label
+                    )
+                    .join(", ");
+            return value;
+        });
+    }, [fieldsOfStudyInfoOptions, rows]);
+
+    const [getUsersRequest, isLoading] = useApiWithLoading(
+        getAllUsers,
+        (data) =>
+            setRows(
+                data.map((row) => {
+                    row.key = row.id;
+                    return row;
+                })
+            ),
+        handleApiError
+    );
+
+    useEffect(() => {
+        getUsersRequest();
+    }, []);
 
     const columns = useMemo(
         () => [
@@ -92,53 +155,21 @@ function Users() {
         [t]
     );
 
-    const fetchUsers = useCallback(
-        async function () {
-            if (fieldsOfStudyInfoOptions === null)
-                new Promise(() => Promise.resolve());
-            const response = await getAllUsers();
-            response.data = response.data.map((value) => {
-                value.representativeFieldsOfStudy =
-                    value.representativeFieldsOfStudyLogIds
-                        .map(
-                            (id) =>
-                                fieldsOfStudyInfoOptions?.find(
-                                    (f) => f.value === id
-                                )?.label
-                        )
-                        .join(", ");
-                return value;
-            });
-            return response;
-        },
-        [fieldsOfStudyInfoOptions]
-    );
-
-    useEffect(() => {
-        fetchFieldsOfStudyLogs();
-    }, [fetchFieldsOfStudyLogs]);
-
     return (
         <ContentBlock breadcrumbs={[{ title: t("users") }]}>
-            <Flex
-                gap="small"
-                style={{ paddingBottom: "1rem", flexDirection: "row-reverse" }}
-            >
-                <Button type={"primary"} onClick={() => openCreateDrawer()}>
-                    {t("create-user")}
-                </Button>
-            </Flex>
-            {fieldsOfStudyInfoOptions && (
-                <UserDrawer
-                    fieldsOfStudyInfoOptions={fieldsOfStudyInfoOptions}
-                />
-            )}
+            <DrawerNewItemButton label={t("create-user")} />
+            <UserDrawerForm
+                onEdit={handleEdit}
+                onCreate={handleCreate}
+                initialValues={selectedRow}
+            />
             <TableWithActions
                 columns={columns}
-                fetchData={fetchUsers}
-                modalConfirmContent={modalConfirmContent}
-                onModalConfirm={removeUser}
-                notificationSuccessText={t("success-remove-user")}
+                rows={rowsWithFieldsOfStudy}
+                loading={isLoading}
+                modalRenderConfirmContent={renderModalContent}
+                onDelete={(row) => deleteClassRequest(row.id)}
+                onEdit={(row) => setSelectedRow(row)}
             />
         </ContentBlock>
     );
