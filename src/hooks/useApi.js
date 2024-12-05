@@ -1,7 +1,12 @@
 import { useCallback } from "react";
 import { useAuth } from "./useAuth.jsx";
 
-export function useApi(apiCall, onSuccess, onError) {
+export function useApi(
+    apiCall,
+    onSuccess,
+    onError,
+    tryToRestoreSession = true
+) {
     const { restoreSession } = useAuth();
 
     const restoreSessionAndRetry = useCallback(
@@ -23,10 +28,16 @@ export function useApi(apiCall, onSuccess, onError) {
                 const response = await apiCall(...args);
                 return onSuccess(response.data);
             } catch (e) {
-                if (e.status !== 401) return onError(e);
+                if (e.status !== 401 || !tryToRestoreSession) return onError(e);
                 await restoreSessionAndRetry(...args);
             }
         },
-        [apiCall, onError, onSuccess, restoreSessionAndRetry]
+        [
+            apiCall,
+            onError,
+            onSuccess,
+            restoreSessionAndRetry,
+            tryToRestoreSession
+        ]
     );
 }
