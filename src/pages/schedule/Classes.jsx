@@ -5,12 +5,17 @@ import TableWithActions from "../../components/content/TableWithActions.jsx";
 import { useDrawer } from "../../hooks/useDrawer.jsx";
 import { useContentBlock } from "../../hooks/useContentBlock.jsx";
 import { useUser } from "../../hooks/useUser.jsx";
-import { deleteClass, getClasses } from "../../api/representative.js";
-import ClassesDrawer from "./ClassesDrawer.jsx";
+import {
+    createClass,
+    deleteClass,
+    getClasses,
+    updateClass
+} from "../../api/representative.js";
 import dayjs from "dayjs";
 import { useNotification } from "../../hooks/useNotification.jsx";
 import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
 import { useApi } from "../../hooks/useApi.js";
+import ClassesDrawerForm from "../../components/form/forms/ClassesDrawerForm.jsx";
 
 const { Text } = Typography;
 
@@ -22,6 +27,38 @@ function Classes() {
     const { handleApiError, displayMessage } = useNotification();
     const [rows, setRows] = useState([]);
     const [selectedRow, setSelectedRow] = useState({});
+
+    const prepareCreatePayload = useCallback(
+        function (values) {
+            return {
+                fieldOfStudyLogId: currentFieldOfStudyInfo?.fieldOfStudyLogId,
+                name: values.className,
+                room: values.classRoom,
+                isOddWeek: JSON.parse(values.isOddWeek),
+                weekDay: values.weekDay,
+                groupId: values.groupId,
+                startHourId: values.startHourId,
+                endHourId: values.endHourId
+            };
+        },
+        [currentFieldOfStudyInfo?.fieldOfStudyLogId]
+    );
+
+    const prepareUpdatePayload = useCallback(
+        function (values) {
+            return {
+                fieldOfStudyLogId: currentFieldOfStudyInfo?.fieldOfStudyLogId,
+                name: values.className,
+                room: values.classRoom,
+                dates: values.dates.map((day) => day.format("YYYY-MM-DD")),
+                weekDay: values.weekDay,
+                groupId: values.groupId,
+                startHourId: values.startHourId,
+                endHourId: values.endHourId
+            };
+        },
+        [currentFieldOfStudyInfo?.fieldOfStudyLogId]
+    );
 
     useEffect(() => {
         addBreadcrumb(t("classes"));
@@ -36,6 +73,32 @@ function Classes() {
             </>
         ),
         [t]
+    );
+
+    const onCreateRequest = useApi(
+        createClass,
+        () => getClassesRequest(currentFieldOfStudyInfo?.fieldOfStudyLogId),
+        handleApiError
+    );
+
+    const handleCreate = useCallback(
+        async function (values) {
+            await onCreateRequest(prepareCreatePayload(values));
+        },
+        [onCreateRequest, prepareCreatePayload]
+    );
+
+    const onEditRequest = useApi(
+        updateClass,
+        () => getClassesRequest(currentFieldOfStudyInfo?.fieldOfStudyLogId),
+        handleApiError
+    );
+
+    const handleEdit = useCallback(
+        async function (values) {
+            await onEditRequest(values.key, prepareUpdatePayload(values));
+        },
+        [onEditRequest, prepareUpdatePayload]
     );
 
     const [getClassesRequest, isLoading] = useApiWithLoading(
@@ -117,7 +180,11 @@ function Classes() {
                     {t("create-class")}
                 </Button>
             </Flex>
-            <ClassesDrawer selectedRow={selectedRow} />
+            <ClassesDrawerForm
+                onCreate={handleCreate}
+                onEdit={handleEdit}
+                initialValues={selectedRow}
+            />
             <TableWithActions
                 columns={columns}
                 rows={rows}
