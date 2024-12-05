@@ -3,12 +3,13 @@ import { Alert, Button, Flex, Form, theme } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useAuth } from "../../hooks/useAuth.jsx";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import hashPassword from "../../helpers/hashPassword.js";
 import { FormItemEmail } from "../../components/form/FormItemEmail.jsx";
 import FormItemPassword from "../../components/form/FormItemPassword.jsx";
 import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
+import { useNotification } from "../../hooks/useNotification.jsx";
 
 function Login() {
     const {
@@ -18,19 +19,37 @@ function Login() {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const [errorMessage, setErrorMessage] = useState(null);
+    const [form] = Form.useForm();
+    const { handleApiError } = useNotification();
+
+    const clearForm = useCallback(
+        function () {
+            form.resetFields();
+        },
+        [form]
+    );
 
     const [loginRequest, submitLoading] = useApiWithLoading(
         login,
         () => navigate("/"),
-        () => setErrorMessage(t("error-login"))
+        (e) => {
+            if (e.status === 401) setErrorMessage(t("error-login"));
+            else handleApiError(e);
+            clearForm();
+        },
+        false
     );
 
-    async function onFinish(values) {
-        await loginRequest({
-            email: values.email,
-            password: hashPassword(values.password)
-        });
-    }
+    const onFinish = useCallback(
+        async function (values) {
+            setErrorMessage(null);
+            await loginRequest({
+                email: values.email,
+                password: hashPassword(values.password)
+            });
+        },
+        [loginRequest]
+    );
 
     return (
         <AppLayout centerChildren={true} showHeaderLogo={true}>
@@ -51,11 +70,7 @@ function Login() {
                         style={{ marginBottom: "1rem" }}
                     />
                 )}
-                <Form
-                    name="login"
-                    initialValues={{ remember: true }}
-                    onFinish={onFinish}
-                >
+                <Form name="login" onFinish={onFinish} form={form}>
                     <FormItemEmail
                         name="email"
                         isRequired={true}

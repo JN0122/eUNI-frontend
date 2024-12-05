@@ -113,5 +113,6 @@
   "go-back": "Powrót",
   "page-not-found": "Strona nie istnieje!",
   "something-went-wrong": "Coś poszło nie tak, przepraszamy!",
-  "register-account": "Utwórz konto"
+  "register-account": "Utwórz konto",
+  "error-login": "Niepoprawne dane logowania!"
 }
