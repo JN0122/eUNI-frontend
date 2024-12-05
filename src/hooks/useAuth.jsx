@@ -13,47 +13,43 @@ const UseAuth = createContext();
 export function AuthProvider({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
 
-    const restoreSession = useCallback(async function () {
-        let token = null;
-        try {
-            const response = await restoreAccessToken();
-            token = response.data.accessToken;
-            setIsAuthenticated(true);
-        } catch {
-            console.warn("Could not restore session");
-            setIsAuthenticated(false);
-        }
+    const authenticate = function (token) {
+        setIsAuthenticated(true);
         setAuthHeader(token);
+    };
+
+    const deauthenticate = function () {
+        setIsAuthenticated(false);
+        setAuthHeader(null);
+    };
+
+    const restoreSession = useCallback(async () => {
+        try {
+            const { data } = await restoreAccessToken();
+            authenticate(data?.accessToken);
+        } catch {
+            deauthenticate();
+        }
     }, []);
 
+    useEffect(() => {
+        if (isAuthenticated == null) restoreSession();
+    }, [isAuthenticated, restoreSession]);
+
     const login = useCallback(async function (userData) {
-        let status;
-        try {
-            const apiResponse = await loginUser(userData);
-            if (!apiResponse.data?.accessToken)
-                return console.error("Cannot read access token");
-            setAuthHeader(apiResponse.data.accessToken);
-            setIsAuthenticated(true);
-            status = apiResponse.status;
-        } catch (error) {
-            status = error.status;
-        }
-        return { status };
+        const { data } = await loginUser(userData);
+        authenticate(data?.accessToken);
     }, []);
 
     const logout = useCallback(async function () {
         await logoutUser();
-        setAuthHeader(null);
-        setIsAuthenticated(false);
+        deauthenticate();
     }, []);
-
-    useEffect(() => {
-        restoreSession();
-    }, [restoreSession]);
 
     return (
         <UseAuth.Provider
             value={{
+                restoreSession,
                 login,
                 logout,
                 isAuthenticated
