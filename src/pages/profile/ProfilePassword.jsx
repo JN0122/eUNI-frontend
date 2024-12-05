@@ -1,20 +1,18 @@
 import { Button, Divider, Form, Typography } from "antd";
 import { useTranslation } from "react-i18next";
-import { useContentBlock } from "../../hooks/useContentBlock.jsx";
-import { useEffect } from "react";
 import { changePassword } from "../../api/user.js";
 import hashPassword from "../../helpers/hashPassword.js";
 import { FormItemNewPasswords } from "../../components/form/FormItemNewPasswords.jsx";
 import { useNotification } from "../../hooks/useNotification.jsx";
 import FormItemPassword from "../../components/form/FormItemPassword.jsx";
 import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
+import ContentBlockBreadcrumb from "../../components/content/ContentBlockBreadcrumb.jsx";
 
 const { Title } = Typography;
 
 function ProfilePassword() {
     const { t } = useTranslation();
     const { displayNotification, handleApiError } = useNotification();
-    const { addBreadcrumb, setBreadcrumbsToDefault } = useContentBlock();
     const [form] = Form.useForm();
     const [changePasswordRequest, isLoading] = useApiWithLoading(
         changePassword,
@@ -25,11 +23,6 @@ function ProfilePassword() {
         handleApiError
     );
 
-    useEffect(() => {
-        addBreadcrumb(t("change-password"));
-        return () => setBreadcrumbsToDefault();
-    }, [addBreadcrumb, setBreadcrumbsToDefault, t]);
-
     async function onSubmit(values) {
         await changePasswordRequest({
             oldPassword: hashPassword(values.oldPassword),
@@ -38,7 +31,7 @@ function ProfilePassword() {
     }
 
     return (
-        <>
+        <ContentBlockBreadcrumb currentPath={t("change-password")}>
             <Title level={3}>{t("change-password")}</Title>
             <Form
                 layout={"vertical"}
@@ -66,7 +59,7 @@ function ProfilePassword() {
                     </Button>
                 </Form.Item>
             </Form>
-        </>
+        </ContentBlockBreadcrumb>
     );
 }
 

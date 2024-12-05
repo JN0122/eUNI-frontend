@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useContentBlock } from "../../hooks/useContentBlock.jsx";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Button, Select, Space, Typography } from "antd";
 import LANGS from "../../enums/languages.js";
 import { changeEmail } from "../../api/user.js";
@@ -19,6 +18,7 @@ import { CopyToClipboard } from "../../helpers/CopyToClipboard.js";
 import { useNotification } from "../../hooks/useNotification.jsx";
 import { useApi } from "../../hooks/useApi.js";
 import { NOTIFICATION_TYPES } from "../../enums/NotificationTypes.js";
+import ContentBlockBreadcrumb from "../../components/content/ContentBlockBreadcrumb.jsx";
 
 const { Text, Title } = Typography;
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
@@ -27,7 +27,6 @@ function ProfileInfo() {
     const { t, i18n } = useTranslation();
     const { displayMessage, displayNotification, handleApiError } =
         useNotification();
-    const { addBreadcrumb, setBreadcrumbsToDefault } = useContentBlock();
     const { userInfo, currentFieldOfStudyInfo, reFetchStudentInfo } = useUser();
 
     const groupsOptions = useFieldOfStudyGroupsOptions(
@@ -35,11 +34,6 @@ function ProfileInfo() {
     );
     const fieldsOfStudyOptions = useFieldsOfStudyLogsOptions();
     const [email, setEmail] = useState(userInfo?.email);
-
-    useEffect(() => {
-        addBreadcrumb(t("basic-info"));
-        return () => setBreadcrumbsToDefault();
-    }, [addBreadcrumb, setBreadcrumbsToDefault, t, currentFieldOfStudyInfo]);
 
     const changeEmailRequest = useApi(
         changeEmail,
@@ -197,7 +191,7 @@ function ProfileInfo() {
     ]);
 
     return (
-        <>
+        <ContentBlockBreadcrumb currentPath={t("basic-info")}>
             <Space direction="vertical">
                 <Title level={3}>{t("basic-info")}</Title>
                 <Space direction="horizontal">
@@ -230,7 +224,7 @@ function ProfileInfo() {
                     })}
                 />
             </Space>
-        </>
+        </ContentBlockBreadcrumb>
     );
 }
 

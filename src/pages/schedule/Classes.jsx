@@ -1,9 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Button, Flex, Typography } from "antd";
+import { Typography } from "antd";
 import TableWithActions from "../../components/content/TableWithActions.jsx";
 import { useDrawer } from "../../hooks/useDrawer.jsx";
-import { useContentBlock } from "../../hooks/useContentBlock.jsx";
 import { useUser } from "../../hooks/useUser.jsx";
 import {
     createClass,
@@ -16,13 +15,14 @@ import { useNotification } from "../../hooks/useNotification.jsx";
 import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
 import { useApi } from "../../hooks/useApi.js";
 import ClassesDrawerForm from "../../components/form/forms/ClassesDrawerForm.jsx";
+import DrawerNewItemButton from "../../components/form/DrawerNewItemButton.jsx";
+import ContentBlockBreadcrumb from "../../components/content/ContentBlockBreadcrumb.jsx";
 
 const { Text } = Typography;
 
 function Classes() {
     const { openCreateDrawer } = useDrawer();
     const { t } = useTranslation();
-    const { addBreadcrumb, setBreadcrumbsToDefault } = useContentBlock();
     const { currentFieldOfStudyInfo } = useUser();
     const { handleApiError, displayMessage } = useNotification();
     const [rows, setRows] = useState([]);
@@ -59,11 +59,6 @@ function Classes() {
         },
         [currentFieldOfStudyInfo?.fieldOfStudyLogId]
     );
-
-    useEffect(() => {
-        addBreadcrumb(t("classes"));
-        return () => setBreadcrumbsToDefault();
-    }, [addBreadcrumb, setBreadcrumbsToDefault, t]);
 
     const renderModalContent = useCallback(
         (record) => (
@@ -171,15 +166,11 @@ function Classes() {
     );
 
     return (
-        <>
-            <Flex
-                gap="small"
-                style={{ paddingBottom: "1rem", flexDirection: "row-reverse" }}
-            >
-                <Button type={"primary"} onClick={() => openCreateDrawer()}>
-                    {t("create-class")}
-                </Button>
-            </Flex>
+        <ContentBlockBreadcrumb currentPath={t("classes")}>
+            <DrawerNewItemButton
+                label={t("create-class")}
+                onClick={openCreateDrawer}
+            />
             <ClassesDrawerForm
                 onCreate={handleCreate}
                 onEdit={handleEdit}
@@ -193,7 +184,7 @@ function Classes() {
                 onDelete={(row) => deleteClassRequest(row.id)}
                 onEdit={(row) => setSelectedRow(row)}
             />
-        </>
+        </ContentBlockBreadcrumb>
     );
 }
 
