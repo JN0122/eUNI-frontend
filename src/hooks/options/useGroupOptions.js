@@ -21,7 +21,7 @@ export function useGroupOptions(fieldOfStudyLogId) {
     useEffect(() => {
         if (!fieldOfStudyLogId) return;
         getAllGroupsRequest(fieldOfStudyLogId);
-    }, []);
+    }, [fieldOfStudyLogId]);
 
     return groupOptions;
 }

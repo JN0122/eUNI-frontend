@@ -169,14 +169,16 @@ function ProfileInfo() {
                                     handleGroupChange(groupId, typeId)
                                 }
                             />
-                            <Button
-                                color="primary"
-                                variant="outlined"
-                                onClick={() => handleCopy(value)}
-                            >
-                                {t("copy-link")}
-                                <CalendarOutlined />
-                            </Button>
+                            {value && (
+                                <Button
+                                    color="primary"
+                                    variant="outlined"
+                                    onClick={() => handleCopy(value)}
+                                >
+                                    {t("copy-link")}
+                                    <CalendarOutlined />
+                                </Button>
+                            )}
                         </Space>
                     );
                 })}
