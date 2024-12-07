@@ -27,7 +27,7 @@ function Dashboard() {
                 },
                 hasPermission("schedule:read") && {
                     label: <Link to={"schedule"}>{t("schedule")}</Link>,
-                    key: "1",
+                    key: "2",
                     path: "schedule",
                     icon: <TableOutlined />
                 },
@@ -37,9 +37,19 @@ function Dashboard() {
                             {t("edit-schedule")}
                         </Link>
                     ),
-                    key: "2",
+                    key: "3",
                     path: "edit-schedule",
                     icon: <EditOutlined />
+                },
+                hasPermission("year-organization:*") && {
+                    label: (
+                        <Link to={"year-organization"}>
+                            {t("year-organization")}
+                        </Link>
+                    ),
+                    key: "4",
+                    path: "year-organization",
+                    icon: <CalendarOutlined />
                 }
             ].filter(Boolean),
         [hasPermission, t]

@@ -18,7 +18,7 @@ const UseUser = createContext();
 const defaultPermissions = {
     representative: ["schedule:*", "class:*", "classes:*", "assignments:*"],
     student: ["schedule:read"],
-    admin: ["users:*"]
+    admin: ["users:*", "year-organization:*"]
 };
 
 export function UserProvider({ children }) {

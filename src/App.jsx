@@ -70,6 +70,10 @@ const router = createBrowserRouter([
                         element: <EditScheduleClasses />
                     }
                 ]
+            },
+            {
+                path: "/year-organization",
+                element: <YearOrganization />
             }
         ]
     },
