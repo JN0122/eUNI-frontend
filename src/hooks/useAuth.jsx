@@ -3,6 +3,7 @@ import {
     useCallback,
     useContext,
     useEffect,
+    useRef,
     useState
 } from "react";
 import { loginUser, logoutUser, restoreAccessToken } from "../api/auth.js";
@@ -12,6 +13,7 @@ const UseAuth = createContext();
 
 export function AuthProvider({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
+    let refreshPromise = useRef(null);
 
     const authenticate = function (token) {
         setIsAuthenticated(true);
@@ -23,13 +25,15 @@ export function AuthProvider({ children }) {
         setAuthHeader(null);
     };
 
-    const restoreSession = useCallback(async () => {
-        try {
-            const { data } = await restoreAccessToken();
-            authenticate(data?.accessToken);
-        } catch {
-            deauthenticate();
-        }
+    const restoreSession = useCallback(() => {
+        if (refreshPromise.current !== null) return refreshPromise.current;
+        refreshPromise.current = restoreAccessToken()
+            .then(({ data }) => authenticate(data?.accessToken))
+            .catch(() => deauthenticate())
+            .finally(() => {
+                refreshPromise.current = null;
+            });
+        return refreshPromise.current;
     }, []);
 
     useEffect(() => {
