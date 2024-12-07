@@ -161,6 +161,7 @@ function Users() {
             <DrawerProvider>
                 <DrawerNewItemButton label={t("create-user")} />
                 <UserDrawerForm
+                    fieldsOfStudyInfoOptions={fieldsOfStudyInfoOptions}
                     onEdit={handleEdit}
                     onCreate={handleCreate}
                     initialValues={selectedRow}

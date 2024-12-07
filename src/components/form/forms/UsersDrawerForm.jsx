@@ -1,6 +1,5 @@
 import { Typography } from "antd";
 import { DRAWER_TYPE, useDrawer } from "../../../hooks/useDrawer.jsx";
-import useFieldsOfStudyLogsOptions from "../../../hooks/options/useFieldsOfStudyLogsOptions.js";
 import { useTranslation } from "react-i18next";
 import FormDrawer from "../FormDrawer.jsx";
 import { FormItemInput } from "../FormItemInput.jsx";
@@ -11,9 +10,13 @@ import useRoleOptions from "../../../hooks/options/useRoleOptions.js";
 
 const { Title } = Typography;
 
-export default function UserDrawerForm({ onCreate, onEdit, ...rest }) {
+export default function UserDrawerForm({
+    onCreate,
+    onEdit,
+    fieldsOfStudyInfoOptions,
+    ...rest
+}) {
     const { type } = useDrawer();
-    const fieldsOfStudyInfoOptions = useFieldsOfStudyLogsOptions();
     const { t } = useTranslation();
     const roleOptions = useRoleOptions();
 

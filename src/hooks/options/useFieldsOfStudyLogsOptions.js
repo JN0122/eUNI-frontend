@@ -31,10 +31,14 @@ export default function useFieldsOfStudyLogsOptions() {
         [t]
     );
 
-    const callApi = useApi(getFieldsOfStudyLogs, parseGroups, handleApiError);
+    const getFieldsOfStudyLogsRequest = useApi(
+        getFieldsOfStudyLogs,
+        parseGroups,
+        handleApiError
+    );
     useEffect(() => {
-        callApi();
-    }, [callApi]);
+        getFieldsOfStudyLogsRequest();
+    }, []);
 
     return fieldsOfStudyOptions;
 }
