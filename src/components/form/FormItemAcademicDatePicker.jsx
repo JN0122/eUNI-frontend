@@ -1,7 +1,7 @@
-import { DatePicker, Skeleton } from "antd";
-import { FormCustomItem } from "./FormCustomItem.jsx";
+import { Skeleton } from "antd";
 import { useCallback } from "react";
 import { useAcademicYearDaysOff } from "../../hooks/options/useDaysOff.js";
+import FormItemDatePicker from "./FormItemDatePicker.jsx";
 
 export function FormItemAcademicDatePicker({
     fieldOfStudyLogId,
@@ -28,13 +28,13 @@ export function FormItemAcademicDatePicker({
         return <Skeleton.Input active={true} />;
 
     return (
-        <FormCustomItem name={name} label={label} isRequired={isRequired}>
-            <DatePicker
-                disabledDate={disabledDate}
-                needConfirm
-                multiple
-                {...rest}
-            />
-        </FormCustomItem>
+        <FormItemDatePicker
+            name={name}
+            label={label}
+            isRequired={isRequired}
+            disabledDate={disabledDate}
+            multiple
+            {...rest}
+        />
     );
 }
