@@ -22,7 +22,7 @@ export function useAcademicYearDaysOff(fieldOfStudyLogId) {
     useEffect(() => {
         if (!fieldOfStudyLogId) return;
         getAcademicDaysOffRequest(fieldOfStudyLogId);
-    }, []);
+    }, [fieldOfStudyLogId]);
 
     return academicYearDaysOff;
 }
