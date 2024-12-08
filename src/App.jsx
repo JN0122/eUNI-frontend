@@ -21,6 +21,10 @@ import updateLocale from "dayjs/plugin/updateLocale";
 import InternalError from "./pages/global/InternalError.jsx";
 import Register from "./pages/global/Register.jsx";
 import NotLoggedInRoute from "./routes/NotLoggedInRoute.jsx";
+import YearOrganization from "./pages/yearOrganization/YearOrganization.jsx";
+import FieldsOfStudy from "./pages/fieldsOfStudy/FieldsOfStudy.jsx";
+import FieldsOfStudyCurrentList from "./pages/fieldsOfStudy/FieldsOfStudyCurrentList.jsx";
+import FieldsOfStudyAvailableList from "./pages/fieldsOfStudy/FieldsOfStudyAvailableList.jsx";
 
 dayjs.extend(updateLocale);
 const config = {
@@ -74,6 +78,20 @@ const router = createBrowserRouter([
             {
                 path: "/year-organization",
                 element: <YearOrganization />
+            },
+            {
+                path: "/fields-of-study",
+                element: <FieldsOfStudy />,
+                children: [
+                    {
+                        path: "current-list",
+                        element: <FieldsOfStudyCurrentList />
+                    },
+                    {
+                        path: "available-list",
+                        element: <FieldsOfStudyAvailableList />
+                    }
+                ]
             }
         ]
     },

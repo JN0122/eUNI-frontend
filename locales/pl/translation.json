@@ -123,5 +123,8 @@
   "end-date": "Dzień zakończenia",
   "days-off": "Dni wolne",
   "winter-semester": "Zimowy",
-  "summer-semester": "Letni"
+  "summer-semester": "Letni",
+  "fields-of-study": "Kierunki studiów",
+  "available-fields": "Dostępne kierunki",
+  "fields-current-list": "Lista aktualnych kierunków"
 }

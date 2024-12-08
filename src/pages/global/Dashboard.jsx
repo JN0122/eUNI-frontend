@@ -1,4 +1,5 @@
 import {
+    CalendarOutlined,
     EditOutlined,
     LoadingOutlined,
     TableOutlined,
@@ -11,6 +12,7 @@ import { MainMenuProvider } from "../../hooks/useMainMenu.jsx";
 import AppLayoutWithMainMenu from "../../components/layout/AppLayoutWithMainMenu.jsx";
 import { useUser } from "../../hooks/useUser.jsx";
 import { useMemo } from "react";
+import GraduationCapFilled from "../../components/icons/GraduationCapFilled.jsx";
 
 function Dashboard() {
     const { userInfo, hasPermission } = useUser();
@@ -50,6 +52,16 @@ function Dashboard() {
                     key: "4",
                     path: "year-organization",
                     icon: <CalendarOutlined />
+                },
+                hasPermission("fields-of-study:*") && {
+                    label: (
+                        <Link to={"fields-of-study"}>
+                            {t("fields-of-study")}
+                        </Link>
+                    ),
+                    key: "5",
+                    path: "year-organization",
+                    icon: <GraduationCapFilled />
                 }
             ].filter(Boolean),
         [hasPermission, t]
