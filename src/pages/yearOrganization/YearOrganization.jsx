@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import FormDrawer from "../../components/form/FormDrawer.jsx";
 import { FormItemSelect } from "../../components/form/FormItemSelect.jsx";
 import FormItemDatePicker from "../../components/form/FormItemDatePicker.jsx";
+import { Flex } from "antd";
 
 export default function YearOrganization() {
     const { t } = useTranslation();
@@ -59,7 +60,15 @@ export default function YearOrganization() {
     return (
         <ContentBlock breadcrumbs={[{ title: t("year-organization") }]}>
             <DrawerProvider>
-                <DrawerNewItemButton label={t("create-organization")} />
+                <Flex
+                    gap="small"
+                    style={{
+                        paddingBottom: "1rem",
+                        flexDirection: "row-reverse"
+                    }}
+                >
+                    <DrawerNewItemButton label={t("create-organization")} />
+                </Flex>
                 <FormDrawer
                     initialValues={rows[0]}
                     title={{ edit: "Edytuj", create: "Utwórz" }}

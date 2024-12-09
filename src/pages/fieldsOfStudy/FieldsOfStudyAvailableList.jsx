@@ -5,6 +5,7 @@ import ClassesDrawerForm from "../../components/form/forms/ClassesDrawerForm.jsx
 import TableWithActions from "../../components/content/TableWithActions.jsx";
 import { useMemo } from "react";
 import { DrawerProvider } from "../../hooks/useDrawer.jsx";
+import { Flex } from "antd";
 
 export default function FieldsOfStudyAvailableList() {
     const { t } = useTranslation();
@@ -52,7 +53,15 @@ export default function FieldsOfStudyAvailableList() {
     return (
         <ContentBlockBreadcrumb currentPath={t("available-fields")}>
             <DrawerProvider>
-                <DrawerNewItemButton label={t("create-field-of-study")} />
+                <Flex
+                    gap="small"
+                    style={{
+                        paddingBottom: "1rem",
+                        flexDirection: "row-reverse"
+                    }}
+                >
+                    <DrawerNewItemButton label={t("create-field-of-study")} />
+                </Flex>
                 <ClassesDrawerForm initialValues={rows[0]} />
                 <TableWithActions columns={columns} rows={rows} />
             </DrawerProvider>

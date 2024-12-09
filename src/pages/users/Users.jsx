@@ -1,7 +1,7 @@
 import ContentBlock from "../../components/content/ContentBlock.jsx";
 import { useTranslation } from "react-i18next";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Typography } from "antd";
+import { Flex, Typography } from "antd";
 import {
     createUser,
     deleteUser,
@@ -159,7 +159,15 @@ function Users() {
     return (
         <ContentBlock breadcrumbs={[{ title: t("users") }]}>
             <DrawerProvider>
-                <DrawerNewItemButton label={t("create-user")} />
+                <Flex
+                    gap="small"
+                    style={{
+                        paddingBottom: "1rem",
+                        flexDirection: "row-reverse"
+                    }}
+                >
+                    <DrawerNewItemButton label={t("create-user")} />
+                </Flex>
                 <UserDrawerForm
                     fieldsOfStudyInfoOptions={fieldsOfStudyInfoOptions}
                     onEdit={handleEdit}

@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Typography } from "antd";
+import { Flex, Typography } from "antd";
 import TableWithActions from "../../components/content/TableWithActions.jsx";
 import { useUser } from "../../hooks/useUser.jsx";
 import {
@@ -165,7 +165,12 @@ function EditScheduleClasses() {
 
     return (
         <ContentBlockBreadcrumb currentPath={t("classes")}>
-            <DrawerNewItemButton label={t("create-class")} />
+            <Flex
+                gap="small"
+                style={{ paddingBottom: "1rem", flexDirection: "row-reverse" }}
+            >
+                <DrawerNewItemButton label={t("create-class")} />
+            </Flex>
             <ClassesDrawerForm
                 onCreate={handleCreate}
                 onEdit={handleEdit}
