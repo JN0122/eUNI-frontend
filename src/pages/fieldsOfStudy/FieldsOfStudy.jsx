@@ -28,10 +28,7 @@ export default function FieldsOfStudy() {
         ],
         [t]
     );
-
-    // <DrawerProvider>
-    //     <DrawerNewItemButton label={t("create-field-of-study")} />
-    // </DrawerProvider>
+    
     return (
         <ContentBlockProvider mainPath={t("fields-of-study")} items={items}>
             <ContentBlockWithMenu />

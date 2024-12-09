@@ -88,7 +88,7 @@
   "lecture": "Grupa wykładowa",
   "deanGroup": "Grupa dziekańska",
   "project": "Grupa projektowa",
-  "computer": "Groupa komputerowa",
+  "computer": "Grupa komputerowa",
   "laboratory": "Grupa laboratoryjna",
   "semester": "Semestr",
   "enter-room": "Wpowadź numer sali",
@@ -124,7 +124,15 @@
   "days-off": "Dni wolne",
   "winter-semester": "Zimowy",
   "summer-semester": "Letni",
+  "create-field-of-study": "Utwórz kierunek studiów",
   "fields-of-study": "Kierunki studiów",
   "available-fields": "Dostępne kierunki",
-  "fields-current-list": "Lista aktualnych kierunków"
+  "fields-current-list": "Lista aktualnych kierunków",
+  "studies-are-full-time": "Stacjonarne",
+  "studies-are-not-full-time": "Niestacjonarne",
+  "fields-name": "Nazwa kierunku",
+  "abbr": "Skrót",
+  "studies-cycle": "Cykl studiów",
+  "semester-count": "Liczba semestrów",
+  "studies-full-time": "Rodzaj studiów"
 }
