@@ -132,7 +132,13 @@
   "studies-are-not-full-time": "Niestacjonarne",
   "fields-name": "Nazwa kierunku",
   "abbr": "Skrót",
-  "studies-cycle": "Cykl studiów",
+  "studies-cycle": "Stopień studiów",
   "semester-count": "Liczba semestrów",
-  "studies-full-time": "Rodzaj studiów"
+  "studies-full-time": "Rodzaj studiów",
+  "current-semester": "Aktualny semestr",
+  "current-year": "Aktualny rok",
+  "add-field-of-study": "Dodaj kierunek do roku",
+  "select-valid-position-to-upgrade": "Wybierz wszystkie ważne kierunki",
+  "move-to-next-semester": "Przenieś kierunki do następnego semestru",
+  "enter-current-year": "Wprowadź rok"
 }

@@ -18,7 +18,7 @@ export default function YearOrganization() {
             key: "1",
             yearNameId: 1,
             yearName: "2024/2025",
-            firstHalfOfYear: "true",
+            firstHalfOfYear: true,
             semesterType: t("winter-semester"),
             startDate: "2024-10-22",
             startDateParsed: dayjs("2024-10-22"),
