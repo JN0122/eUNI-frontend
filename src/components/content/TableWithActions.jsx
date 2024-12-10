@@ -22,6 +22,8 @@ function TableWithActions({
     modalRenderConfirmContent,
     onDelete,
     onEdit,
+    withoutDelete = false,
+    withoutEdit = false,
     ...rest
 }) {
     const { t } = useTranslation();
@@ -160,20 +162,24 @@ function TableWithActions({
             key: "action",
             render: (_, record) => (
                 <Space size="middle">
-                    <a
-                        onClick={() => {
-                            openEditDrawer();
-                            onEdit(record);
-                        }}
-                    >
-                        {t("edit")}
-                    </a>
-                    <a
-                        style={{ color: "red" }}
-                        onClick={() => showDeleteConfirm(record)}
-                    >
-                        {t("delete")}
-                    </a>
+                    {!withoutEdit && (
+                        <a
+                            onClick={() => {
+                                openEditDrawer();
+                                onEdit(record);
+                            }}
+                        >
+                            {t("edit")}
+                        </a>
+                    )}
+                    {!withoutDelete && (
+                        <a
+                            style={{ color: "red" }}
+                            onClick={() => showDeleteConfirm(record)}
+                        >
+                            {t("delete")}
+                        </a>
+                    )}
                 </Space>
             )
         });

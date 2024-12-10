@@ -24,12 +24,15 @@ export default function FieldsOfStudyAvailableList() {
     const renderModalContent = useCallback(
         (row) => (
             <>
-                {t("fields-name")}: <Text strong>{row.name}</Text> <br />
-                {t("studies-cycle")}: <Text strong>{row.studiesCycle}</Text>{" "}
+                {`${t("fields-name")}: `}
+                <Text strong>{row.name}</Text> <br />
+                {`${t("studies-cycle")}: `}
+                <Text strong>{row.studiesCycleParsed}</Text>
                 <br />
-                {t("semester-count")}: <Text strong>{row.semesterCount}</Text>{" "}
+                {`${t("semester-count")}: `}
+                <Text strong>{row.semesterCount}</Text>
                 <br />
-                {t("studies-full-time")}:{" "}
+                {`${t("studies-full-time")}: `}
                 <Text strong>{row.fullTimeParsed}</Text> <br />
             </>
         ),
