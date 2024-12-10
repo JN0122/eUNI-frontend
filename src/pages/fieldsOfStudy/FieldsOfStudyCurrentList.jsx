@@ -107,9 +107,6 @@ export default function FieldsOfStudyCurrentList() {
         ],
         [rows, t]
     );
-
-    const clearSelectedRows = () => setSelectedRowKeys([]);
-
     const hasSelected =
         selectedRowKeys.length > 0 &&
         selectedRowKeys.every(checkIfFieldCanBeUpgraded);
@@ -127,7 +124,7 @@ export default function FieldsOfStudyCurrentList() {
                 >
                     <LoadingButton
                         type="primary"
-                        onClick={clearSelectedRows}
+                        onClick={() => setSelectedRowKeys([])}
                         disabled={!hasSelected}
                     >
                         {t("move-to-next-semester")}

@@ -129,7 +129,7 @@
   "available-fields": "Dostępne kierunki",
   "fields-current-list": "Lista aktualnych kierunków",
   "studies-are-full-time": "Stacjonarne",
-  "studies-are-not-full-time": "Niestacjonarne",
+  "studies-are-part-time": "Niestacjonarne",
   "fields-name": "Nazwa kierunku",
   "abbr": "Skrót",
   "studies-cycle": "Stopień studiów",
@@ -140,5 +140,6 @@
   "add-field-of-study": "Dodaj kierunek do roku",
   "select-valid-position-to-upgrade": "Wybierz wszystkie ważne kierunki",
   "move-to-next-semester": "Przenieś kierunki do następnego semestru",
-  "enter-current-year": "Wprowadź rok"
+  "enter-current-year": "Wprowadź rok",
+  "edit-field-of-study": "Edytuj kierunek"
 }
