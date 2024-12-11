@@ -9,7 +9,7 @@ export async function deleteUser(id) {
 }
 
 export async function updateUser(id, data) {
-    return await axiosInstance.patch(`/api/Admin/users/${id}`, data);
+    return await axiosInstance.put(`/api/Admin/users/${id}`, data);
 }
 
 export async function createUser(data) {
