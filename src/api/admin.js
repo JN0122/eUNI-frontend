@@ -15,3 +15,7 @@ export async function updateUser(id, data) {
 export async function createUser(data) {
     return await axiosInstance.post(`/api/Admin/users`, data);
 }
+
+export async function getYears() {
+    return await axiosInstance.get(`/api/Admin/years`);
+}

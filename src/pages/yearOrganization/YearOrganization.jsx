@@ -11,11 +11,13 @@ import FormItemDatePicker from "../../components/form/FormItemDatePicker.jsx";
 import { Flex } from "antd";
 import useAcademicYears from "../../hooks/options/useAcademicYears.js";
 import useSemesterTypesOptions from "../../hooks/options/useSemesterTypesOptions.js";
+import useNextAcademicSemester from "../../hooks/options/useNextAcademicSemester.js";
 
 export default function YearOrganization() {
     const { t } = useTranslation();
     const academicYearsOptions = useAcademicYears();
     const semesterTypesOptions = useSemesterTypesOptions();
+    const nextAcademicSemester = useNextAcademicSemester();
     const rows = [
         {
             id: "1",
@@ -75,6 +77,7 @@ export default function YearOrganization() {
                 </Flex>
                 <FormDrawer
                     valuesOnEdit={rows[0]}
+                    valuesOnCreate={nextAcademicSemester}
                     title={{ edit: "Edytuj", create: "Utwórz" }}
                 >
                     <FormItemSelect
