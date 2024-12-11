@@ -58,7 +58,7 @@ function Users() {
         [t]
     );
 
-    const createUseRequest = useApi(
+    const createUserRequest = useApi(
         createUser,
         () => getUsersRequest(),
         handleApiError
@@ -66,9 +66,9 @@ function Users() {
 
     const handleCreate = useCallback(
         function (values) {
-            createUseRequest(prepareCreateUserPayload(values));
+            createUserRequest(prepareCreateUserPayload(values));
         },
-        [createUseRequest]
+        [createUserRequest]
     );
 
     const updateUserUpdate = useApi(
