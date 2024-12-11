@@ -23,3 +23,7 @@ export async function getYears() {
 export async function getNextAcademicYearDetails() {
     return await axiosInstance.get(`/api/Admin/next-semester-details`);
 }
+
+export async function getYearOrganizations() {
+    return await axiosInstance.get(`/api/Admin/year-organizations`);
+}

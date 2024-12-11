@@ -3,7 +3,7 @@ import DrawerNewItemButton from "../../components/form/DrawerNewItemButton.jsx";
 import ContentBlock from "../../components/content/ContentBlock.jsx";
 import { useTranslation } from "react-i18next";
 import TableWithActions from "../../components/content/TableWithActions.jsx";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
 import FormDrawer from "../../components/form/FormDrawer.jsx";
 import { FormItemSelect } from "../../components/form/FormItemSelect.jsx";
@@ -12,29 +12,49 @@ import { Flex } from "antd";
 import useAcademicYears from "../../hooks/options/useAcademicYears.js";
 import useSemesterTypesOptions from "../../hooks/options/useSemesterTypesOptions.js";
 import useNextAcademicSemester from "../../hooks/options/useNextAcademicSemester.js";
+import { getYearOrganizations } from "../../api/admin.js";
+import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
+import { useNotification } from "../../hooks/useNotification.jsx";
 
 export default function YearOrganization() {
     const { t } = useTranslation();
+    const { handleApiError } = useNotification();
     const academicYearsOptions = useAcademicYears();
     const semesterTypesOptions = useSemesterTypesOptions();
     const nextAcademicSemester = useNextAcademicSemester();
-    const rows = [
-        {
-            id: 1,
-            key: 1,
-            yearId: 1,
-            yearName: "2024/2025",
-            firstHalfOfYear: true.toString(),
-            semesterType: t("winter-semester"),
-            startDate: "2024-10-22",
-            startDateParsed: dayjs("2024-10-22"),
-            endDate: "2025-01-26",
-            endDateParsed: dayjs("2025-01-26"),
-            daysOff: ["2024-11-11", "2024-10-20"],
-            daysOffJoined: "2024-11-11, 2024-10-20",
-            daysOffParsed: [dayjs("2024-11-11"), dayjs("2024-10-20")]
-        }
-    ];
+
+    const [rows, setRows] = useState([]);
+
+    const [getYearOrganizationsRequest, isLoading] = useApiWithLoading(
+        getYearOrganizations,
+        (data) =>
+            setRows(
+                data.map((row) => {
+                    row.key = row.id;
+                    row.yearName = academicYearsOptions.find(
+                        (type) => type.value === row.yearId
+                    ).label;
+                    row.firstHalfOfYear = row.firstHalfOfYear.toString();
+                    row.semesterType = semesterTypesOptions.find(
+                        (type) => type.value === row.firstHalfOfYear
+                    ).label;
+                    row.startDateParsed = dayjs(row.startDate);
+                    row.endDateParsed = dayjs(row.endDate);
+                    row.daysOffParsed = row.daysOff.map((day) => dayjs(day));
+                    row.daysOffJoined = row.daysOff.join(", ");
+                    return row;
+                })
+            ),
+        handleApiError
+    );
+
+    useEffect(() => {
+        if (
+            academicYearsOptions.length !== 0 &&
+            semesterTypesOptions.length !== 0
+        )
+            getYearOrganizationsRequest();
+    }, [academicYearsOptions.length, semesterTypesOptions.length]);
 
     const columns = useMemo(
         () => [
@@ -111,7 +131,11 @@ export default function YearOrganization() {
                         multiple
                     />
                 </FormDrawer>
-                <TableWithActions columns={columns} rows={rows} />
+                <TableWithActions
+                    columns={columns}
+                    rows={rows}
+                    isLoading={isLoading}
+                />
             </DrawerProvider>
         </ContentBlock>
     );
