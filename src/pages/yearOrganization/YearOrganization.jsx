@@ -12,7 +12,8 @@ import useNextAcademicSemester from "../../hooks/options/useNextAcademicSemester
 import {
     createYearOrganization,
     deleteYearOrganization,
-    getYearOrganizations
+    getYearOrganizations,
+    updateYearOrganization
 } from "../../api/admin.js";
 import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
 import { useNotification } from "../../hooks/useNotification.jsx";
@@ -21,7 +22,7 @@ import { useApi } from "../../hooks/useApi.js";
 
 const { Text } = Typography;
 
-const prepareUpdatePayload = function (data) {
+const preparePayload = function (data) {
     return {
         startDate: data.startDateParsed.format("YYYY-MM-DD"),
         endDate: data.endDateParsed.format("YYYY-MM-DD"),
@@ -95,6 +96,12 @@ export default function YearOrganization() {
         handleApiError
     );
 
+    const updateYearOrganizationRequest = useApi(
+        updateYearOrganization,
+        () => getYearOrganizationsRequest(),
+        handleApiError
+    );
+
     const columns = useMemo(
         () => [
             {
@@ -139,11 +146,14 @@ export default function YearOrganization() {
                     academicYearsOptions={academicYearsOptions}
                     valuesOnEdit={selectedRow}
                     valuesOnCreate={nextAcademicSemester}
-                    onEdit={() => {}}
-                    onCreate={(data) => {
-                        createYearOrganizationsRequest(
-                            prepareUpdatePayload(data)
+                    onEdit={(data) => {
+                        updateYearOrganizationRequest(
+                            data.id,
+                            preparePayload(data)
                         );
+                    }}
+                    onCreate={(data) => {
+                        createYearOrganizationsRequest(preparePayload(data));
                     }}
                 />
                 <TableWithActions

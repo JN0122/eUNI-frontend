@@ -35,3 +35,7 @@ export async function createYearOrganization(data) {
 export async function deleteYearOrganization(id) {
     return await axiosInstance.delete(`/api/Admin/year-organizations/${id}`);
 }
+
+export async function updateYearOrganization(id, data) {
+    return await axiosInstance.put(`/api/Admin/year-organizations/${id}`, data);
+}
