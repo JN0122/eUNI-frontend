@@ -3,18 +3,18 @@ import DrawerNewItemButton from "../../components/form/DrawerNewItemButton.jsx";
 import ContentBlock from "../../components/content/ContentBlock.jsx";
 import { useTranslation } from "react-i18next";
 import TableWithActions from "../../components/content/TableWithActions.jsx";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import dayjs from "dayjs";
-import FormDrawer from "../../components/form/FormDrawer.jsx";
-import { FormItemSelect } from "../../components/form/FormItemSelect.jsx";
-import FormItemDatePicker from "../../components/form/FormItemDatePicker.jsx";
-import { Flex } from "antd";
+import { Flex, Typography } from "antd";
 import useAcademicYears from "../../hooks/options/useAcademicYears.js";
 import useSemesterTypesOptions from "../../hooks/options/useSemesterTypesOptions.js";
 import useNextAcademicSemester from "../../hooks/options/useNextAcademicSemester.js";
 import { getYearOrganizations } from "../../api/admin.js";
 import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
 import { useNotification } from "../../hooks/useNotification.jsx";
+import YearOrganizationForm from "../../components/form/forms/YearOrganizationForm.jsx";
+
+const { Text } = Typography;
 
 export default function YearOrganization() {
     const { t } = useTranslation();
@@ -24,6 +24,20 @@ export default function YearOrganization() {
     const nextAcademicSemester = useNextAcademicSemester();
 
     const [rows, setRows] = useState([]);
+    const [selectedRow, setSelectedRow] = useState(null);
+
+    const renderModalContent = useCallback(
+        (row) => (
+            <>
+                {t("academic-year")}: <Text strong>{row.yearName}</Text> <br />
+                {t("semester-type")}: <Text strong>{row.semesterType}</Text>{" "}
+                <br />
+                {t("start-date")}: <Text strong>{row.startDate}</Text> <br />
+                {t("end-date")}: <Text strong>{row.endDate}</Text> <br />
+            </>
+        ),
+        [t]
+    );
 
     const [getYearOrganizationsRequest, isLoading] = useApiWithLoading(
         getYearOrganizations,
@@ -95,46 +109,21 @@ export default function YearOrganization() {
                 >
                     <DrawerNewItemButton label={t("create-organization")} />
                 </Flex>
-                <FormDrawer
-                    valuesOnEdit={rows[0]}
+                <YearOrganizationForm
+                    semesterTypesOptions={semesterTypesOptions}
+                    academicYearsOptions={academicYearsOptions}
+                    valuesOnEdit={selectedRow}
                     valuesOnCreate={nextAcademicSemester}
-                    title={{ edit: "Edytuj", create: "Utwórz" }}
-                >
-                    <FormItemSelect
-                        label={t("academic-year")}
-                        name="yearId"
-                        options={academicYearsOptions}
-                        disabled={true}
-                        isRequired={true}
-                    />
-                    <FormItemSelect
-                        label={t("semester-type")}
-                        name="firstHalfOfYear"
-                        options={semesterTypesOptions}
-                        disabled={true}
-                        isRequired={true}
-                    />
-                    <FormItemDatePicker
-                        label={t("start-date")}
-                        name="startDateParsed"
-                        isRequired={true}
-                    />
-                    <FormItemDatePicker
-                        label={t("end-date")}
-                        name="endDateParsed"
-                        isRequired={true}
-                    />
-                    <FormItemDatePicker
-                        label={t("days-off")}
-                        name="daysOffParsed"
-                        isRequired={true}
-                        multiple
-                    />
-                </FormDrawer>
+                    onEdit={() => {}}
+                    onCreate={() => {}}
+                />
                 <TableWithActions
                     columns={columns}
                     rows={rows}
                     isLoading={isLoading}
+                    modalRenderConfirmContent={renderModalContent}
+                    onEdit={(row) => setSelectedRow(row)}
+                    onDelete={() => {}}
                 />
             </DrawerProvider>
         </ContentBlock>
