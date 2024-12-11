@@ -11,6 +11,7 @@ import useSemesterTypesOptions from "../../hooks/options/useSemesterTypesOptions
 import useNextAcademicSemester from "../../hooks/options/useNextAcademicSemester.js";
 import {
     createYearOrganization,
+    deleteYearOrganization,
     getYearOrganizations
 } from "../../api/admin.js";
 import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
@@ -88,6 +89,12 @@ export default function YearOrganization() {
         handleApiError
     );
 
+    const deleteYearOrganizationRequest = useApi(
+        deleteYearOrganization,
+        () => getYearOrganizationsRequest(),
+        handleApiError
+    );
+
     const columns = useMemo(
         () => [
             {
@@ -145,7 +152,7 @@ export default function YearOrganization() {
                     isLoading={isLoading}
                     modalRenderConfirmContent={renderModalContent}
                     onEdit={(row) => setSelectedRow(row)}
-                    onDelete={() => {}}
+                    onDelete={(row) => deleteYearOrganizationRequest(row.id)}
                 />
             </DrawerProvider>
         </ContentBlock>
