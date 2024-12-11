@@ -113,7 +113,7 @@ export default function FieldsOfStudyAvailableList() {
                 <AvailableFieldsOfStudyForm
                     onEdit={() => {}}
                     onCreate={() => {}}
-                    initialValues={selectedRow}
+                    valuesOnEdit={selectedRow}
                 />
                 <TableWithActions
                     columns={columns}

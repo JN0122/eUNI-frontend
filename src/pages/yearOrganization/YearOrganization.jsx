@@ -9,16 +9,20 @@ import FormDrawer from "../../components/form/FormDrawer.jsx";
 import { FormItemSelect } from "../../components/form/FormItemSelect.jsx";
 import FormItemDatePicker from "../../components/form/FormItemDatePicker.jsx";
 import { Flex } from "antd";
+import useAcademicYears from "../../hooks/options/useAcademicYears.js";
+import useSemesterTypesOptions from "../../hooks/options/useSemesterTypesOptions.js";
 
 export default function YearOrganization() {
     const { t } = useTranslation();
+    const academicYearsOptions = useAcademicYears();
+    const semesterTypesOptions = useSemesterTypesOptions();
     const rows = [
         {
             id: "1",
             key: "1",
             yearNameId: 1,
             yearName: "2024/2025",
-            firstHalfOfYear: true,
+            firstHalfOfYear: true.toString(),
             semesterType: t("winter-semester"),
             startDate: "2024-10-22",
             startDateParsed: dayjs("2024-10-22"),
@@ -70,24 +74,21 @@ export default function YearOrganization() {
                     <DrawerNewItemButton label={t("create-organization")} />
                 </Flex>
                 <FormDrawer
-                    initialValues={rows[0]}
+                    valuesOnEdit={rows[0]}
                     title={{ edit: "Edytuj", create: "Utwórz" }}
                 >
                     <FormItemSelect
                         label={t("academic-year")}
                         name="yearNameId"
-                        options={[
-                            { value: 1, label: "2024/2025" },
-                            { value: 2, label: "2025/2026" }
-                        ]}
+                        options={academicYearsOptions}
+                        disabled={true}
                         isRequired={true}
                     />
                     <FormItemSelect
                         label={t("semester-type")}
                         name="firstHalfOfYear"
-                        options={[
-                            { value: "true", label: t("winter-semester") }
-                        ]}
+                        options={semesterTypesOptions}
+                        disabled={true}
                         isRequired={true}
                     />
                     <FormItemDatePicker

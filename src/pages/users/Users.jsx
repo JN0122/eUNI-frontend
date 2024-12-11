@@ -172,7 +172,7 @@ function Users() {
                     fieldsOfStudyInfoOptions={fieldsOfStudyInfoOptions}
                     onEdit={handleEdit}
                     onCreate={handleCreate}
-                    initialValues={selectedRow}
+                    valuesOnEdit={selectedRow}
                 />
                 <TableWithActions
                     columns={columns}

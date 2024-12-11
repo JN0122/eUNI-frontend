@@ -174,7 +174,7 @@ function EditScheduleClasses() {
             <ClassesDrawerForm
                 onCreate={handleCreate}
                 onEdit={handleEdit}
-                initialValues={selectedRow}
+                valuesOnEdit={selectedRow}
             />
             <TableWithActions
                 columns={columns}

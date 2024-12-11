@@ -3,7 +3,14 @@ import { DRAWER_TYPE, useDrawer } from "../../hooks/useDrawer.jsx";
 import { useTranslation } from "react-i18next";
 import { useCallback, useEffect } from "react";
 
-function FormDrawer({ title, onSubmit, children, initialValues, ...rest }) {
+function FormDrawer({
+    title,
+    onSubmit,
+    children,
+    valuesOnEdit,
+    valuesOnCreate = {},
+    ...rest
+}) {
     const { isOpen, closeDrawer, type } = useDrawer();
     const { t } = useTranslation();
     const [form] = Form.useForm();
@@ -60,7 +67,9 @@ function FormDrawer({ title, onSubmit, children, initialValues, ...rest }) {
                 layout="vertical"
                 autoComplete="off"
                 form={form}
-                initialValues={type === DRAWER_TYPE.edit ? initialValues : {}}
+                initialValues={
+                    type === DRAWER_TYPE.edit ? valuesOnEdit : valuesOnCreate
+                }
                 {...rest}
             >
                 {children}
