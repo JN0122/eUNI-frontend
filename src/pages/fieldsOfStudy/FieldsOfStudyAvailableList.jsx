@@ -10,6 +10,7 @@ import { useNotification } from "../../hooks/useNotification.jsx";
 import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
 import useStudiesCycleOptions from "../../hooks/options/useStudiesCycleOptions.js";
 import useModeOfStudyOptions from "../../hooks/options/useModeOfStudyOptions.js";
+import { getAvailableFields } from "../../api/admin.js";
 
 const { Text } = Typography;
 
@@ -40,36 +41,27 @@ export default function FieldsOfStudyAvailableList() {
     );
 
     const [getAvailableFieldsOfStudyRequest, isLoading] = useApiWithLoading(
-        () => {},
-        () =>
+        getAvailableFields,
+        (data) =>
             setRows(
-                [
-                    {
-                        id: "1",
-                        key: "1",
-                        name: "Informatyka stosowana",
-                        abbr: "K",
-                        studiesCycle: 1,
-                        studiesCycleParsed: studiesCycle.find(
-                            (value) => value.value === 1
-                        ).label,
-                        semesterCount: 7,
-                        fullTime: true.toString(),
-                        fullTimeParsed: modeOfStudy.find(
-                            (value) => value.value === true.toString()
-                        ).label
-                    }
-                ]
-                //     data.map((row) => {
-                //         row.key = row.id;
-                //         return row;
-                //     })
+                data.map((row) => {
+                    row.key = row.id;
+                    row.studiesCycleParsed = studiesCycle.find(
+                        (value) => value.value === row.studiesCycle
+                    ).label;
+                    row.fullTime = row.fullTime.toString();
+                    row.fullTimeParsed = modeOfStudy.find(
+                        (value) => value.value === row.fullTime
+                    ).label;
+                    return row;
+                })
             ),
         handleApiError
     );
 
     useEffect(() => {
-        getAvailableFieldsOfStudyRequest();
+        if (studiesCycle.length !== 0 && modeOfStudy.length !== 0)
+            getAvailableFieldsOfStudyRequest();
     }, []);
 
     const columns = useMemo(

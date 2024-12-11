@@ -39,3 +39,19 @@ export async function deleteYearOrganization(id) {
 export async function updateYearOrganization(id, data) {
     return await axiosInstance.put(`/api/Admin/year-organizations/${id}`, data);
 }
+
+export async function getAvailableFields() {
+    return await axiosInstance.get(`/api/Admin/available-fields`);
+}
+
+export async function createAvailableField(data) {
+    return await axiosInstance.post(`/api/Admin/available-fields`, data);
+}
+
+export async function deleteAvailableField(id) {
+    return await axiosInstance.delete(`/api/Admin/available-fields/${id}`);
+}
+
+export async function updateAvailableField(id, data) {
+    return await axiosInstance.put(`/api/Admin/available-fields/${id}`, data);
+}
