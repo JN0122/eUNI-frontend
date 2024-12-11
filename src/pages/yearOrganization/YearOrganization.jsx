@@ -20,9 +20,9 @@ export default function YearOrganization() {
     const nextAcademicSemester = useNextAcademicSemester();
     const rows = [
         {
-            id: "1",
-            key: "1",
-            yearNameId: 1,
+            id: 1,
+            key: 1,
+            yearId: 1,
             yearName: "2024/2025",
             firstHalfOfYear: true.toString(),
             semesterType: t("winter-semester"),
@@ -82,7 +82,7 @@ export default function YearOrganization() {
                 >
                     <FormItemSelect
                         label={t("academic-year")}
-                        name="yearNameId"
+                        name="yearId"
                         options={academicYearsOptions}
                         disabled={true}
                         isRequired={true}

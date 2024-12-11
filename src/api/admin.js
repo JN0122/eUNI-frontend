@@ -19,3 +19,7 @@ export async function createUser(data) {
 export async function getYears() {
     return await axiosInstance.get(`/api/Admin/years`);
 }
+
+export async function getNextAcademicYearDetails() {
+    return await axiosInstance.get(`/api/Admin/next-semester-details`);
+}
