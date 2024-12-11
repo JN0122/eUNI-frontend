@@ -11,11 +11,10 @@ export default function YearOrganizationForm({
     ...rest
 }) {
     const { t } = useTranslation();
-
     return (
         <FormDrawer
             title={{ edit: "Edytuj", create: "Utwórz" }}
-            onSubmit={{ edit: onEdit, onCreate }}
+            onSubmit={{ edit: onEdit, create: onCreate }}
             {...rest}
         >
             <FormItemSelect

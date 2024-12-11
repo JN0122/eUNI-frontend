@@ -27,3 +27,7 @@ export async function getNextAcademicYearDetails() {
 export async function getYearOrganizations() {
     return await axiosInstance.get(`/api/Admin/year-organizations`);
 }
+
+export async function createYearOrganization(data) {
+    return await axiosInstance.post(`/api/Admin/year-organizations`, data);
+}

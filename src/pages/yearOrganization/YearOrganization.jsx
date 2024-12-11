@@ -9,12 +9,24 @@ import { Flex, Typography } from "antd";
 import useAcademicYears from "../../hooks/options/useAcademicYears.js";
 import useSemesterTypesOptions from "../../hooks/options/useSemesterTypesOptions.js";
 import useNextAcademicSemester from "../../hooks/options/useNextAcademicSemester.js";
-import { getYearOrganizations } from "../../api/admin.js";
+import {
+    createYearOrganization,
+    getYearOrganizations
+} from "../../api/admin.js";
 import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
 import { useNotification } from "../../hooks/useNotification.jsx";
 import YearOrganizationForm from "../../components/form/forms/YearOrganizationForm.jsx";
+import { useApi } from "../../hooks/useApi.js";
 
 const { Text } = Typography;
+
+const prepareUpdatePayload = function (data) {
+    return {
+        startDate: data.startDateParsed.format("YYYY-MM-DD"),
+        endDate: data.endDateParsed.format("YYYY-MM-DD"),
+        daysOff: data.daysOffParsed.map((day) => day.format("YYYY-MM-DD"))
+    };
+};
 
 export default function YearOrganization() {
     const { t } = useTranslation();
@@ -70,6 +82,12 @@ export default function YearOrganization() {
             getYearOrganizationsRequest();
     }, [academicYearsOptions.length, semesterTypesOptions.length]);
 
+    const createYearOrganizationsRequest = useApi(
+        createYearOrganization,
+        () => getYearOrganizationsRequest(),
+        handleApiError
+    );
+
     const columns = useMemo(
         () => [
             {
@@ -115,7 +133,11 @@ export default function YearOrganization() {
                     valuesOnEdit={selectedRow}
                     valuesOnCreate={nextAcademicSemester}
                     onEdit={() => {}}
-                    onCreate={() => {}}
+                    onCreate={(data) => {
+                        createYearOrganizationsRequest(
+                            prepareUpdatePayload(data)
+                        );
+                    }}
                 />
                 <TableWithActions
                     columns={columns}
