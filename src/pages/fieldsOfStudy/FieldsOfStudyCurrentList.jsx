@@ -16,7 +16,8 @@ import { useNotification } from "../../hooks/useNotification.jsx";
 import { getFieldsOfStudyLogs } from "../../api/fieldOfStudy.js";
 import {
     createFieldOfStudyLog,
-    deleteFieldOfStudyLog
+    deleteFieldOfStudyLog,
+    upgradeFieldOfStudyLog
 } from "../../api/admin.js";
 import { useApi } from "../../hooks/useApi.js";
 
@@ -64,9 +65,16 @@ export default function FieldsOfStudyCurrentList() {
         [t]
     );
 
+    const upgradeFieldOfStudyLogRequest = useApi(
+        upgradeFieldOfStudyLog,
+        () => getCurrentFieldsOfStudyRequest(),
+        handleApiError
+    );
+
     const handleUpgrade = function () {
-        console.log(selectedRowKeys);
-        setSelectedRowKeys([]);
+        upgradeFieldOfStudyLogRequest({
+            fieldOfStudyLogIds: selectedRowKeys
+        }).then(() => setSelectedRowKeys([]));
     };
 
     const rowSelection = {
@@ -114,11 +122,12 @@ export default function FieldsOfStudyCurrentList() {
     }, []);
 
     const checkIfFieldCanBeUpgraded = useCallback(
-        function (value, index) {
+        function (key) {
+            const row = rows.find((row) => row.key === key);
             return (
-                rows[index].yearId === upgradeRequirements.yearId &&
-                JSON.parse(rows[index].firstHalfOfYear) ===
-                    upgradeRequirements.firstHalfOfYear
+                row?.yearId === upgradeRequirements?.yearId &&
+                JSON.parse(row?.firstHalfOfYear) ===
+                    upgradeRequirements?.firstHalfOfYear
             );
         },
         [

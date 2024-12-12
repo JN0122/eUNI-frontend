@@ -67,3 +67,7 @@ export async function createFieldOfStudyLog(data) {
 export async function deleteFieldOfStudyLog(id) {
     return await axiosInstance.delete(`/api/Admin/current-fields/${id}`);
 }
+
+export async function upgradeFieldOfStudyLog(data) {
+    return await axiosInstance.post(`/api/Admin/current-fields/upgrade`, data);
+}
