@@ -22,14 +22,17 @@ export default function Register() {
     const navigate = useNavigate();
     const { t } = useTranslation();
     const { register } = useAuth();
-    const { displayMessage, handleApiError } = useNotification();
+    const { displayNotification, handleApiError } = useNotification();
     const [errorMessage, setErrorMessage] = useState(null);
 
     const [registerRequest, submitLoading] = useApiWithLoading(
         register,
         () => {
             navigate("/");
-            displayMessage(t("register-success"), NOTIFICATION_TYPES.success);
+            displayNotification(
+                t("register-success"),
+                NOTIFICATION_TYPES.success
+            );
         },
         (error) => {
             if (error.status === 400)
