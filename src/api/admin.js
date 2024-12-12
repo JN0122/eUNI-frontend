@@ -55,3 +55,7 @@ export async function deleteAvailableField(id) {
 export async function updateAvailableField(id, data) {
     return await axiosInstance.put(`/api/Admin/available-fields/${id}`, data);
 }
+
+export async function getFieldsRequirements() {
+    return await axiosInstance.get(`/api/Admin/field-of-study-requirements`);
+}

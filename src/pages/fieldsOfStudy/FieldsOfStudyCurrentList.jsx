@@ -85,6 +85,7 @@ export default function FieldsOfStudyCurrentList() {
                             (value) => value.value === true.toString()
                         ).label,
                         currentSemester: 2,
+                        currentYearId: 1,
                         currentYear: "2024/2025",
                         firstHalfOfYear: true.toString(),
                         firstHalfOfYearParsed: t("winter-semester")
@@ -105,8 +106,8 @@ export default function FieldsOfStudyCurrentList() {
     const checkIfFieldCanBeUpgraded = useCallback(
         function (value, index) {
             return (
-                rows[index].currentYear === upgradeRequirements.year &&
-                rows[index].firstHalfOfYear ===
+                rows[index].currentYearId === upgradeRequirements.yearId &&
+                JSON.parse(rows[index].firstHalfOfYear) ===
                     upgradeRequirements.firstHalfOfYear
             );
         },
