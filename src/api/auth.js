@@ -1,5 +1,11 @@
 import axiosInstance from "../lib/axios/axios.js";
 
+export async function registerUser(registerRequest) {
+    return await axiosInstance.post(`/api/Auth/register`, registerRequest, {
+        withCredentials: true
+    });
+}
+
 export async function loginUser(credentials) {
     return await axiosInstance.post(`/api/Auth/login`, credentials, {
         withCredentials: true

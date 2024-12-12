@@ -141,5 +141,8 @@
   "move-to-next-semester": "Przenieś kierunki do następnego semestru",
   "enter-current-year": "Wprowadź rok",
   "edit-field-of-study": "Edytuj kierunek",
-  "field-of-study": "Kierunek studiów"
+  "field-of-study": "Kierunek studiów",
+  "register-success": "Rejestracja zakończona pomyślnie!",
+  "agree-to-data-processing": "Wyrażam zgodę na przetwarzanie moich danych.",
+  "account-already-exists": "Konto z tym mailem już istnieje!"
 }

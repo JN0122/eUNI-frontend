@@ -1,5 +1,5 @@
 import AppLayout from "../../components/layout/AppLayout.jsx";
-import { Alert, Button, Form, theme } from "antd";
+import { Alert, Button, Checkbox, Form, theme } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -10,6 +10,10 @@ import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
 import { FormItemInput } from "../../components/form/FormItemInput.jsx";
 import { FormItemNewPasswords } from "../../components/form/FormItemNewPasswords.jsx";
 import { goBack } from "../../helpers/goBack.js";
+import { useAuth } from "../../hooks/useAuth.jsx";
+import { useNotification } from "../../hooks/useNotification.jsx";
+import { NOTIFICATION_TYPES } from "../../enums/NotificationTypes.js";
+import { FormCustomItem } from "../../components/form/FormCustomItem.jsx";
 
 export default function Register() {
     const {
@@ -17,20 +21,31 @@ export default function Register() {
     } = theme.useToken();
     const navigate = useNavigate();
     const { t } = useTranslation();
+    const { register } = useAuth();
+    const { displayMessage, handleApiError } = useNotification();
     const [errorMessage, setErrorMessage] = useState(null);
 
     const [registerRequest, submitLoading] = useApiWithLoading(
-        async () => {
-            return Promise.reject();
+        register,
+        () => {
+            navigate("/");
+            displayMessage(t("register-success"), NOTIFICATION_TYPES.success);
         },
-        () => navigate("/"),
-        () => setErrorMessage(t("error-login"))
+        (error) => {
+            if (error.status === 400)
+                setErrorMessage(t("account-already-exists"));
+            else handleApiError(error);
+        }
     );
 
     async function onFinish(values) {
         await registerRequest({
             email: values.email,
-            password: hashPassword(values.password)
+            firstName: values.firstName,
+            lastName: values.lastName,
+            password: hashPassword(values.newPassword),
+            repeatPassword: hashPassword(values.repeatNewPassword),
+            agreedToTerms: values.agreedToTerms
         });
     }
 
@@ -74,6 +89,14 @@ export default function Register() {
                         placeholder={t("enter-email")}
                     />
                     <FormItemNewPasswords />
+                    <FormCustomItem
+                        name="agreedToTerms"
+                        valuePropName="checked"
+                    >
+                        <Checkbox required={true}>
+                            {t("agree-to-data-processing")}
+                        </Checkbox>
+                    </FormCustomItem>
                     <Form.Item>
                         <Button
                             block

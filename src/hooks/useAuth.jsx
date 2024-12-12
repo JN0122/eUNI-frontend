@@ -6,7 +6,12 @@ import {
     useRef,
     useState
 } from "react";
-import { loginUser, logoutUser, restoreAccessToken } from "../api/auth.js";
+import {
+    loginUser,
+    logoutUser,
+    registerUser,
+    restoreAccessToken
+} from "../api/auth.js";
 import { setAuthHeader } from "../lib/axios/axios.js";
 
 const UseAuth = createContext();
@@ -40,6 +45,11 @@ export function AuthProvider({ children }) {
         if (isAuthenticated == null) restoreSession();
     }, [isAuthenticated, restoreSession]);
 
+    const register = useCallback(async function (registerRequest) {
+        const { data } = await registerUser(registerRequest);
+        authenticate(data?.accessToken);
+    }, []);
+
     const login = useCallback(async function (userData) {
         const { data } = await loginUser(userData);
         authenticate(data?.accessToken);
@@ -54,6 +64,7 @@ export function AuthProvider({ children }) {
         <UseAuth.Provider
             value={{
                 restoreSession,
+                register,
                 login,
                 logout,
                 isAuthenticated
