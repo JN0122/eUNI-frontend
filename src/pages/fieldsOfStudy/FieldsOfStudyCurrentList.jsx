@@ -13,6 +13,7 @@ import useSemesterTypesOptions from "../../hooks/options/useSemesterTypesOptions
 import FieldsOfStudyCurrentListForm from "../../components/form/forms/FieldsOfStudyCurrentListForm.jsx";
 import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
 import { useNotification } from "../../hooks/useNotification.jsx";
+import { getFieldsOfStudyLogs } from "../../api/fieldOfStudy.js";
 
 const { Text } = Typography;
 
@@ -29,7 +30,7 @@ export default function FieldsOfStudyCurrentList() {
     const renderModalContent = useCallback(
         (row) => (
             <>
-                {`${t("current-year")}: `}
+                {`${t("academic-year")}: `}
                 <Text strong>{row.currentYear}</Text>
                 <br />
                 {`${t("semester-type")}: `}
@@ -50,6 +51,11 @@ export default function FieldsOfStudyCurrentList() {
         [t]
     );
 
+    const handleUpgrade = function () {
+        console.log(selectedRowKeys);
+        setSelectedRowKeys([]);
+    };
+
     const rowSelection = {
         selectedRowKeys,
         onChange: (newSelectedRowKeys) =>
@@ -57,7 +63,7 @@ export default function FieldsOfStudyCurrentList() {
         selections: [
             Table.SELECTION_NONE,
             {
-                key: "currentYear",
+                key: "yearName",
                 text: t("select-valid-position-to-upgrade"),
                 onSelect: (changeableRowKeys) =>
                     setSelectedRowKeys(
@@ -68,33 +74,24 @@ export default function FieldsOfStudyCurrentList() {
     };
 
     const [getCurrentFieldsOfStudyRequest, isLoading] = useApiWithLoading(
-        () => {},
-        () =>
+        getFieldsOfStudyLogs,
+        (data) =>
             setRows(
-                [
-                    {
-                        id: "1",
-                        key: "1",
-                        name: "Informatyka stosowana",
-                        studiesCycle: 1,
-                        studiesCycleParsed: studiesCycle.find(
-                            (value) => value.value === 1
-                        ).label,
-                        fullTime: true.toString(),
-                        fullTimeParsed: modeOfStudy.find(
-                            (value) => value.value === true.toString()
-                        ).label,
-                        currentSemester: 2,
-                        currentYearId: 1,
-                        currentYear: "2024/2025",
-                        firstHalfOfYear: true.toString(),
-                        firstHalfOfYearParsed: t("winter-semester")
-                    }
-                ]
-                // data.map((row) => {
-                //     row.key = row.id;
-                //     return row;
-                // })
+                data.map((row) => {
+                    row.key = row.fieldOfStudyLogId;
+                    row.studiesCycleParsed = studiesCycle.find(
+                        (value) => value.value === row.studiesCycle
+                    ).label;
+                    row.fullTime = row.isFullTime.toString();
+                    row.fullTimeParsed = modeOfStudy.find(
+                        (value) => value.value === row.fullTime
+                    ).label;
+                    row.firstHalfOfYear = row.firstHalfOfYear.toString();
+                    row.firstHalfOfYearParsed = semesterTypes.find(
+                        (value) => value.value === row.firstHalfOfYear
+                    ).label;
+                    return row;
+                })
             ),
         handleApiError
     );
@@ -106,24 +103,28 @@ export default function FieldsOfStudyCurrentList() {
     const checkIfFieldCanBeUpgraded = useCallback(
         function (value, index) {
             return (
-                rows[index].currentYearId === upgradeRequirements.yearId &&
+                rows[index].yearId === upgradeRequirements.yearId &&
                 JSON.parse(rows[index].firstHalfOfYear) ===
                     upgradeRequirements.firstHalfOfYear
             );
         },
-        [rows, upgradeRequirements.firstHalfOfYear, upgradeRequirements.year]
+        [
+            rows,
+            upgradeRequirements?.firstHalfOfYear,
+            upgradeRequirements?.yearId
+        ]
     );
 
     const columns = useMemo(
         () => [
             {
                 title: t("academic-year"),
-                dataIndex: "currentYear",
+                dataIndex: "yearName",
                 filters: rows.map((row) => {
-                    return { text: row.currentYear, value: row.currentYear };
+                    return { text: row.yearName, value: row.yearName };
                 }),
                 filterSearch: true,
-                onFilter: (value, record) => record.currentYear.includes(value)
+                onFilter: (value, record) => record.yearName.includes(value)
             },
             {
                 title: t("semester-type"),
@@ -151,7 +152,7 @@ export default function FieldsOfStudyCurrentList() {
             },
             {
                 title: t("current-semester"),
-                dataIndex: "currentSemester"
+                dataIndex: "semester"
             }
         ],
         [rows, semesterTypes, t]
@@ -173,7 +174,7 @@ export default function FieldsOfStudyCurrentList() {
                 >
                     <LoadingButton
                         type="primary"
-                        onClick={() => setSelectedRowKeys([])}
+                        onClick={handleUpgrade}
                         disabled={!hasSelected}
                     >
                         {t("move-to-next-semester")}
@@ -189,6 +190,7 @@ export default function FieldsOfStudyCurrentList() {
                     loading={isLoading}
                     rowSelection={rowSelection}
                     withoutEdit={true}
+                    onDelete={() => console.log("delete")}
                     modalRenderConfirmContent={renderModalContent}
                 />
             </DrawerProvider>

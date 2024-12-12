@@ -4,11 +4,13 @@ import { useTranslation } from "react-i18next";
 import { FormItemInput } from "../FormItemInput.jsx";
 import useSemesterTypesOptions from "../../../hooks/options/useSemesterTypesOptions.js";
 import useAcademicYears from "../../../hooks/options/useAcademicYears.js";
+import useAvailableFieldsOfStudyOptions from "../../../hooks/options/useAvailableFieldsOfStudyOptions.js";
 
 export default function FieldsOfStudyCurrentListForm({ onCreate, ...rest }) {
     const { t } = useTranslation();
     const semesterTypesOptions = useSemesterTypesOptions();
     const academicYearOptions = useAcademicYears();
+    const availableFieldsOfStudyOptions = useAvailableFieldsOfStudyOptions();
 
     return (
         <FormDrawer
@@ -34,7 +36,7 @@ export default function FieldsOfStudyCurrentListForm({ onCreate, ...rest }) {
                 name="fieldOfStudyId"
                 label={t("field-of-study")}
                 isRequired={true}
-                options={[]}
+                options={availableFieldsOfStudyOptions}
             />
             <FormItemInput
                 name="currentSemester"

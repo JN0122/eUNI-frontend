@@ -4,7 +4,7 @@ import SelectSearchByLabel from "./SelectSearchByLabel.jsx";
 export function FormItemSelect({ label, name, isRequired, ...rest }) {
     return (
         <FormCustomItem label={label} name={name} isRequired={isRequired}>
-            <SelectSearchByLabel {...rest} />
+            <SelectSearchByLabel popupMatchSelectWidth={false} {...rest} />
         </FormCustomItem>
     );
 }
