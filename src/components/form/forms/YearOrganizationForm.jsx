@@ -44,7 +44,6 @@ export default function YearOrganizationForm({
             <FormItemDatePicker
                 label={t("days-off")}
                 name="daysOffParsed"
-                isRequired={true}
                 multiple
             />
         </FormDrawer>

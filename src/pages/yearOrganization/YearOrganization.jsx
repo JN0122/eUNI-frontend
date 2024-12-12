@@ -26,7 +26,8 @@ const preparePayload = function (data) {
     return {
         startDate: data.startDateParsed.format("YYYY-MM-DD"),
         endDate: data.endDateParsed.format("YYYY-MM-DD"),
-        daysOff: data.daysOffParsed.map((day) => day.format("YYYY-MM-DD"))
+        daysOff:
+            data.daysOffParsed?.map((day) => day.format("YYYY-MM-DD")) || []
     };
 };
 
