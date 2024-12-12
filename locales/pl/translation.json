@@ -144,5 +144,6 @@
   "field-of-study": "Kierunek studiów",
   "register-success": "Rejestracja zakończona pomyślnie!",
   "agree-to-data-processing": "Wyrażam zgodę na przetwarzanie moich danych.",
-  "account-already-exists": "Konto z tym mailem już istnieje!"
+  "account-already-exists": "Konto z tym mailem już istnieje!",
+  "show-archived-fields": "Pokaż archiwalne kierunki"
 }

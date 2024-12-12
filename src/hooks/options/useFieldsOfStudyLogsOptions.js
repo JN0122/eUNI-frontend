@@ -14,6 +14,7 @@ export default function useFieldsOfStudyLogsOptions() {
             setFieldsOfStudyOptions(
                 data.map((fieldOfStudy) => {
                     return {
+                        yearId: fieldOfStudy.yearId,
                         label: [
                             fieldOfStudy.yearName,
                             t(`studies-cycle-${fieldOfStudy.studiesCycle}`),

@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { useCallback, useMemo, useState } from "react";
-import { Button, Select, Space, Typography } from "antd";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Button, Checkbox, Select, Space, Typography } from "antd";
 import LANGS from "../../enums/languages.js";
 import { changeEmail } from "../../api/user.js";
 import { useUser } from "../../hooks/useUser.jsx";
@@ -28,11 +28,29 @@ function ProfileInfo() {
     const { displayMessage, displayNotification, handleApiError } =
         useNotification();
     const { userInfo, currentFieldOfStudyInfo, reFetchStudentInfo } = useUser();
+    const [customFieldsOfStudyOptions, setCustomFieldsOfStudyOptions] =
+        useState();
+    const [currentFieldsOfStudyOptions, setCurrentFieldsOfStudyOptions] =
+        useState(customFieldsOfStudyOptions);
 
     const groupsOptions = useFieldOfStudyGroupsOptions(
         currentFieldOfStudyInfo?.fieldOfStudyLogId
     );
-    const fieldsOfStudyOptions = useFieldsOfStudyLogsOptions();
+    const allFieldsOfStudyOptions = useFieldsOfStudyLogsOptions();
+
+    useEffect(() => {
+        if (allFieldsOfStudyOptions == null) return;
+        const maxYearId = allFieldsOfStudyOptions.reduce(
+            (max, value) => (value.yearId > max ? value.yearId : max),
+            0
+        );
+        var newOptions = allFieldsOfStudyOptions.filter(
+            (option) => option.yearId === maxYearId
+        );
+        setCustomFieldsOfStudyOptions(newOptions);
+        setCurrentFieldsOfStudyOptions(newOptions);
+    }, [allFieldsOfStudyOptions]);
+
     const [email, setEmail] = useState(userInfo?.email);
 
     const changeEmailRequest = useApi(
@@ -69,6 +87,14 @@ function ProfileInfo() {
         [changeCurrentFieldOfStudyRequest]
     );
 
+    const changeFieldOfStudyOptions = function (event) {
+        setCurrentFieldsOfStudyOptions(
+            event.target.checked
+                ? allFieldsOfStudyOptions
+                : customFieldsOfStudyOptions
+        );
+    };
+
     const studentContent = useMemo(() => {
         if (currentFieldOfStudyInfo === undefined) return null;
         return (
@@ -83,13 +109,13 @@ function ProfileInfo() {
                     defaultValue={currentFieldOfStudyInfo?.fieldOfStudyLogId}
                     style={{ minWidth: 100 }}
                     onChange={handleCurrentFieldOfStudyChange}
-                    options={fieldsOfStudyOptions}
+                    options={currentFieldsOfStudyOptions}
                 />
             </>
         );
     }, [
         currentFieldOfStudyInfo,
-        fieldsOfStudyOptions,
+        customFieldsOfStudyOptions,
         handleCurrentFieldOfStudyChange,
         t
     ]);
@@ -217,6 +243,13 @@ function ProfileInfo() {
                 </Space>
                 {studentContent}
                 {groupContent}
+                {currentFieldOfStudyInfo !== undefined && (
+                    <Checkbox onChange={changeFieldOfStudyOptions}>
+                        <Text type="secondary">
+                            {t("show-archived-fields")}
+                        </Text>
+                    </Checkbox>
+                )}
                 <Title level={3}>{t("language")}</Title>
                 <Select
                     defaultValue={i18n.language}
