@@ -14,8 +14,21 @@ import FieldsOfStudyCurrentListForm from "../../components/form/forms/FieldsOfSt
 import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
 import { useNotification } from "../../hooks/useNotification.jsx";
 import { getFieldsOfStudyLogs } from "../../api/fieldOfStudy.js";
+import {
+    createFieldOfStudyLog,
+    deleteFieldOfStudyLog
+} from "../../api/admin.js";
+import { useApi } from "../../hooks/useApi.js";
 
 const { Text } = Typography;
+
+const preparePayload = function (data) {
+    return {
+        fieldOfStudyId: data.fieldOfStudyId,
+        organizationId: data.organizationId,
+        currentSemester: data.currentSemester
+    };
+};
 
 export default function FieldsOfStudyCurrentList() {
     const { t } = useTranslation();
@@ -31,7 +44,7 @@ export default function FieldsOfStudyCurrentList() {
         (row) => (
             <>
                 {`${t("academic-year")}: `}
-                <Text strong>{row.currentYear}</Text>
+                <Text strong>{row.yearName}</Text>
                 <br />
                 {`${t("semester-type")}: `}
                 <Text strong>{row.firstHalfOfYearParsed}</Text>
@@ -42,7 +55,7 @@ export default function FieldsOfStudyCurrentList() {
                 <Text strong>{row.studiesCycleParsed}</Text>
                 <br />
                 {`${t("current-semester")}: `}
-                <Text strong>{row.currentSemester}</Text>
+                <Text strong>{row.semester}</Text>
                 <br />
                 {`${t("studies-full-time")}: `}
                 <Text strong>{row.fullTimeParsed}</Text> <br />
@@ -115,6 +128,18 @@ export default function FieldsOfStudyCurrentList() {
         ]
     );
 
+    const createFieldOfStudyLogRequest = useApi(
+        createFieldOfStudyLog,
+        () => getCurrentFieldsOfStudyRequest(),
+        handleApiError
+    );
+
+    const deleteFieldOfStudyLogRequest = useApi(
+        deleteFieldOfStudyLog,
+        () => getCurrentFieldsOfStudyRequest(),
+        handleApiError
+    );
+
     const columns = useMemo(
         () => [
             {
@@ -182,7 +207,9 @@ export default function FieldsOfStudyCurrentList() {
                     <DrawerNewItemButton label={t("add-field-of-study")} />
                 </Flex>
                 <FieldsOfStudyCurrentListForm
-                    onCreate={(row) => console.log(row)}
+                    onCreate={(row) =>
+                        createFieldOfStudyLogRequest(preparePayload(row))
+                    }
                 />
                 <TableWithActions
                     columns={columns}
@@ -190,7 +217,9 @@ export default function FieldsOfStudyCurrentList() {
                     loading={isLoading}
                     rowSelection={rowSelection}
                     withoutEdit={true}
-                    onDelete={() => console.log("delete")}
+                    onDelete={(row) =>
+                        deleteFieldOfStudyLogRequest(row.fieldOfStudyLogId)
+                    }
                     modalRenderConfirmContent={renderModalContent}
                 />
             </DrawerProvider>

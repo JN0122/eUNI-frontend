@@ -59,3 +59,11 @@ export async function updateAvailableField(id, data) {
 export async function getFieldsRequirements() {
     return await axiosInstance.get(`/api/Admin/field-of-study-requirements`);
 }
+
+export async function createFieldOfStudyLog(data) {
+    return await axiosInstance.post(`/api/Admin/current-fields`, data);
+}
+
+export async function deleteFieldOfStudyLog(id) {
+    return await axiosInstance.delete(`/api/Admin/current-fields/${id}`);
+}
