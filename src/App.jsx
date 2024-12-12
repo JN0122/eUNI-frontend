@@ -14,6 +14,7 @@ import EditSchedule from "./pages/schedule/EditSchedule.jsx";
 import { App, ConfigProvider } from "antd";
 import EditScheduleClasses from "./pages/schedule/EditScheduleClasses.jsx";
 import localePL from "antd/locale/pl_PL";
+import localeEN from "antd/locale/en_US";
 import dayjs from "dayjs";
 import "dayjs/locale/en";
 import "dayjs/locale/pl";
@@ -25,6 +26,7 @@ import YearOrganization from "./pages/yearOrganization/YearOrganization.jsx";
 import FieldsOfStudy from "./pages/fieldsOfStudy/FieldsOfStudy.jsx";
 import FieldsOfStudyCurrentList from "./pages/fieldsOfStudy/FieldsOfStudyCurrentList.jsx";
 import FieldsOfStudyAvailableList from "./pages/fieldsOfStudy/FieldsOfStudyAvailableList.jsx";
+import { useTranslation } from "react-i18next";
 
 dayjs.extend(updateLocale);
 const config = {
@@ -118,8 +120,20 @@ const router = createBrowserRouter([
 ]);
 
 function AppMain() {
+    const { i18n } = useTranslation();
+    let locale = undefined;
+
+    switch (i18n.language) {
+        case "pl":
+            locale = localePL;
+            break;
+        case "en":
+            locale = localeEN;
+            break;
+    }
+    
     return (
-        <ConfigProvider locale={localePL}>
+        <ConfigProvider locale={locale}>
             <App>
                 <AuthProvider>
                     <UserProvider>
