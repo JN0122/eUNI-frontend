@@ -2,14 +2,12 @@ import { FormItemSelect } from "../FormItemSelect.jsx";
 import FormDrawer from "../FormDrawer.jsx";
 import { useTranslation } from "react-i18next";
 import { FormItemInput } from "../FormItemInput.jsx";
-import useSemesterTypesOptions from "../../../hooks/options/useSemesterTypesOptions.js";
-import useAcademicYears from "../../../hooks/options/useAcademicYears.js";
 import useAvailableFieldsOfStudyOptions from "../../../hooks/options/useAvailableFieldsOfStudyOptions.js";
+import useOrganizationOptions from "../../../hooks/options/useOrganizationOptions.js";
 
 export default function FieldsOfStudyCurrentListForm({ onCreate, ...rest }) {
     const { t } = useTranslation();
-    const semesterTypesOptions = useSemesterTypesOptions();
-    const academicYearOptions = useAcademicYears();
+    const organizationOptions = useOrganizationOptions();
     const availableFieldsOfStudyOptions = useAvailableFieldsOfStudyOptions();
 
     return (
@@ -21,16 +19,10 @@ export default function FieldsOfStudyCurrentListForm({ onCreate, ...rest }) {
             onSubmit={{ create: onCreate }}
         >
             <FormItemSelect
-                name="academicYearId"
-                label={t("academic-year")}
+                name="organizationId"
+                label={t("year-organization")}
                 isRequired={true}
-                options={academicYearOptions}
-            />
-            <FormItemSelect
-                name="firstHalfOfYear"
-                label={t("semester-type")}
-                isRequired={true}
-                options={semesterTypesOptions}
+                options={organizationOptions}
             />
             <FormItemSelect
                 name="fieldOfStudyId"

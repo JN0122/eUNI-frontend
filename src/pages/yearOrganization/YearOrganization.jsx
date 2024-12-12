@@ -59,9 +59,6 @@ export default function YearOrganization() {
             setRows(
                 data.map((row) => {
                     row.key = row.id;
-                    row.yearName = academicYearsOptions.find(
-                        (type) => type.value === row.yearId
-                    ).label;
                     row.firstHalfOfYear = row.firstHalfOfYear.toString();
                     row.semesterType = semesterTypesOptions.find(
                         (type) => type.value === row.firstHalfOfYear
