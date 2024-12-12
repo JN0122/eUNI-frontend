@@ -1,13 +1,13 @@
-import { FormItemInput } from "../FormItemInput.jsx";
-import { FormItemSelect } from "../FormItemSelect.jsx";
 import { DRAWER_TYPE, useDrawer } from "../../../hooks/useDrawer.jsx";
-import { FormItemAcademicDatePicker } from "../FormItemAcademicDatePicker.jsx";
 import { useTranslation } from "react-i18next";
 import useHourOptions from "../../../hooks/options/useHourOptions.js";
 import { useGroupOptions } from "../../../hooks/options/useGroupOptions.js";
 import { useWeekOptions } from "../../../hooks/options/useWeekOptions.js";
 import FormDrawer from "../FormDrawer.jsx";
 import { useUser } from "../../../hooks/useUser.jsx";
+import { FormItemSelect } from "../FormItemSelect.jsx";
+import { FormItemAcademicDatePicker } from "../FormItemAcademicDatePicker.jsx";
+import { FormItemInput } from "../FormItemInput.jsx";
 
 export default function ClassesDrawerForm({ onCreate, onEdit, ...rest }) {
     const { currentFieldOfStudyInfo } = useUser();
@@ -35,7 +35,7 @@ export default function ClassesDrawerForm({ onCreate, onEdit, ...rest }) {
             {...rest}
         >
             <FormItemInput
-                name="className"
+                name="name"
                 label={t("classes")}
                 placeholder={t("enter-class-name")}
                 isRequired={true}

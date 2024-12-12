@@ -30,7 +30,7 @@ function EditScheduleClasses() {
         function (values) {
             return {
                 fieldOfStudyLogId: currentFieldOfStudyInfo?.fieldOfStudyLogId,
-                name: values.className,
+                name: values.name,
                 room: values.classRoom,
                 isOddWeek: JSON.parse(values.isOddWeek),
                 weekDay: values.weekDay,
@@ -46,7 +46,7 @@ function EditScheduleClasses() {
         function (values) {
             return {
                 fieldOfStudyLogId: currentFieldOfStudyInfo?.fieldOfStudyLogId,
-                name: values.className,
+                name: values.name,
                 room: values.classRoom,
                 dates: values.dates.map((day) => day.format("YYYY-MM-DD")),
                 weekDay: values.weekDay,
@@ -61,7 +61,7 @@ function EditScheduleClasses() {
     const renderModalContent = useCallback(
         (record) => (
             <>
-                {t("class-name")}: <Text strong>{record.className}</Text>
+                {t("class-name")}: <Text strong>{record.name}</Text>
                 <br />
             </>
         ),
@@ -134,7 +134,7 @@ function EditScheduleClasses() {
         () => [
             {
                 title: t("class-name"),
-                dataIndex: "className",
+                dataIndex: "name",
                 withSearch: true
             },
             {
