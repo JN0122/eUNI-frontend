@@ -10,9 +10,25 @@ import { useNotification } from "../../hooks/useNotification.jsx";
 import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
 import useStudiesCycleOptions from "../../hooks/options/useStudiesCycleOptions.js";
 import useModeOfStudyOptions from "../../hooks/options/useModeOfStudyOptions.js";
-import { getAvailableFields } from "../../api/admin.js";
+import {
+    createAvailableField,
+    deleteAvailableField,
+    getAvailableFields,
+    updateAvailableField
+} from "../../api/admin.js";
+import { useApi } from "../../hooks/useApi.js";
 
 const { Text } = Typography;
+
+function preparePayload(data) {
+    return {
+        name: data.name,
+        abbr: data.abbr,
+        studiesCycle: data.studiesCycle,
+        semesterCount: data.semesterCount,
+        fullTime: JSON.parse(data.fullTime)
+    };
+}
 
 export default function FieldsOfStudyAvailableList() {
     const { t } = useTranslation();
@@ -64,6 +80,24 @@ export default function FieldsOfStudyAvailableList() {
             getAvailableFieldsOfStudyRequest();
     }, []);
 
+    const createAvailableFieldOfStudyRequest = useApi(
+        createAvailableField,
+        () => getAvailableFieldsOfStudyRequest(),
+        handleApiError
+    );
+
+    const updateAvailableFieldOfStudyRequest = useApi(
+        updateAvailableField,
+        () => getAvailableFieldsOfStudyRequest(),
+        handleApiError
+    );
+
+    const deleteAvailableFieldOfStudyRequest = useApi(
+        deleteAvailableField,
+        () => getAvailableFieldsOfStudyRequest(),
+        handleApiError
+    );
+
     const columns = useMemo(
         () => [
             {
@@ -103,8 +137,15 @@ export default function FieldsOfStudyAvailableList() {
                     <DrawerNewItemButton label={t("create-field-of-study")} />
                 </Flex>
                 <AvailableFieldsOfStudyForm
-                    onEdit={() => {}}
-                    onCreate={() => {}}
+                    onEdit={(row) =>
+                        updateAvailableFieldOfStudyRequest(
+                            row.id,
+                            preparePayload(row)
+                        )
+                    }
+                    onCreate={(row) =>
+                        createAvailableFieldOfStudyRequest(preparePayload(row))
+                    }
                     valuesOnEdit={selectedRow}
                 />
                 <TableWithActions
@@ -112,7 +153,9 @@ export default function FieldsOfStudyAvailableList() {
                     rows={rows}
                     loading={isLoading}
                     modalRenderConfirmContent={renderModalContent}
-                    onDelete={(row) => console.log(row)}
+                    onDelete={(row) =>
+                        deleteAvailableFieldOfStudyRequest(row.id)
+                    }
                     onEdit={(row) => setSelectedRow(row)}
                 />
             </DrawerProvider>

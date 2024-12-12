@@ -45,6 +45,7 @@ export default function AvailableFieldsOfStudyForm({
                 name="semesterCount"
                 label={t("semester-count")}
                 placeholder={t("semester-count")}
+                type="number"
                 isRequired={true}
             />
             <FormItemSelect
