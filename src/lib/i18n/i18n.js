@@ -10,5 +10,5 @@ i18next
     .use(Backend)
     .init({
         supportedLngs: Object.keys(LANGS),
-        fallbackLng: "pl"
+        fallbackLng: "en"
     });
