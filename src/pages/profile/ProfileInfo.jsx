@@ -223,7 +223,7 @@ function ProfileInfo() {
             <Space direction="vertical">
                 <Title level={3}>{t("basic-info")}</Title>
                 <Space direction="horizontal">
-                    <Text type="secondary">{t("given-names")}</Text>
+                    <Text type="secondary">{t("first-name")}</Text>
                     <Text>{userInfo.firstName}</Text>
                 </Space>
                 <Space direction="horizontal">

@@ -6,6 +6,7 @@ export default function FormItemPassword({
     name,
     isRequired,
     placeholder,
+    label,
     ...rest
 }) {
     const { t } = useTranslation();
@@ -13,6 +14,7 @@ export default function FormItemPassword({
         <FormCustomItem
             name={name}
             customErrorMessage={t("error-password-is-required")}
+            label={label}
             isRequired={isRequired}
         >
             <Input.Password
