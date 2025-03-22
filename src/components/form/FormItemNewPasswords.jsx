@@ -1,6 +1,7 @@
 import { Form, Input } from "antd";
 import { useTranslation } from "react-i18next";
 import { FormCustomItem } from "./FormCustomItem.jsx";
+import { passwordPattern } from "../../enums/patterns.js";
 
 export function FormItemNewPasswords({ required = true, ...rest }) {
     const { t } = useTranslation();
@@ -12,7 +13,7 @@ export function FormItemNewPasswords({ required = true, ...rest }) {
                 name="newPassword"
                 rules={[
                     {
-                        pattern: import.meta.env.VITE_PASSWORD_PATTERN,
+                        pattern: passwordPattern,
                         required: required,
                         message: t("error-new-password")
                     }
@@ -30,7 +31,7 @@ export function FormItemNewPasswords({ required = true, ...rest }) {
                 dependencies={["newPassword"]}
                 rules={[
                     {
-                        pattern: import.meta.env.VITE_PASSWORD_PATTERN,
+                        pattern: passwordPattern,
                         required: required,
                         message: t("error-new-password")
                     },
