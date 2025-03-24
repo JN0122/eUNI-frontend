@@ -2,7 +2,7 @@ import AppLayout from "../../components/layout/AppLayout.jsx";
 import { Alert, Button, Flex, Form, theme } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { useAuth } from "../../hooks/useAuth.jsx";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import hashPassword from "../../helpers/hashPassword.js";
@@ -86,7 +86,13 @@ function Login() {
                     />
                     <Form.Item>
                         <Flex justify="space-between" align="center">
-                            <a href="">{t("forgot-password")}</a>
+                            {import.meta.env.DEV ? (
+                                <Link to="../setup/set-root-password">
+                                    {t("setup-set-password-and-seed-db")}
+                                </Link>
+                            ) : (
+                                <Link to="">{t("forgot-password")}</Link>
+                            )}
                         </Flex>
                     </Form.Item>
 

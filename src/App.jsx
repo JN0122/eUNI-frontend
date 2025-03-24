@@ -27,6 +27,8 @@ import FieldsOfStudy from "./pages/fieldsOfStudy/FieldsOfStudy.jsx";
 import FieldsOfStudyCurrentList from "./pages/fieldsOfStudy/FieldsOfStudyCurrentList.jsx";
 import FieldsOfStudyAvailableList from "./pages/fieldsOfStudy/FieldsOfStudyAvailableList.jsx";
 import { useTranslation } from "react-i18next";
+import DevOnlyRoute from "./routes/DevOnlyRoute.jsx";
+import SetRootPassword from "./pages/setup/SetRootPassword.jsx";
 
 dayjs.extend(updateLocale);
 const config = {
@@ -114,6 +116,19 @@ const router = createBrowserRouter([
         )
     },
     {
+        path: "/setup",
+        children: [
+            {
+                path: "set-root-password",
+                element: (
+                    <DevOnlyRoute>
+                        <SetRootPassword />
+                    </DevOnlyRoute>
+                )
+            }
+        ]
+    },
+    {
         path: "*",
         element: <NotFound />
     }
@@ -131,7 +146,7 @@ function AppMain() {
             locale = localeEN;
             break;
     }
-    
+
     return (
         <ConfigProvider locale={locale}>
             <App>

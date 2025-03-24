@@ -134,5 +134,8 @@
   "register-success": "Rejestracja zakończona pomyślnie!",
   "agree-to-data-processing": "Wyrażam zgodę na przetwarzanie moich danych.",
   "account-already-exists": "Konto z tym mailem już istnieje!",
-  "show-archived-fields": "Pokaż archiwalne kierunki"
+  "show-archived-fields": "Pokaż archiwalne kierunki",
+  "setup-set-password-and-seed-db": "DEVELOPMENT ONLY! Ustaw hasło roota oraz seeduj bazę",
+  "set-password": "Ustaw hasło",
+  "change-root-password-success": "Zapytanie wykonane poprawnie! Możesz się teraz zalogować podając login: {{email}}"
 }

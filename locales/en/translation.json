@@ -134,5 +134,8 @@
   "register-success": "Registration successfully completed!",
   "agree-to-data-processing": "I consent to the processing of my data.",
   "account-already-exists": "The account with this email already exists!",
-  "show-archived-fields": "Show archived directions"
+  "show-archived-fields": "Show archived directions",
+  "setup-set-password-and-seed-db": "DEVELOPMENT ONLY! Set root's password and seed db",
+  "set-password": "Set password",
+  "change-root-password-success": "Success! You can now login using this email: {{email}}"
 }
