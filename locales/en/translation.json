@@ -137,5 +137,7 @@
   "show-archived-fields": "Show archived directions",
   "setup-set-password-and-seed-db": "DEVELOPMENT ONLY! Set root's password and seed db",
   "set-password": "Set password",
-  "change-root-password-success": "Success! You can now login using this email: {{email}}"
+  "change-root-password-success": "Success! You can now login using this email: {{email}}",
+  "reset-db-success": "Database reset was successful!",
+  "seed-db-success": "Database seed was successful!"
 }

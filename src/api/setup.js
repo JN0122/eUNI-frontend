@@ -7,3 +7,7 @@ export async function setRootPassword(payload) {
 export async function resetDb() {
     return await axiosInstance.post(`/api/Setup/reset-db`);
 }
+
+export async function seedDb(payload) {
+    return await axiosInstance.post(`/api/Setup/seed-db`, payload);
+}

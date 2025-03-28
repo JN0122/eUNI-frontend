@@ -137,5 +137,7 @@
   "show-archived-fields": "Pokaż archiwalne kierunki",
   "setup-set-password-and-seed-db": "DEVELOPMENT ONLY! Ustaw hasło roota oraz seeduj bazę",
   "set-password": "Ustaw hasło",
-  "change-root-password-success": "Zapytanie wykonane poprawnie! Możesz się teraz zalogować podając login: {{email}}"
+  "change-root-password-success": "Zapytanie wykonane poprawnie! Możesz się teraz zalogować podając login: {{email}}",
+  "reset-db-success": "Poprawnie zresetowano bazę danych!",
+  "seed-db-success": "Poprawnie wprowadzono przykładowe dane do bazy!"
 }

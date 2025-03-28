@@ -8,7 +8,7 @@ import hashPassword from "../../helpers/hashPassword.js";
 import FormItemPassword from "../../components/form/FormItemPassword.jsx";
 import { useApiWithLoading } from "../../hooks/useApiWithLoading.js";
 import { useNotification } from "../../hooks/useNotification.jsx";
-import { resetDb, setRootPassword } from "../../api/setup.js";
+import { resetDb, seedDb, setRootPassword } from "../../api/setup.js";
 import { useApi } from "../../hooks/useApi.js";
 
 function SetRootPassword() {
@@ -29,7 +29,16 @@ function SetRootPassword() {
 
     const resetDbRequest = useApi(
         resetDb,
-        () => {},
+        () => displayNotification(t("reset-db-success")),
+        (e) => {
+            handleApiError(e);
+        },
+        false
+    );
+
+    const seedDbRequest = useApi(
+        seedDb,
+        () => displayNotification(t("seed-db-success")),
         (e) => {
             handleApiError(e);
         },
@@ -53,12 +62,16 @@ function SetRootPassword() {
 
     const onFinish = useCallback(
         async function (values) {
+            const hashedPassword = hashPassword(values.password);
             await resetDbRequest();
+            await seedDbRequest({
+                password: hashedPassword
+            });
             await setRootPasswordRequest({
-                password: hashPassword(values.password)
+                password: hashedPassword
             });
         },
-        [setRootPasswordRequest]
+        [resetDbRequest, seedDbRequest, setRootPasswordRequest]
     );
 
     return (
